@@ -995,4 +995,35 @@ $('fk-rescue-cancel').onclick=()=>{$('fk-rescue-form').hidden=true};
 $('fk-rescue-form').onsubmit=e=>{e.preventDefault();const name=$('fk-rescue-name').value.trim(),kcal=Number($('fk-rescue-kcal').value),type=$('fk-rescue-type').value;if(!name||!Number.isFinite(kcal)||kcal<1||kcal>5000)return;const data=read();if(data.date!==today()){data.date=today();data.entries=[]}if(!Array.isArray(data.entries))data.entries=[];data.entries.push({name,kcal,mealType:type,p:0,c:0,f:0});try{localStorage.setItem(key,JSON.stringify(data))}catch(e){$('fk-rescue-status').textContent='Salvataggio non riuscito.';return}$('fk-rescue-form').reset();$('fk-rescue-form').hidden=true;$('fk-rescue-status').textContent='Pasto salvato.';draw();if(typeof render==='function')render()};
 $('fk-rescue-advanced').onclick=()=>{const panel=document.querySelector('#alimentazione .fk-nutrition');if(panel){panel.style.setProperty('display','block','important');panel.scrollIntoView({behavior:'smooth'})}};
 draw();
+})();</script><style id="fk-diary-tools-v16">
+#fk-rescue-form .fk-catalog-box{border:1px solid #507c65;background:#21352e;border-radius:12px;padding:12px;margin:12px 0}
+#fk-rescue-form .fk-catalog-box label{margin:8px 0 5px}
+#fk-rescue-form .fk-catalog-preview{font-size:15px;font-weight:800;color:#87ff72;padding:10px 0}
+#fk-rescue-form .fk-catalog-box p{font-size:12px;color:#c9dbcd;margin:5px 0}
+#fk-rescue-form .fk-catalog-box button{background:#304a36;color:#e6ffe5;border:1px solid #66b96d;min-height:44px;margin:4px 0}
+#fk-rescue-goal{border-top:1px solid #587467;margin-top:16px;padding-top:12px}
+#fk-rescue-goal label{display:block;font-size:15px;margin-bottom:8px}
+#fk-rescue-goal input{width:100%;background:#25373b;color:white;border:1px solid #789283;border-radius:10px;padding:12px;font-size:16px;min-height:48px}
+#fk-rescue-goal button{margin-top:9px;min-height:46px;background:#2d5538;color:#e7ffea;border:1px solid #57ef61;border-radius:10px;width:100%;font-weight:800}
+#fk-rescue-form .fk-catalog-box select{font-size:16px;min-height:48px}
+</style>
+<script id="fk-diary-tools-script-v16">(function(){
+const root=document.getElementById('fk-rescue-diary'),form=document.getElementById('fk-rescue-form');if(!root||!form||document.getElementById('fk-catalog-box'))return;
+const foods=[['Pasta secca',350],['Riso crudo',360],['Pane',265],['Petto di pollo cotto',165],['Uovo',143],['Yogurt bianco',63],['Banana',89],['Mela',52],['Olio di oliva',884],['Patate bollite',87],['Tonno al naturale',116],['Mozzarella',250],['Fiocchi di avena',389],['Latte intero',61],['Lenticchie cotte',116]];
+const box=document.createElement('div');box.id='fk-catalog-box';box.className='fk-catalog-box';
+const heading=document.createElement('strong');heading.textContent='Calcolo rapido dalle quantità';box.append(heading);
+const explain=document.createElement('p');explain.textContent='Scegli un alimento e indica i grammi: le calorie sono una stima per 100 g. Per ricette e prodotti specifici controlla l’etichetta.';box.append(explain);
+const label=document.createElement('label');label.htmlFor='fk-catalog-food';label.textContent='Cerca un alimento';box.append(label);
+const search=document.createElement('input');search.id='fk-catalog-search';search.placeholder='Filtra, es. pasta';search.setAttribute('aria-label','Cerca alimento');box.append(search);
+const select=document.createElement('select');select.id='fk-catalog-food';select.setAttribute('aria-label','Seleziona alimento');box.append(select);
+const gramsLabel=document.createElement('label');gramsLabel.htmlFor='fk-catalog-grams';gramsLabel.textContent='Quantità (grammi)';box.append(gramsLabel);
+const grams=document.createElement('input');grams.id='fk-catalog-grams';grams.type='number';grams.min='1';grams.max='3000';grams.value='100';grams.inputMode='numeric';box.append(grams);
+const preview=document.createElement('div');preview.className='fk-catalog-preview';preview.id='fk-catalog-preview';box.append(preview);
+const use=document.createElement('button');use.type='button';use.textContent='Usa questo alimento e le calorie';box.append(use);
+const name=document.getElementById('fk-rescue-name');form.insertBefore(box,name.previousElementSibling);
+function populate(){const term=search.value.trim().toLocaleLowerCase('it');select.replaceChildren();foods.forEach((f,i)=>{if(!f[0].toLocaleLowerCase('it').includes(term))return;const o=document.createElement('option');o.value=String(i);o.textContent=f[0]+' · '+f[1]+' kcal/100 g';select.append(o)});calc()}
+function calc(){const f=foods[Number(select.value)],g=Number(grams.value);preview.textContent=f&&g>0&&g<=3000?Math.round(f[1]*g/100)+' kcal per '+g+' g':'Seleziona alimento e grammi validi.'}
+search.addEventListener('input',populate);select.addEventListener('change',calc);grams.addEventListener('input',calc);
+use.addEventListener('click',()=>{const f=foods[Number(select.value)],g=Number(grams.value);if(!f||!Number.isFinite(g)||g<1||g>3000){preview.textContent='Inserisci una quantità valida.';return}name.value=f[0]+' ('+g+' g)';document.getElementById('fk-rescue-kcal').value=String(Math.round(f[1]*g/100));document.getElementById('fk-rescue-kcal').focus()});populate();
+const details=root.querySelector('details');if(details){const wrap=document.createElement('div');wrap.id='fk-rescue-goal';const l=document.createElement('label');l.htmlFor='fk-goal-input-v16';l.textContent='Obiettivo calorico giornaliero';const input=document.createElement('input');input.id='fk-goal-input-v16';input.type='number';input.min='500';input.max='6000';input.step='50';input.inputMode='numeric';try{const d=JSON.parse(localStorage.getItem('fk-nutrition-v1')||'{}');input.value=String(Number(d.goal)||2000)}catch(e){input.value='2000'}const save=document.createElement('button');save.type='button';save.textContent='Salva obiettivo';const msg=document.createElement('p');msg.setAttribute('role','status');save.onclick=()=>{const value=Number(input.value);if(!Number.isFinite(value)||value<500||value>6000){msg.textContent='Inserisci un obiettivo tra 500 e 6000 kcal.';return}try{const d=JSON.parse(localStorage.getItem('fk-nutrition-v1')||'{}');d.goal=value;localStorage.setItem('fk-nutrition-v1',JSON.stringify(d));document.getElementById('fk-rescue-left').textContent=Math.round(value-Number(document.getElementById('fk-rescue-eaten').textContent.replace(/[^0-9]/g,''))).toLocaleString('it-IT');msg.textContent='Obiettivo salvato.'}catch(e){msg.textContent='Impossibile salvare.'}};wrap.append(l,input,save,msg);details.append(wrap)}
 })();</script><script type="module" src="./firebase-auth.js"></script></body></html>
