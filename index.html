@@ -603,4 +603,72 @@ $('fk-detail-undo').onclick=()=>{if(settings.entries.length){settings.entries.po
 $('mealform')?.addEventListener('submit',()=>setTimeout(refresh,0));
 $('fk-undo-meal')?.addEventListener('click',()=>setTimeout(refresh,0));
 refresh();
+})();</script><style id="fk-titanium-edge-v8">
+/* Titanium Edge: medium-dark graphite, brushed metal, vivid functional LED accents */
+:root{--bg:#20262b!important;--panel:#2c343a!important;--muted:#b5c0c6!important;--lime:#eaff00!important}
+html{background:#20262b!important}
+body{background:linear-gradient(138deg,#343d44 0%,#252c32 28%,#20262b 65%,#30383e 100%) fixed!important;color:#f8fafb!important}
+.layout,.main,.section{background:transparent!important}
+.main{background:linear-gradient(155deg,#30383d66,#20262b33 38%,#31383d55)!important}
+.top{background:linear-gradient(100deg,#353e44,#252c32)!important;border:1px solid #536069!important;border-radius:17px!important;padding:13px 15px!important;box-shadow:0 8px 22px #0b0f1230!important}
+.top .eyebrow{color:#b7c3c9!important}
+.top h1{color:#f7f9fb!important}
+#dashboard .hx-welcome h2{color:#f8fafb!important}
+#dashboard .hx-welcome h2 span{color:#eaff00!important}
+#dashboard .hx-hero{background:linear-gradient(128deg,#394248,#242b30 58%,#343d42)!important;border:1px solid #667178!important;box-shadow:0 12px 24px #12181b35,inset 0 1px #ffffff20!important}
+#dashboard .hx-hero:before{opacity:.13!important}
+#dashboard .hx-hero-k{opacity:.11!important}
+#dashboard .hx-hero h2 em{color:#efff25!important}
+#dashboard .hx-start{background:linear-gradient(100deg,#eaff00,#faff63)!important;color:#101410!important;box-shadow:0 6px 18px #a8c6002c!important}
+#dashboard .fk-mission{background:linear-gradient(120deg,#353e44,#262e32)!important;border:1px solid #626f76!important;box-shadow:0 8px 20px #10151830!important}
+#dashboard .fk-mission:after{display:none!important;content:none!important}
+#dashboard .fk-mission p{color:#d0d8d8!important}
+#dashboard .fk-mission-track{background:#151d21!important}
+#dashboard .fk-mission button{background:#eaff00!important;color:#11150a!important}
+#dashboard .kore-overview,#dashboard .kore-ring-card,#dashboard .kore-mini,#dashboard .kore-graph,#dashboard .card,
+.section .card,.section .fk-feature-card,.section .fk-workout-tools,.section .fk-nutrition{background:linear-gradient(145deg,#394248,#2b3338 70%,#343c42)!important;border:1px solid #59656d!important;box-shadow:0 8px 22px #12171a36,inset 0 1px #ffffff13!important;color:#f7f9fa!important}
+.section .muted,.section .fk-nutrition p,.section .fk-workout-tools p{color:#c1cdd0!important}
+.section .field,.section input,.section textarea,.section select{background:#242d32!important;border-color:#68777c!important;color:#f7fafb!important}
+.section input::placeholder,.section textarea::placeholder{color:#a9b7bd!important}
+.section .fk-nutrition-stat,.section .fk-macro,.section .fk-food-quick button{background:#263037!important;border-color:#53666a!important}
+.section .fk-nutrition-stat small,.section .fk-macro small{color:#c1cdd0!important}
+.section .fk-nutrition-bar{background:#192327!important}
+.section .fk-food-quick button{color:#f3fff2!important}
+.section .fk-food-quick button span{color:#c3d5ca!important}
+#allenamenti .fk-routine-grid button,#allenamenti .fk-timer-presets button{background:#27353d!important;border-color:#477080!important;color:#b8f5ff!important}
+#allenamenti .fk-timer-clock{color:#00e5ff!important}
+#allenamenti .fk-timer-controls button:first-child{background:#00e5ff!important;color:#07191e!important}
+.nav{background:linear-gradient(180deg,#303940f7,#242b30fa)!important;border-top:1px solid #68777e!important;box-shadow:0 -7px 24px #0d121644!important}
+.nav [data-page="dashboard"]{--section-led:#edff00!important}
+.nav [data-page="alimentazione"]{--section-led:#46ff2a!important}
+.nav [data-page="allenamenti"]{--section-led:#00dfff!important}
+.nav [data-page="diario"]{--section-led:#d342ff!important}
+.nav [data-page]{color:var(--section-led)!important}
+.nav [data-page].active{background:color-mix(in srgb,var(--section-led) 15%,#263036)!important;border-color:color-mix(in srgb,var(--section-led) 55%,#30383d)!important}
+.nav #fk-quick-open{color:#f3ff26!important;text-shadow:0 0 12px #eaff00!important}
+.section:not(#dashboard) .sectiontitle{color:var(--page-led)!important}
+.fk-nutrition-stat strong{color:#f1ff38!important}
+#dashboard .kore-ring-card .kore-live{color:#c2cdd1!important}
+@media(max-width:700px){body{background:linear-gradient(140deg,#343d43,#232a30 50%,#30383d) fixed!important}.top{margin-bottom:10px!important}#dashboard .hx-hero{box-shadow:0 6px 20px #11181c36!important}}
+@media(prefers-reduced-motion:reduce){#dashboard .hx-hero:before{animation:none!important}}
+</style>
+<script id="fk-nutrition-export-v8">(function(){
+const panel=document.querySelector('#alimentazione .fk-nutrition');if(!panel||document.getElementById('fk-nutrition-export'))return;
+const button=document.createElement('button');button.type='button';button.id='fk-nutrition-export';button.textContent='ESPORTA DIARIO CSV';button.style.cssText='width:100%;margin:10px 0;background:#26353b;color:#4bff40;border:1px solid #46ff2a;border-radius:11px;padding:12px;font-weight:800';
+const info=document.createElement('p');info.id='fk-export-feedback';info.setAttribute('role','status');
+panel.append(button,info);
+button.addEventListener('click',()=>{
+try{
+ const current=JSON.parse(localStorage.getItem('fk-nutrition-v1')||'{}');
+ const archive=JSON.parse(localStorage.getItem('fk-nutrition-history-v1')||'{}');
+ const days={...archive};if(current.date&&Array.isArray(current.entries))days[current.date]=current.entries;
+ const rows=[['Data','Pasto','kcal','Proteine (g)','Carboidrati (g)','Grassi (g)']];
+ for(const day of Object.keys(days).sort())for(const entry of (Array.isArray(days[day])?days[day]:[]))rows.push([day,entry.name||'',entry.kcal||0,entry.p||0,entry.c||0,entry.f||0]);
+ if(rows.length===1){info.textContent='Non ci sono pasti dettagliati da esportare.';return}
+ const csv='\uFEFF'+rows.map(row=>row.map(value=>'"'+String(value).replace(/"/g,'""')+'"').join(';')).join('\r\n');
+ const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+ const link=document.createElement('a');link.href=url;link.download='fit-kore-alimentazione.csv';document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),2000);
+ info.textContent='Esportazione avviata: '+(rows.length-1)+' pasti dettagliati.';
+}catch(e){info.textContent='Impossibile esportare i dati: verifica il salvataggio locale.'}
+});
 })();</script><script type="module" src="./firebase-auth.js"></script></body></html>
