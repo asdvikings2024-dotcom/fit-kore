@@ -850,4 +850,90 @@ panel.append(more,archiveDetails,legacyDetails);
 for(const child of Array.from(panel.children)){if([title,intro,panel.querySelector('.fk-nutrition-top'),bar,main,more,archiveDetails,legacyDetails].includes(child))continue;if(child.tagName==='H3'||child.tagName==='P'||child.classList.contains('fk-nutrition-note'))child.hidden=true}
 const first=form.querySelector('.fk-nutrition-form');if(first){first.querySelector('#fk-detail-name')?.setAttribute('aria-label','Nome del pasto');first.querySelector('#fk-detail-kcal')?.setAttribute('aria-label','Calorie del pasto')}
 ideas.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{form.querySelector('#fk-detail-name')?.focus();form.scrollIntoView({behavior:'smooth',block:'center'})}));
+})();</script><style id="fk-food-diary-v13">
+#alimentazione .fk-nutrition{display:none!important}
+#alimentazione>.grid{display:none!important}
+#alimentazione .fk-food-diary{background:linear-gradient(145deg,#303c42,#1a252a)!important;border:1px solid #60756a;border-radius:20px;padding:17px;margin:12px 0 110px;box-shadow:0 12px 25px #07100e70}
+.fk-food-diary h3{font-size:20px!important;letter-spacing:0!important;color:#f6fff7!important;margin:0 0 7px}
+.fk-food-diary p{color:#cbdad0!important;font-size:14px!important;margin:5px 0 12px}
+.fk-food-diary .fk-diary-budget{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:15px 0}
+.fk-food-diary .fk-diary-budget>div{border:1px solid #52665d;background:#202d30;border-radius:12px;padding:13px 5px;text-align:center}
+.fk-food-diary .fk-diary-budget strong{display:block;font-size:clamp(20px,5vw,27px);color:#50ff40;line-height:1.2}
+.fk-food-diary .fk-diary-budget small{font-size:12px;color:#d3e0d7}
+.fk-food-diary .fk-diary-progress{height:9px;background:#101c1c;border-radius:12px;overflow:hidden;margin:12px 0 19px}
+.fk-food-diary .fk-diary-progress>div{height:100%;background:#46ff2a;transition:width .25s}
+.fk-food-diary .fk-meal-list{display:grid;gap:9px;margin:12px 0}
+.fk-food-diary .fk-meal-row{border:1px solid #50645b;border-radius:13px;background:#233136;padding:13px}
+.fk-food-diary .fk-meal-top{display:flex;justify-content:space-between;align-items:center;gap:9px}
+.fk-food-diary .fk-meal-top strong{font-size:17px}
+.fk-food-diary .fk-meal-top span{font-size:14px;color:#b9ffae;font-weight:700}
+.fk-food-diary .fk-meal-row ul{padding-left:17px;margin:9px 0;color:#e4eee7;font-size:14px}
+.fk-food-diary .fk-meal-row li{padding:4px 0}
+.fk-food-diary .fk-meal-add{margin-top:10px;border:1px solid #46ff2a;background:#1a3829;color:#75ff62;border-radius:10px;padding:10px 13px;font-size:14px;font-weight:800;width:100%}
+.fk-food-diary .fk-add-panel{margin:17px 0;padding:16px;background:#1b282c;border:1px solid #6a8574;border-radius:15px}
+.fk-food-diary label{display:block;color:#e0ece4;font-size:14px;font-weight:700;margin:13px 0 6px}
+.fk-food-diary input,.fk-food-diary select{width:100%;min-height:51px;font-size:16px!important;border-radius:11px;background:#29373b;color:#f7fff8;border:1px solid #697d74;padding:10px}
+.fk-food-diary .fk-food-modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:13px 0}
+.fk-food-diary .fk-food-modes button{border:1px solid #526b5b;background:#26352f;color:#e4f3e6;border-radius:10px;min-height:46px;font-weight:800}
+.fk-food-diary .fk-food-modes button[aria-pressed="true"]{background:#4dff39;color:#0c1a0b;border-color:#4dff39}
+.fk-food-diary .fk-diary-preview{padding:13px;margin:13px 0;background:#2d3d3c;border-radius:11px;color:#e9f5ec;font-size:15px}
+.fk-food-diary .fk-diary-save{width:100%;min-height:52px;background:#46ff2a;color:#102011;border:0;border-radius:12px;font-weight:900;font-size:16px}
+.fk-food-diary .fk-diary-cancel{width:100%;margin-top:7px;background:transparent;color:#d3e3d9;border:0;min-height:42px}
+.fk-food-diary .fk-diary-advanced{border-top:1px solid #4f6358;margin-top:17px;padding-top:13px}
+.fk-food-diary .fk-diary-advanced summary{font-size:15px;font-weight:700;cursor:pointer;padding:8px 0}
+.fk-food-diary .fk-diary-advanced button{width:100%;margin-top:8px;min-height:44px;border:1px solid #5d7568;background:#23352b;color:#e3f6e8;border-radius:10px}
+.fk-food-diary .fk-diary-feedback{min-height:18px;font-size:14px;color:#8cff7a}
+@media(max-width:380px){.fk-food-diary .fk-diary-budget strong{font-size:19px}}
+</style>
+<script id="fk-food-diary-script-v13">(function(){
+const food=document.getElementById('alimentazione'),old=document.getElementById('fk-detail-form');if(!food||!old||document.getElementById('fk-food-diary-v13'))return;
+const store='fk-nutrition-v1',types=['Colazione','Pranzo','Cena','Spuntino'];
+const catalog=[
+['Pasta secca',350,12,72,1.5],['Riso crudo',360,7,79,1],['Pane',265,9,49,3.2],['Petto di pollo cotto',165,31,0,3.6],['Uovo intero',143,13,1,10],['Yogurt bianco',63,4,5,3],['Banana',89,1.1,23,.3],['Mela',52,.3,14,.2],['Olio di oliva',884,0,0,100],['Patate bollite',87,2,20,.1],['Tonno al naturale',116,26,0,1],['Mozzarella',250,18,2,19],['Fiocchi di avena',389,17,66,7],['Latte intero',61,3.2,4.8,3.3],['Lenticchie cotte',116,9,20,.4]
+];
+const root=document.createElement('article');root.className='fk-food-diary';root.id='fk-food-diary-v13';
+root.innerHTML='<h3>Diario alimentare</h3><p>Quanto hai mangiato oggi?</p><div class="fk-diary-budget"><div><strong id="fk-diary-eaten">0</strong><small>Mangiate</small></div><div><strong id="fk-diary-left">0</strong><small>Rimanenti</small></div><div><strong id="fk-diary-goal">2000</strong><small>Obiettivo kcal</small></div></div><div class="fk-diary-progress"><div id="fk-diary-bar"></div></div><h3>I tuoi pasti</h3><div id="fk-meal-list" class="fk-meal-list"></div><section id="fk-add-panel" class="fk-add-panel" hidden><h3 id="fk-add-title">Aggiungi alimento</h3><label for="fk-diary-meal">A quale pasto?</label><select id="fk-diary-meal"></select><div class="fk-food-modes"><button type="button" id="fk-diary-catalog" aria-pressed="true">Alimento</button><button type="button" id="fk-diary-manual" aria-pressed="false">Piatto manuale</button></div><div id="fk-diary-catalog-fields"><label for="fk-diary-food">Alimento (valori indicativi per 100 g)</label><select id="fk-diary-food"></select><label for="fk-diary-grams">Quantità in grammi</label><input id="fk-diary-grams" type="number" min="1" max="3000" step="1" value="100" inputmode="numeric"></div><div id="fk-diary-manual-fields" hidden><label for="fk-diary-name">Nome del piatto</label><input id="fk-diary-name" maxlength="60" placeholder="Es. lasagne fatte in casa"><label for="fk-diary-kcal">Calorie della porzione</label><input id="fk-diary-kcal" type="number" min="1" max="5000" inputmode="numeric" placeholder="Es. 450"></div><div id="fk-diary-preview" class="fk-diary-preview"></div><button type="button" id="fk-diary-save" class="fk-diary-save">AGGIUNGI AL DIARIO</button><button type="button" id="fk-diary-cancel" class="fk-diary-cancel">Annulla</button></section><p id="fk-diary-feedback" class="fk-diary-feedback" role="status"></p><details class="fk-diary-advanced"><summary>Obiettivo, macronutrienti e storico</summary><p>Imposta il tuo obiettivo e consulta le informazioni avanzate.</p><button type="button" id="fk-diary-open-advanced">Apri strumenti avanzati</button></details>';
+const $=id=>document.getElementById(id);
+const options=(select,items)=>{items.forEach((v,i)=>{const o=document.createElement('option');o.value=String(i);o.textContent=v;select.append(o)})};
+options($('fk-diary-meal'),types);options($('fk-diary-food'),catalog.map(x=>x[0]));
+const oldPanel=food.querySelector('.fk-nutrition');food.insertBefore(root,oldPanel||food.firstElementChild?.nextSibling||null);
+const day=()=>new Date().toLocaleDateString('sv-SE');
+function read(){try{const d=JSON.parse(localStorage.getItem(store)||'{}');return d&&typeof d==='object'?d:{}}catch(e){return {}}}
+function current(){const d=read();return d.date===day()&&Array.isArray(d.entries)?d.entries:[]}
+function renderDiary(){
+ const data=read(),entries=current(),basic=typeof state!=='undefined'&&Array.isArray(state.meals)?state.meals.reduce((n,x)=>n+(Number(x.kcal)||0),0):0;
+ const sum=entries.reduce((n,x)=>n+(Number(x.kcal)||0),basic),goal=Number(data.goal)||2000;
+ $('fk-diary-eaten').textContent=Math.round(sum).toLocaleString('it-IT');$('fk-diary-left').textContent=Math.round(goal-sum).toLocaleString('it-IT');$('fk-diary-goal').textContent=goal.toLocaleString('it-IT');$('fk-diary-bar').style.width=Math.max(0,Math.min(100,sum/goal*100))+'%';
+ const list=$('fk-meal-list');list.replaceChildren();
+ types.forEach(type=>{const filtered=entries.map((entry,i)=>({...entry,index:i})).filter(x=>(x.mealType||'Altro')===type);const total=filtered.reduce((n,x)=>n+(Number(x.kcal)||0),0);
+ const card=document.createElement('div');card.className='fk-meal-row';const top=document.createElement('div');top.className='fk-meal-top';const title=document.createElement('strong');title.textContent=type;const amount=document.createElement('span');amount.textContent=Math.round(total)+' kcal';top.append(title,amount);card.append(top);
+ if(filtered.length){const ul=document.createElement('ul');filtered.forEach(x=>{const li=document.createElement('li');li.textContent=x.name+(x.grams?' · '+x.grams+' g':'')+' — '+Math.round(x.kcal)+' kcal';ul.append(li)});card.append(ul)}else{const empty=document.createElement('p');empty.textContent='Nessun alimento registrato';card.append(empty)}
+ const button=document.createElement('button');button.className='fk-meal-add';button.type='button';button.textContent='+ Aggiungi a '+type;button.addEventListener('click',()=>open(type));card.append(button);list.append(card)});
+ const legacy=entries.filter(x=>!types.includes(x.mealType));if(legacy.length||basic){const note=document.createElement('p');note.textContent='Altri pasti già registrati: '+Math.round(legacy.reduce((n,x)=>n+(Number(x.kcal)||0),basic))+' kcal (inclusi nel totale).';list.append(note)}
+}
+let mode='catalog';
+function open(type){$('fk-add-panel').hidden=false;$('fk-diary-meal').value=String(Math.max(0,types.indexOf(type)));$('fk-add-title').textContent='Aggiungi a '+type;$('fk-diary-feedback').textContent='';updatePreview();$('fk-add-panel').scrollIntoView({behavior:'smooth',block:'start'})}
+function updatePreview(){const grams=Number($('fk-diary-grams').value),item=catalog[Number($('fk-diary-food').value)]||catalog[0];const kcal=mode==='catalog'?item[1]*grams/100:Number($('fk-diary-kcal').value);$('fk-diary-preview').textContent=Number.isFinite(kcal)&&kcal>0?'Totale porzione: '+Math.round(kcal)+' kcal'+(mode==='catalog'?' · stima indicativa':''):'Inserisci una quantità valida.'}
+function setMode(value){mode=value;const cat=value==='catalog';$('fk-diary-catalog-fields').hidden=!cat;$('fk-diary-manual-fields').hidden=cat;$('fk-diary-catalog').setAttribute('aria-pressed',String(cat));$('fk-diary-manual').setAttribute('aria-pressed',String(!cat));updatePreview()}
+$('fk-diary-catalog').onclick=()=>setMode('catalog');$('fk-diary-manual').onclick=()=>setMode('manual');
+['fk-diary-grams','fk-diary-food','fk-diary-kcal'].forEach(id=>$(id).addEventListener('input',updatePreview));
+$('fk-diary-cancel').onclick=()=>{$('fk-add-panel').hidden=true};
+$('fk-diary-meal').addEventListener('change',()=>{$('fk-add-title').textContent='Aggiungi a '+types[Number($('fk-diary-meal').value)]});
+$('fk-diary-save').addEventListener('click',()=>{
+ const type=types[Number($('fk-diary-meal').value)]||'Spuntino',grams=Number($('fk-diary-grams').value),item=catalog[Number($('fk-diary-food').value)]||catalog[0];
+ const name=mode==='catalog'?item[0]:$('fk-diary-name').value.trim(),kcal=mode==='catalog'?item[1]*grams/100:Number($('fk-diary-kcal').value);
+ if(!name||!Number.isFinite(kcal)||kcal<=0||kcal>5000||(mode==='catalog'&&(!Number.isFinite(grams)||grams<1||grams>3000))){$('fk-diary-feedback').textContent='Controlla alimento, quantità e calorie.';return}
+ const data=read();if(data.date!==day()){try{const archive=JSON.parse(localStorage.getItem('fk-nutrition-history-v1')||'{}');if(data.date&&Array.isArray(data.entries))archive[data.date]=data.entries;localStorage.setItem('fk-nutrition-history-v1',JSON.stringify(archive))}catch(e){}data.entries=[];data.date=day()}
+ if(!Array.isArray(data.entries))data.entries=[];
+ const factor=mode==='catalog'?grams/100:0;data.entries.push({name,kcal:Math.round(kcal),p:mode==='catalog'?+(item[2]*factor).toFixed(1):0,c:mode==='catalog'?+(item[3]*factor).toFixed(1):0,f:mode==='catalog'?+(item[4]*factor).toFixed(1):0,mealType:type,...(mode==='catalog'?{grams}:{} )});
+ try{localStorage.setItem(store,JSON.stringify(data))}catch(e){$('fk-diary-feedback').textContent='Salvataggio non riuscito: spazio locale non disponibile.';return}
+ $('fk-add-panel').hidden=true;$('fk-diary-feedback').textContent=name+' aggiunto a '+type+'.';renderDiary();if(typeof render==='function')render();
+});
+$('fk-diary-open-advanced').onclick=()=>{if(oldPanel){oldPanel.style.setProperty('display','block','important');oldPanel.scrollIntoView({behavior:'smooth',block:'start'});const simple=oldPanel.querySelector('.fk-food-main');if(simple)simple.hidden=true;$('fk-diary-feedback').textContent='Strumenti avanzati aperti sotto il diario.'}};
+food.addEventListener('click',e=>{if(e.target.closest('#fk-detail-undo,#fk-undo-meal'))setTimeout(renderDiary,40)});
+old.addEventListener('submit',()=>setTimeout(renderDiary,40));
+$('fk-cal-goal-form')?.addEventListener('submit',()=>setTimeout(renderDiary,40));
+$('mealform')?.addEventListener('submit',()=>setTimeout(renderDiary,40));
+document.querySelectorAll('.nav [data-page="alimentazione"]').forEach(b=>b.addEventListener('click',renderDiary));
+renderDiary();
 })();</script><script type="module" src="./firebase-auth.js"></script></body></html>
