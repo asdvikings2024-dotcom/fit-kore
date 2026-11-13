@@ -936,4 +936,28 @@ $('fk-cal-goal-form')?.addEventListener('submit',()=>setTimeout(renderDiary,40))
 $('mealform')?.addEventListener('submit',()=>setTimeout(renderDiary,40));
 document.querySelectorAll('.nav [data-page="alimentazione"]').forEach(b=>b.addEventListener('click',renderDiary));
 renderDiary();
+})();</script><style id="fk-food-repair-v14">
+#alimentazione .fk-feature-card:has(#fk-food-presets),#alimentazione .fk-feature-card:has(#fk-undo-meal){display:none!important}
+#alimentazione .fk-food-diary{margin-top:14px!important}
+#alimentazione .fk-water-compact{padding:14px 16px!important;margin:12px 0 18px!important;border:1px solid #4e7779!important;border-radius:15px!important;background:linear-gradient(120deg,#293b42,#1a292e)!important}
+#alimentazione .fk-water-compact h3{font-size:16px!important;color:#5ceeff!important;margin:0 0 4px!important}
+#alimentazione .fk-water-compact p{font-size:13px!important;margin:4px 0!important}
+#alimentazione .fk-water-compact .fk-metric{font-size:25px!important;margin:7px 0!important}
+#alimentazione .fk-water-compact button{font-size:14px!important;min-height:43px!important}
+#alimentazione .fk-food-diary .fk-meal-row li{display:flex;align-items:center;justify-content:space-between;gap:8px}
+#alimentazione .fk-food-diary .fk-remove-entry{min-width:37px;min-height:37px;border:1px solid #9b7373;background:#392c31;color:#ffb6b6;border-radius:9px;font-size:18px;flex-shrink:0}
+#alimentazione .fk-food-diary .fk-food-guide{font-size:14px!important;color:#d6e9db!important;background:#253b32;border-left:3px solid #46ff2a;padding:11px 12px;border-radius:8px;margin:12px 0!important}
+</style>
+<script id="fk-food-repair-script-v14">(function(){
+const food=document.getElementById('alimentazione'),diary=document.getElementById('fk-food-diary-v13');if(!food||!diary)return;
+const oldCards=Array.from(food.querySelectorAll('.fk-feature-card'));
+oldCards.forEach(card=>{if(card.querySelector('#fk-food-presets,#fk-undo-meal'))card.hidden=true});
+const water=document.getElementById('fk-water-total')?.closest('.fk-feature-card');
+if(water){water.classList.add('fk-water-compact');diary.insertAdjacentElement('afterend',water)}
+const intro=diary.querySelector('h3');if(intro&&!diary.querySelector('.fk-food-guide')){const guide=document.createElement('p');guide.className='fk-food-guide';guide.textContent='1. Scegli Colazione, Pranzo, Cena o Spuntino. 2. Aggiungi un alimento e i grammi. 3. Conferma: le calorie si aggiornano subito.';intro.insertAdjacentElement('afterend',guide)}
+const list=document.getElementById('fk-meal-list');
+function refreshFromSaved(){
+try{const raw=JSON.parse(localStorage.getItem('fk-nutrition-v1')||'{}');const date=new Date().toLocaleDateString('sv-SE');const entries=raw.date===date&&Array.isArray(raw.entries)?raw.entries:[];const blocks=list.querySelectorAll('.fk-meal-row');const types=['Colazione','Pranzo','Cena','Spuntino'];
+blocks.forEach((block,index)=>{const ul=block.querySelector('ul');if(!ul)return;const records=entries.map((entry,i)=>({entry,i})).filter(x=>(x.entry.mealType||'Altro')===types[index]);const lis=ul.querySelectorAll('li');lis.forEach((li,j)=>{const item=records[j];if(!item||li.querySelector('.fk-remove-entry'))return;const btn=document.createElement('button');btn.type='button';btn.className='fk-remove-entry';btn.setAttribute('aria-label','Elimina '+item.entry.name);btn.textContent='×';btn.onclick=()=>{if(!confirm('Eliminare '+item.entry.name+' dal diario?'))return;const latest=JSON.parse(localStorage.getItem('fk-nutrition-v1')||'{}');if(!Array.isArray(latest.entries))return;const target=latest.entries.findIndex(e=>e===item.entry||(e.name===item.entry.name&&e.kcal===item.entry.kcal&&e.mealType===item.entry.mealType));if(target<0)return;latest.entries.splice(target,1);localStorage.setItem('fk-nutrition-v1',JSON.stringify(latest));const newTotal=latest.entries.reduce((n,e)=>n+(Number(e.kcal)||0),0);const basic=typeof state!=='undefined'&&Array.isArray(state.meals)?state.meals.reduce((n,e)=>n+(Number(e.kcal)||0),0):0;const goal=Number(latest.goal)||2000;document.getElementById('fk-diary-eaten').textContent=(newTotal+basic).toLocaleString('it-IT');document.getElementById('fk-diary-left').textContent=(goal-newTotal-basic).toLocaleString('it-IT');document.getElementById('fk-diary-bar').style.width=Math.min(100,(newTotal+basic)/goal*100)+'%';const total=records.reduce((n,x)=>n+(Number(x.entry.kcal)||0),0)-Number(item.entry.kcal||0);block.querySelector('.fk-meal-top span').textContent=Math.round(total)+' kcal';li.remove();document.getElementById('fk-diary-feedback').textContent='Alimento eliminato.';if(typeof render==='function')render();refreshFromSaved()};li.append(btn)})})}catch(e){const feedback=document.getElementById('fk-diary-feedback');if(feedback)feedback.textContent='Errore di lettura dei pasti: prova ad aggiornare la pagina.'}}
+const observer=new MutationObserver(()=>{observer.disconnect();refreshFromSaved();observer.observe(list,{childList:true,subtree:true})});observer.observe(list,{childList:true,subtree:true});refreshFromSaved();
 })();</script><script type="module" src="./firebase-auth.js"></script></body></html>
