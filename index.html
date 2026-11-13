@@ -368,4 +368,25 @@ let goalNum=Number(safeRead('fk-session-goal-v1',5));if(!Number.isInteger(goalNu
 function updateGoal(){const count=Array.isArray(state.workouts)?state.workouts.length:0;byId('fk-goal-input').value=goalNum;byId('fk-goal-display').textContent=count+' / '+goalNum+' sessioni';const bar=byId('sessionprogress');if(bar)bar.style.width=Math.min(100,count/goalNum*100)+'%'}
 byId('fk-goal-save').onclick=()=>{const n=Number(byId('fk-goal-input').value);if(!Number.isInteger(n)||n<1||n>100){byId('fk-goal-feedback').textContent='Scegli un numero tra 1 e 100.';return}goalNum=n;byId('fk-goal-feedback').textContent=safeWrite('fk-session-goal-v1',goalNum)?'Obiettivo aggiornato.':'Obiettivo aggiornato solo per questa sessione.';updateGoal()};
 byId('trainform').addEventListener('submit',()=>setTimeout(updateGoal,0));updateGoal();
+})();</script><style id="fk-mobile-compact-v3">
+@media(max-width:700px){
+.top{padding:10px 0 12px!important;gap:8px!important}.top .eyebrow{font-size:9px!important;letter-spacing:1.3px!important}.top h1{font-size:19px!important;margin:4px 0!important}.top #replay-intro{font-size:10px!important;padding:7px 9px!important}
+.hx-welcome{margin:7px 0 11px!important}.hx-welcome .hx-kicker,.hx-welcome p,.hx-streak{display:none!important}.hx-welcome h2{font-size:29px!important;line-height:1.02!important;margin:0!important}.hx-welcome h2 br{display:none}.hx-welcome h2 span:before{content:' '}
+.hx-hero{min-height:168px!important;padding:17px 18px!important;margin:9px 0 13px!important}.hx-hero-copy>span{font-size:9px!important}.hx-hero h2{font-size:32px!important;margin:7px 0!important}.hx-hero p{display:none!important}.hx-hero-k{opacity:.28!important}
+.hx-start{min-height:69px!important;margin:10px 0 13px!important}.hx-tiles{gap:10px!important}
+}
+.fk-feature-row .fk-preset-food{border-color:#b7ff00;color:#eaff2d;font-weight:850}.fk-feature-card .fk-data-actions{margin-top:12px}
+</style>
+<script id="fk-functional-v3">(function(){
+const $=id=>document.getElementById(id);
+const food=$('alimentazione'),train=$('allenamenti'),dash=$('dashboard');
+if(!food||!train||!dash||typeof state==='undefined')return;
+const mealCard=document.createElement('article');mealCard.className='fk-feature-card';mealCard.innerHTML='<h3>🥗 AGGIUNGI VELOCEMENTE</h3><p>Valori indicativi: puoi modificarli nel modulo alimentazione.</p><div class="fk-feature-row" id="fk-food-presets"></div><p class="fk-feedback" id="fk-food-preset-status" role="status"></p>';
+food.insertBefore(mealCard,food.querySelector('.grid'));
+[['Colazione',350],['Pranzo',650],['Cena',600],['Spuntino',180]].forEach(([name,kcal])=>{const b=document.createElement('button');b.type='button';b.className='fk-preset-food';b.textContent=name+' · '+kcal+' kcal';b.onclick=()=>{$('mealname').value=name;$('kcal').value=kcal;$('fk-food-preset-status').textContent='Valore indicativo inserito: verifica e premi Aggiungi per registrarlo.';$('kcal').focus()};$('fk-food-presets').appendChild(b)});
+const history=document.createElement('article');history.className='fk-feature-card';history.innerHTML='<h3>🗂️ GESTISCI REGISTRAZIONI</h3><p>Correggi gli errori eliminando l’ultima registrazione, oppure esporta una copia dei dati salvati sul dispositivo.</p><div class="fk-feature-row fk-data-actions"><button type="button" id="fk-undo-meal">Annulla ultimo pasto</button><button type="button" id="fk-undo-workout">Annulla ultimo allenamento</button><button type="button" class="fk-primary" id="fk-export-data">Esporta dati</button></div><p class="fk-feedback" id="fk-data-status" role="status"></p>';dash.appendChild(history);
+function status(t){$('fk-data-status').textContent=t}
+$('fk-undo-meal').onclick=()=>{if(!state.meals.length){status('Nessun pasto da annullare.');return}state.meals.pop();save();status('Ultimo pasto eliminato.')};
+$('fk-undo-workout').onclick=()=>{if(!state.workouts.length){status('Nessun allenamento da annullare.');return}state.workouts.pop();save();document.getElementById('fk-goal-display')&&(document.getElementById('fk-goal-display').textContent=state.workouts.length+' / '+(Number(JSON.parse(localStorage.getItem('fk-session-goal-v1')||'5'))||5)+' sessioni');status('Ultimo allenamento eliminato.')};
+$('fk-export-data').onclick=()=>{try{const backup={version:1,exportedAt:new Date().toISOString(),meals:state.meals,workouts:state.workouts,note:state.note,water:JSON.parse(localStorage.getItem('fk-water-v1')||'null'),sessionGoal:JSON.parse(localStorage.getItem('fk-session-goal-v1')||'5')};const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download='fit-kore-backup-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1500);status('Backup generato. Conservalo in un luogo sicuro.')}catch(e){status('Esportazione non riuscita su questo browser.')}};
 })();</script></body></html>
