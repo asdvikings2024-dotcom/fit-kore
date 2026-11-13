@@ -5,20 +5,26 @@ if(configured){
  const authSDK=await import('https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js');
  const dbSDK=await import('https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js');
  const app=initializeApp(firebaseConfig),auth=authSDK.getAuth(app),db=dbSDK.getFirestore(app);
+ document.documentElement.classList.add('fk-auth-enabled');
+ const accessStyle=document.createElement('style');accessStyle.textContent='.fk-auth-enabled:not(.fk-auth-approved) .layout{visibility:hidden;pointer-events:none}.fk-auth-enabled:not(.fk-auth-approved) #kore-access-modal{z-index:9999999}.fk-auth-enabled:not(.fk-auth-approved) #kore-access-close{display:none}.fk-auth-enabled:not(.fk-auth-approved) #kore-access-modal .kore-access-panel{max-height:92dvh}';document.head.append(accessStyle);
  const $=id=>document.getElementById(id);
  const status=$('kore-access-status'),form=$('kore-access-form');
  const warning=document.querySelector('.kore-access-warning');
+ const signout=document.createElement('button');signout.type='button';signout.textContent='Esci';signout.className='kore-access-secondary';signout.addEventListener('click',()=>authSDK.signOut(auth));document.querySelector('.kore-access-panel')?.append(signout);
  if(warning)warning.textContent='L’iscrizione crea una richiesta in attesa. Le funzioni riservate restano bloccate fino all’approvazione.';
  const msg=e=>{const code=e?.code||'';status.textContent=({'auth/email-already-in-use':'Email già registrata.','auth/invalid-credential':'Credenziali non valide.','auth/popup-blocked':'Popup bloccato dal browser.','permission-denied':'Permesso negato: verifica le regole Firestore.'})[code]||'Operazione non riuscita. Riprova o contatta l’amministratore.'};
  async function ensureMember(user){const ref=dbSDK.doc(db,'members',user.uid),snap=await dbSDK.getDoc(ref);if(!snap.exists())await dbSDK.setDoc(ref,{email:user.email,status:'pending',createdAt:dbSDK.serverTimestamp()});return await dbSDK.getDoc(ref)}
  async function showSession(user){
-  if(!user){status.textContent='Accedi o richiedi iscrizione.';return}
+  if(!user){document.documentElement.classList.remove('fk-auth-approved');$('kore-access-modal').hidden=false;status.textContent='Accedi o richiedi iscrizione.';return}
   const member=await ensureMember(user);
   const adminSnap=await dbSDK.getDoc(dbSDK.doc(db,'admins',user.uid)).catch(()=>null);
   const isAdmin=!!adminSnap?.exists();
   const approved=member.data()?.status==='approved'||isAdmin;
   status.textContent=isAdmin?'Accesso amministratore attivo.':approved?'Account approvato.':'Richiesta '+(member.data()?.status==='rejected'?'rifiutata.':'in attesa di approvazione.');
   document.body.dataset.koreAccess=approved?'approved':'pending';
+  document.documentElement.classList.toggle('fk-auth-approved',approved);
+  $('kore-access-modal').hidden=approved;
+  if(!approved)document.body.style.overflow='';
   $('fk-admin-panel')?.remove();
   if(isAdmin)await adminPanel();
  }
@@ -47,5 +53,5 @@ if(configured){
  });
  const google=$('kore-google-login').cloneNode(true);$('kore-google-login').replaceWith(google);
  google.onclick=async()=>{try{const result=await authSDK.signInWithPopup(auth,new authSDK.GoogleAuthProvider());await showSession(result.user)}catch(e){msg(e)}};
- authSDK.onAuthStateChanged(auth,user=>{if(user)showSession(user).catch(msg)});
+ authSDK.onAuthStateChanged(auth,user=>{showSession(user).catch(msg)});
 }
