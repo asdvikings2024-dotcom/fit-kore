@@ -692,4 +692,39 @@ body{background-image:linear-gradient(135deg,#4b555d 0%,#384249 40%,#434d54 100%
 const dashboard=document.getElementById('dashboard');if(!dashboard)return;
 const welcome=dashboard.querySelector('.hx-welcome');if(welcome&&!dashboard.querySelector('.fk-titanium-label')){const label=document.createElement('div');label.className='fk-titanium-label';label.textContent='TITANIUM EDGE · V2';welcome.parentNode.insertBefore(label,welcome)}
 document.querySelector('meta[name="theme-color"]')?.setAttribute('content','#39434b');
+})();</script><style id="fk-dark-titanium-v10">
+/* Deep graphite with subtle carbon weave and directional metallic light */
+html,body{background-color:#171c20!important}
+body{background-image:radial-gradient(ellipse at 10% 8%,#49515970,transparent 45%),radial-gradient(ellipse at 90% 70%,#3a424a5c,transparent 52%),repeating-linear-gradient(135deg,#ffffff05 0px,#ffffff05 1px,transparent 1px,transparent 7px),linear-gradient(135deg,#272e34,#151a1e 60%,#252d33)!important;background-attachment:fixed!important}
+.main{background:transparent!important}
+.top{background:linear-gradient(130deg,#303940,#1c2429)!important;border-color:#526068!important;box-shadow:0 9px 25px #080d1170,inset 0 1px #ffffff16!important}
+#dashboard .hx-hero{background:radial-gradient(ellipse at 87% 20%,#8f9d4930,transparent 42%),linear-gradient(130deg,#343e46,#171e23 65%,#2d363d)!important;border-color:#606e76!important;box-shadow:0 14px 26px #080d1270,inset 0 1px #ffffff25!important}
+#dashboard .fk-mission{background:linear-gradient(135deg,#2b353b,#161e22 78%)!important;border-color:#536168!important;box-shadow:0 10px 22px #070c1070,inset 0 1px #ffffff17!important}
+#dashboard .kore-overview,#dashboard .kore-ring-card,#dashboard .kore-mini,#dashboard .kore-graph,#dashboard .card{background:linear-gradient(140deg,#303b42,#182126 70%,#283239)!important;border-color:#536169!important;box-shadow:0 12px 28px #090f1370,inset 0 1px #ffffff16!important}
+.section:not(#dashboard) .card,.section:not(#dashboard) .fk-feature-card,.section:not(#dashboard) .fk-workout-tools,.section:not(#dashboard) .fk-nutrition{background:linear-gradient(140deg,#303b42,#192228 74%)!important;border-color:#52616a!important;box-shadow:0 11px 25px #080e1260,inset 0 1px #ffffff18!important}
+.nav{background:linear-gradient(180deg,#242e34fa,#141c21fc)!important;border-top-color:#58666e!important;box-shadow:0 -10px 25px #070b0d80!important}
+.fk-titanium-label{background:#232d33!important;border-color:#63717a!important;color:#d4e0e5!important}
+#dashboard .hx-start{box-shadow:0 7px 22px #b3e00035!important}
+.fk-week-card{padding:17px;margin:16px 0;background:linear-gradient(135deg,#2a353c,#141d22)!important;border:1px solid #4e6976;border-radius:18px;box-shadow:0 12px 22px #070c1060}
+.fk-week-card h3{color:#00e5ff;margin:0 0 7px;font-size:15px;letter-spacing:1.5px}
+.fk-week-card p{color:#c5d3da;font-size:12px;margin:5px 0 12px}
+.fk-week-bars{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px;align-items:end;margin:15px 0}
+.fk-week-day{text-align:center;font-size:10px;color:#b5c5cc}
+.fk-week-track{height:75px;background:#10181d;border:1px solid #33434c;border-radius:8px;display:flex;align-items:end;overflow:hidden;margin-bottom:7px}
+.fk-week-fill{width:100%;min-height:0;background:linear-gradient(0deg,#008bd7,#00e5ff);border-radius:6px 6px 0 0;transition:height .3s}
+.fk-week-stats{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:#c7d4d9}
+.fk-week-stats strong{color:#00e5ff}
+@media(max-width:700px){body{background-image:radial-gradient(ellipse at 0% 10%,#45505950,transparent 55%),repeating-linear-gradient(135deg,#ffffff04 0px,#ffffff04 1px,transparent 1px,transparent 8px),linear-gradient(135deg,#252e34,#151b20 62%,#252e34)!important}#dashboard .hx-hero{background:linear-gradient(135deg,#323d44,#171e23 70%)!important}#dashboard .fk-mission{background:linear-gradient(125deg,#2c363d,#161e23)!important}#dashboard .kore-overview,#dashboard .kore-ring-card{background:linear-gradient(145deg,#303b42,#192227)!important}}
+</style>
+<script id="fk-weekly-progress-v10">(function(){
+const training=document.getElementById('allenamenti'),form=document.getElementById('trainform');if(!training||!form)return;
+const key='fk-weekly-workouts-v1';
+const localDay=d=>{const y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,'0'),day=String(d.getDate()).padStart(2,'0');return y+'-'+m+'-'+day};
+function read(){try{const value=JSON.parse(localStorage.getItem(key)||'[]');return Array.isArray(value)?value.filter(x=>x&&typeof x.date==='string'&&Number.isFinite(+x.minutes)):[]}catch(e){return []}}
+function write(items){try{localStorage.setItem(key,JSON.stringify(items.slice(-300)))}catch(e){const m=document.getElementById('fk-week-message');if(m)m.textContent='Salvataggio non disponibile su questo dispositivo.'}}
+const card=document.createElement('article');card.className='fk-week-card';card.innerHTML='<h3>PROGRESSI SETTIMANALI</h3><p>Minuti di allenamento negli ultimi 7 giorni</p><div class="fk-week-bars" id="fk-week-bars"></div><div class="fk-week-stats"><span>Sessioni: <strong id="fk-week-sessions">0</strong></span><span>Minuti: <strong id="fk-week-minutes">0</strong></span></div><p id="fk-week-message" role="status">Registra una sessione completata per aggiornare il grafico.</p>';
+const grid=training.querySelector('.grid');if(grid)training.insertBefore(card,grid);else training.append(card);
+function refresh(){const data=read(),now=new Date(),days=Array.from({length:7},(_,i)=>{const d=new Date(now.getFullYear(),now.getMonth(),now.getDate()-6+i);return{key:localDay(d),label:['Dom','Lun','Mar','Mer','Gio','Ven','Sab'][d.getDay()]}});const values=days.map(d=>data.filter(e=>e.date===d.key).reduce((sum,e)=>sum+Number(e.minutes),0));const max=Math.max(30,...values);const bars=document.getElementById('fk-week-bars');bars.replaceChildren();days.forEach((day,i)=>{const col=document.createElement('div');col.className='fk-week-day';const track=document.createElement('div');track.className='fk-week-track';const fill=document.createElement('div');fill.className='fk-week-fill';fill.style.height=(values[i]/max*100)+'%';track.append(fill);const label=document.createElement('span');label.textContent=day.label;col.append(track,label);col.title=day.key+': '+values[i]+' minuti';bars.append(col)});const total=values.reduce((a,b)=>a+b,0);document.getElementById('fk-week-minutes').textContent=total;document.getElementById('fk-week-sessions').textContent=data.filter(e=>days.some(d=>d.key===e.date)).length}
+form.addEventListener('submit',event=>{if(!form.checkValidity())return;const name=document.getElementById('workout')?.value.trim(),minutes=Number(document.getElementById('minutes')?.value);if(!name||!Number.isFinite(minutes)||minutes<1||minutes>600)return;setTimeout(()=>{const list=read();list.push({date:localDay(new Date()),name,minutes});write(list);refresh();document.getElementById('fk-week-message').textContent='Sessione aggiunta allo storico settimanale.'},0)},true);
+refresh();
 })();</script><script type="module" src="./firebase-auth.js"></script></body></html>
