@@ -793,4 +793,61 @@ button.setAttribute('aria-label','Apri '+button.textContent.trim());
 button.setAttribute('aria-current',button.classList.contains('active')?'page':'false');
 button.addEventListener('click',()=>{nav.querySelectorAll('button[data-page]').forEach(item=>item.setAttribute('aria-current',item===button?'page':'false'))});
 })}
+})();</script><style id="fk-food-simple-v12">
+#alimentazione .fk-nutrition{padding:20px!important}
+#alimentazione .fk-food-simple-title{font-size:22px!important;letter-spacing:-.4px!important;color:#f7fff8!important;margin:0 0 6px!important}
+#alimentazione .fk-food-simple-intro{font-size:15px!important;color:#d2e1d5!important;margin:0 0 18px!important}
+#alimentazione .fk-nutrition-top{gap:8px!important}
+#alimentazione .fk-nutrition-stat{padding:13px 5px!important}
+#alimentazione .fk-nutrition-stat strong{font-size:clamp(19px,5.6vw,27px)!important}
+#alimentazione .fk-nutrition-stat small{font-size:12px!important}
+#alimentazione .fk-food-main{margin-top:22px}
+#alimentazione .fk-food-main h3{font-size:20px!important;color:#f7fff8!important;letter-spacing:0!important}
+#alimentazione .fk-food-main .fk-nutrition-form{display:grid;grid-template-columns:1fr;gap:12px;margin:14px 0!important}
+#alimentazione #fk-detail-name,#alimentazione #fk-detail-kcal{width:100%;font-size:17px!important;min-height:54px!important;flex:auto!important}
+#alimentazione #fk-detail-form button[type="submit"]{width:100%;min-height:54px;font-size:17px!important;background:#46ff2a!important;color:#081208!important}
+#alimentazione .fk-food-main .fk-food-detail{gap:9px;margin:12px 0}
+#alimentazione .fk-food-main .fk-food-detail label{font-size:13px!important;color:#d6e2da!important}
+#alimentazione .fk-food-main .fk-food-detail input{min-height:48px}
+#alimentazione .fk-food-main .fk-nutrition-form button{width:100%}
+#alimentazione .fk-food-quick{margin:12px 0 20px}
+#alimentazione .fk-food-quick button{min-height:63px!important;font-size:14px!important;padding:12px!important}
+#alimentazione .fk-food-quick button span{font-size:12px!important}
+#alimentazione .fk-food-disclosure{border-top:1px solid #60736a;padding:13px 0;margin-top:13px}
+#alimentazione .fk-food-disclosure summary{cursor:pointer;color:#f0f8f2;font-size:16px;font-weight:800;padding:10px 0;list-style:none;display:flex;align-items:center;justify-content:space-between}
+#alimentazione .fk-food-disclosure summary:after{content:"+";font-size:24px;color:#4dff37}
+#alimentazione .fk-food-disclosure[open] summary:after{content:"−"}
+#alimentazione .fk-food-disclosure summary::-webkit-details-marker{display:none}
+#alimentazione .fk-food-disclosure h3{font-size:15px!important;margin-top:12px}
+#alimentazione .fk-food-history{margin:14px 0}
+#alimentazione .fk-food-history .history{margin:10px 0}
+#alimentazione #fk-detail-undo{width:100%;min-height:46px}
+#alimentazione .fk-food-legacy .grid{margin-top:15px}
+#alimentazione .fk-food-legacy .card{margin-bottom:10px}
+#alimentazione .fk-nutrition-bar{margin:12px 0 0}
+@media(max-width:700px){#alimentazione .fk-nutrition{padding:16px!important}#alimentazione .fk-nutrition-top{gap:5px!important}#alimentazione .fk-nutrition-stat{padding:12px 3px!important}}
+</style>
+<script id="fk-food-simple-script-v12">(function(){
+const section=document.getElementById('alimentazione'),panel=section?.querySelector('.fk-nutrition');if(!panel||panel.dataset.simple)return;panel.dataset.simple='1';
+const form=document.getElementById('fk-detail-form'),ideas=document.getElementById('fk-food-ideas'),goal=document.getElementById('fk-cal-goal-form'),macros=panel.querySelector('.fk-macros'),history=document.getElementById('fk-detail-history'),archive=document.getElementById('fk-nutrition-history'),undo=document.getElementById('fk-detail-undo'),exportBtn=document.getElementById('fk-nutrition-export'),exportInfo=document.getElementById('fk-export-feedback'),feedback=document.getElementById('fk-nutrition-message');
+if(!form||!ideas||!goal||!macros||!history||!archive)return;
+const make=(tag,className,text)=>{const el=document.createElement(tag);if(className)el.className=className;if(text)el.textContent=text;return el};
+const title=panel.querySelector('h3');if(title){title.className='fk-food-simple-title';title.textContent='Il tuo bilancio di oggi'}
+const intro=title?.nextElementSibling;if(intro){intro.className='fk-food-simple-intro';intro.textContent='Registra un pasto in pochi secondi.'}
+const main=make('div','fk-food-main');const heading=make('h3','','Aggiungi un pasto');main.append(heading);
+const help=make('p','','Scrivi cosa hai mangiato e le calorie. I macro sono facoltativi.');main.append(help);
+const ideasTitle=make('h3','','Scegli un esempio');main.append(ideasTitle,ideas);
+const examplesInfo=make('p','','Valori indicativi: controlla sempre le porzioni effettive.');main.append(examplesInfo);
+const detail=form.querySelector('.fk-food-detail');if(detail){const advanced=make('details','fk-food-disclosure');const summary=make('summary','','Aggiungi proteine, carboidrati e grassi (facoltativo)');advanced.append(summary,detail);form.insertBefore(advanced,form.querySelector('.fk-nutrition-form:last-child'))}
+if(undo){undo.remove();undo.type='button'}
+main.append(form);if(feedback)main.append(feedback);
+const past=make('div','fk-food-history');past.append(make('h3','','Pasti registrati oggi'),history);if(undo)past.append(undo);main.append(past);
+const more=make('details','fk-food-disclosure');more.append(make('summary','','Obiettivi e macronutrienti'),make('p','','Puoi modificare il tuo obiettivo e vedere i grammi registrati.'));more.append(goal,macros);
+const archiveDetails=make('details','fk-food-disclosure');archiveDetails.append(make('summary','','Storico ed esportazione'),archive);if(exportBtn)archiveDetails.append(exportBtn);if(exportInfo)archiveDetails.append(exportInfo);
+const legacy=section.querySelector(':scope > .grid');const legacyDetails=make('details','fk-food-disclosure fk-food-legacy');legacyDetails.append(make('summary','','Altri strumenti alimentari'));if(legacy)legacyDetails.append(legacy);
+const bar=panel.querySelector('.fk-nutrition-bar');if(bar)bar.insertAdjacentElement('afterend',main);else panel.append(main);
+panel.append(more,archiveDetails,legacyDetails);
+for(const child of Array.from(panel.children)){if([title,intro,panel.querySelector('.fk-nutrition-top'),bar,main,more,archiveDetails,legacyDetails].includes(child))continue;if(child.tagName==='H3'||child.tagName==='P'||child.classList.contains('fk-nutrition-note'))child.hidden=true}
+const first=form.querySelector('.fk-nutrition-form');if(first){first.querySelector('#fk-detail-name')?.setAttribute('aria-label','Nome del pasto');first.querySelector('#fk-detail-kcal')?.setAttribute('aria-label','Calorie del pasto')}
+ideas.querySelectorAll('button').forEach(button=>button.addEventListener('click',()=>{form.querySelector('#fk-detail-name')?.focus();form.scrollIntoView({behavior:'smooth',block:'center'})}));
 })();</script><script type="module" src="./firebase-auth.js"></script></body></html>
