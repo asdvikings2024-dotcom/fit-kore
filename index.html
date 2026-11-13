@@ -523,4 +523,82 @@ toggle.onclick=()=>{if(tick){pause();feedback.textContent='Timer in pausa.';retu
 document.getElementById('fk-timer-reset').onclick=()=>{pause();remaining=duration;display();feedback.textContent='Timer azzerato.'};
 panel.querySelectorAll('[data-seconds]').forEach(b=>b.onclick=()=>{pause();duration=Number(b.dataset.seconds);remaining=duration;display();feedback.textContent='Recupero impostato a '+duration+' secondi.'});
 display();
+})();</script><style id="fk-color-nutrition-v7">
+/* Carbon-black surfaces, distinct high-saturation LED section identities */
+:root{--fk-dashboard:#e9ff00;--fk-food:#49ff27;--fk-train:#00dfff;--fk-diary:#d342ff}
+body{background:#030404!important;color:#f5f6f3!important}
+.section .card,.section .fk-feature-card,.section .fk-workout-tools{background:#090c0c!important;box-shadow:none!important}
+.nav [data-page="dashboard"]{--section-led:var(--fk-dashboard)}
+.nav [data-page="alimentazione"]{--section-led:var(--fk-food)}
+.nav [data-page="allenamenti"]{--section-led:var(--fk-train)}
+.nav [data-page="diario"]{--section-led:var(--fk-diary)}
+.nav [data-page]{color:var(--section-led)!important}
+.nav [data-page].active{background:color-mix(in srgb,var(--section-led) 12%,#050606)!important;border-color:color-mix(in srgb,var(--section-led) 55%,#101010)!important}
+.nav [data-page].active::after{background:var(--section-led)!important}
+#dashboard{--page-led:var(--fk-dashboard)}
+#alimentazione{--page-led:var(--fk-food)}
+#allenamenti{--page-led:var(--fk-train)}
+#diario{--page-led:var(--fk-diary)}
+.section:not(#dashboard) .sectiontitle{color:var(--page-led)!important;text-shadow:0 0 13px color-mix(in srgb,var(--page-led) 23%,transparent)}
+.section:not(#dashboard) .card,.section:not(#dashboard) .fk-feature-card,.section:not(#dashboard) .fk-workout-tools{border-color:color-mix(in srgb,var(--page-led) 25%,#202424)!important}
+.section:not(#dashboard) .action,.section:not(#dashboard) .fk-primary{background:var(--page-led)!important;color:#030505!important;border-color:var(--page-led)!important;box-shadow:none!important}
+.section:not(#dashboard) input:focus,.section:not(#dashboard) textarea:focus,.section:not(#dashboard) select:focus{outline:1px solid var(--page-led)!important;border-color:var(--page-led)!important}
+#alimentazione .number,#allenamenti .number{color:var(--page-led)!important}
+.fk-nutrition{background:#090d0a;border:1px solid #25422b;border-radius:19px;padding:17px;margin:12px 0 19px}
+.fk-nutrition h3{color:#54ff38;font-size:15px;letter-spacing:1.5px;margin:0 0 7px}
+.fk-nutrition p{font-size:12px;color:#a6b6a8;margin:6px 0 12px}
+.fk-nutrition-top{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:14px 0}
+.fk-nutrition-stat{background:#101711;border:1px solid #243d2b;border-radius:12px;padding:12px 7px;text-align:center}
+.fk-nutrition-stat strong{display:block;color:#e9ff38;font-size:clamp(17px,5vw,24px);font-variant-numeric:tabular-nums}
+.fk-nutrition-stat small{display:block;color:#a4b5a8;font-size:10px}
+.fk-nutrition-bar{height:9px;background:#273329;border-radius:99px;overflow:hidden}
+.fk-nutrition-bar>div{height:100%;width:0;background:linear-gradient(90deg,#35ff45,#e8ff00);transition:width .25s}
+.fk-nutrition-form{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:13px 0}
+.fk-nutrition-form input{background:#111712;border:1px solid #36533b;border-radius:10px;padding:11px;color:#fff;min-width:0;flex:1 1 100px}
+.fk-nutrition-form button,.fk-nutrition button{background:#4dff36;border:0;border-radius:10px;color:#051006;font-weight:900;padding:11px}
+.fk-macros{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:12px 0}
+.fk-macro{padding:10px 6px;border:1px solid #26372c;border-radius:10px;background:#101410;text-align:center}
+.fk-macro strong{display:block;font-size:19px}
+.fk-macro small{color:#a5b0a6;font-size:10px}
+.fk-macro:nth-child(1) strong{color:#55efff}.fk-macro:nth-child(2) strong{color:#f9d729}.fk-macro:nth-child(3) strong{color:#ff59c8}
+.fk-food-quick{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.fk-food-quick button{background:#111811;color:#dcffdf;border:1px solid #2a482f;padding:12px 8px;font-size:12px;text-align:left}
+.fk-food-quick button span{display:block;color:#91a795;font-size:10px;margin-top:4px}
+.fk-food-detail{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.fk-food-detail input{width:100%;min-width:0;background:#111712;color:#fff;border:1px solid #36533b;border-radius:9px;padding:10px 7px}
+.fk-food-detail label{font-size:11px;color:#a6b8aa}
+.fk-nutrition-note{font-size:11px;color:#94a498}
+@media(max-width:700px){.fk-nutrition{padding:14px}.fk-nutrition-top{gap:5px}.fk-nutrition-stat{padding:10px 3px}}
+</style>
+<script id="fk-nutrition-v7">(function(){
+const food=document.getElementById('alimentazione');if(!food)return;
+const store='fk-nutrition-v1',date=()=>new Date().toLocaleDateString('sv-SE');
+let settings={goal:2000,entries:[],date:date()};
+try{const v=JSON.parse(localStorage.getItem(store)||'null');if(v&&typeof v==='object'){settings.goal=Number.isFinite(+v.goal)?Math.min(6000,Math.max(500,+v.goal)):2000;settings.entries=Array.isArray(v.entries)?v.entries:[];settings.date=v.date||date()}}catch(e){}
+if(settings.date!==date()){settings.entries=[];settings.date=date()}
+const saveNutrition=()=>{try{localStorage.setItem(store,JSON.stringify(settings))}catch(e){document.getElementById('fk-nutrition-message').textContent='Impossibile salvare i dati sul dispositivo.'}};
+const box=document.createElement('article');box.className='fk-nutrition';
+box.innerHTML='<h3>CALORIE & MACRO</h3><p>Il tuo riepilogo alimentare di oggi</p><div class="fk-nutrition-top"><div class="fk-nutrition-stat"><strong id="fk-cal-eaten">0</strong><small>Assunte</small></div><div class="fk-nutrition-stat"><strong id="fk-cal-remaining">2000</strong><small>Rimanenti</small></div><div class="fk-nutrition-stat"><strong id="fk-cal-target">2000</strong><small>Obiettivo</small></div></div><div class="fk-nutrition-bar"><div id="fk-cal-fill"></div></div><form id="fk-cal-goal-form" class="fk-nutrition-form"><input type="number" id="fk-cal-goal" min="500" max="6000" required aria-label="Obiettivo calorico giornaliero" placeholder="Obiettivo kcal"><button>AGGIORNA</button></form><h3>MACRONUTRIENTI REGISTRATI</h3><div class="fk-macros"><div class="fk-macro"><strong id="fk-protein">0 g</strong><small>Proteine</small></div><div class="fk-macro"><strong id="fk-carbs">0 g</strong><small>Carboidrati</small></div><div class="fk-macro"><strong id="fk-fat">0 g</strong><small>Grassi</small></div></div><p>I macro sono calcolati solo per i pasti inseriti con i grammi indicati qui sotto.</p><h3>PASTO DETTAGLIATO</h3><form id="fk-detail-form"><div class="fk-nutrition-form"><input id="fk-detail-name" maxlength="60" placeholder="Nome alimento o pasto" required><input id="fk-detail-kcal" type="number" min="1" max="5000" placeholder="kcal" required></div><div class="fk-food-detail"><label>Proteine (g)<input id="fk-detail-p" type="number" min="0" max="500" step=".1" value="0" required></label><label>Carboidrati (g)<input id="fk-detail-c" type="number" min="0" max="500" step=".1" value="0" required></label><label>Grassi (g)<input id="fk-detail-f" type="number" min="0" max="500" step=".1" value="0" required></label></div><div class="fk-nutrition-form"><button type="submit">AGGIUNGI PASTO</button><button type="button" id="fk-detail-undo" style="background:#1d2b20;color:#bfffba;border:1px solid #3b5540">ANNULLA ULTIMO</button></div></form><h3>IDEA PASTO</h3><p>Esempi indicativi, non piani dietetici prescritti. Le quantità effettive variano.</p><div class="fk-food-quick" id="fk-food-ideas"></div><p id="fk-nutrition-message" role="status" class="fk-nutrition-note"></p><p class="fk-nutrition-note">Dati salvati solo su questo dispositivo. L’obiettivo calorico non è una raccomandazione medica.</p>';
+food.insertBefore(box,food.querySelector('.grid'));
+const $=id=>document.getElementById(id);
+const ideas=[['Yogurt e frutta',280,15,38,7],['Riso e pollo',580,40,68,14],['Uova e pane',390,24,33,18],['Pasta e legumi',520,24,79,12]];
+ideas.forEach(([name,kcal,p,c,f])=>{const b=document.createElement('button');b.type='button';b.innerHTML=name+'<span>'+kcal+' kcal · esempio</span>';b.onclick=()=>{$('fk-detail-name').value=name;$('fk-detail-kcal').value=kcal;$('fk-detail-p').value=p;$('fk-detail-c').value=c;$('fk-detail-f').value=f;$('fk-nutrition-message').textContent='Valori indicativi: verifica ingredienti e porzioni prima di registrare.'};$('fk-food-ideas').append(b)});
+function refresh(){
+ if(settings.date!==date()){settings.date=date();settings.entries=[];saveNutrition()}
+ const basic=Array.isArray(state?.meals)?state.meals.reduce((sum,m)=>sum+(Number(m.kcal)||0),0):0;
+ const detail=settings.entries.reduce((a,e)=>({kcal:a.kcal+e.kcal,p:a.p+e.p,c:a.c+e.c,f:a.f+e.f}),{kcal:0,p:0,c:0,f:0});
+ const eaten=basic+detail.kcal;
+ $('fk-cal-eaten').textContent=Math.round(eaten).toLocaleString('it-IT');
+ $('fk-cal-remaining').textContent=Math.round(settings.goal-eaten).toLocaleString('it-IT');
+ $('fk-cal-target').textContent=settings.goal.toLocaleString('it-IT');
+ $('fk-cal-fill').style.width=Math.min(100,Math.max(0,eaten/settings.goal*100))+'%';
+ $('fk-protein').textContent=detail.p.toFixed(1)+' g';$('fk-carbs').textContent=detail.c.toFixed(1)+' g';$('fk-fat').textContent=detail.f.toFixed(1)+' g';
+ $('fk-cal-goal').value=settings.goal;
+}
+$('fk-cal-goal-form').addEventListener('submit',e=>{e.preventDefault();const n=Number($('fk-cal-goal').value);if(!Number.isInteger(n)||n<500||n>6000)return;settings.goal=n;saveNutrition();refresh();$('fk-nutrition-message').textContent='Obiettivo aggiornato.'});
+$('fk-detail-form').addEventListener('submit',e=>{e.preventDefault();const name=$('fk-detail-name').value.trim(),kcal=Number($('fk-detail-kcal').value),p=Number($('fk-detail-p').value),c=Number($('fk-detail-c').value),f=Number($('fk-detail-f').value);if(!name||!Number.isFinite(kcal)||kcal<1||kcal>5000||[p,c,f].some(n=>!Number.isFinite(n)||n<0||n>500))return;settings.entries.push({name,kcal,p,c,f});saveNutrition();refresh();e.target.reset();$('fk-nutrition-message').textContent=name+' registrato nel diario dettagliato.'});
+$('fk-detail-undo').onclick=()=>{if(settings.entries.length){settings.entries.pop();saveNutrition();refresh();$('fk-nutrition-message').textContent='Ultimo pasto dettagliato annullato.'}};
+$('mealform')?.addEventListener('submit',()=>setTimeout(refresh,0));
+$('fk-undo-meal')?.addEventListener('click',()=>setTimeout(refresh,0));
+refresh();
 })();</script><script type="module" src="./firebase-auth.js"></script></body></html>
