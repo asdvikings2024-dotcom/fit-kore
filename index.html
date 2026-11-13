@@ -422,4 +422,57 @@ const update=()=>{let count=0;try{count=Array.isArray(state?.workouts)?state.wor
 const done=count>0;document.getElementById('fk-mission-count').textContent=done?'1 / 1 ✓':'0 / 1';document.getElementById('fk-mission-title').textContent=done?'MISSIONE COMPLETATA!':'Completa 1 allenamento';document.getElementById('fk-mission-sub').textContent=done?'Ottimo lavoro. Torna domani per una nuova sfida.':'Anche 10 minuti contano. Inizia adesso.';document.getElementById('fk-mission-fill').style.width=done?'100%':'0%';document.getElementById('fk-mission-go').textContent=done?'VEDI ALLENAMENTI ↗':'INIZIA LA MISSIONE ↗'};
 document.getElementById('fk-mission-go').addEventListener('click',()=>document.querySelector('[data-page="allenamenti"]')?.click());
 update();document.getElementById('trainform')?.addEventListener('submit',()=>setTimeout(update,0));document.getElementById('fk-undo-workout')?.addEventListener('click',()=>setTimeout(update,0));document.getElementById('fk-preset-save')?.addEventListener('click',()=>setTimeout(update,0));document.addEventListener('visibilitychange',()=>{if(!document.hidden)update()});
-})();</script><script type="module" src="./firebase-auth.js"></script></body></html>
+})();</script><style id="fk-black-edition-v5">
+/* FIT KORE — Black Edition: restrained contrast, fewer competing glows */
+:root{--lime:#dfff28!important;--acid:#dfff28!important}
+html,body{background:#050606!important;color:#f3f5ef}
+body{background-image:none!important}
+.layout,.main,.section{background:transparent!important}
+.top{border-color:#242a20!important}
+.top .eyebrow{color:#818c7b!important}
+#dashboard .hx-welcome{margin-bottom:13px!important}
+#dashboard .hx-welcome h2{color:#f4f6f0!important;letter-spacing:-.9px}
+#dashboard .hx-welcome h2 span{color:#dfff28!important;text-shadow:none!important}
+#dashboard .hx-streak{display:none!important}
+#dashboard .hx-hero{background:linear-gradient(132deg,#111510 0%,#080a08 76%)!important;border:1px solid #353f2d!important;box-shadow:none!important;border-radius:21px!important}
+#dashboard .hx-hero:before{opacity:.2!important}
+#dashboard .hx-hero-k{opacity:.085!important;text-shadow:none!important;color:#dfff28!important}
+#dashboard .hx-hex{opacity:.13!important}
+#dashboard .hx-hero h2{color:#f5f6f1!important}
+#dashboard .hx-hero h2 em{color:#dfff28!important;text-shadow:none!important}
+#dashboard .hx-hero-copy>span{color:#899a7c!important}
+#dashboard .hx-start{background:#dfff28!important;color:#10130b!important;border:1px solid #dfff28!important;box-shadow:none!important;border-radius:15px!important;min-height:59px!important}
+#dashboard .hx-start strong,#dashboard .hx-start span{color:#11150a!important;text-shadow:none!important}
+#dashboard .fk-mission{background:#101410!important;border:1px solid #2c3926!important;box-shadow:none!important;border-radius:17px!important}
+#dashboard .fk-mission:after{opacity:.35!important}
+#dashboard .fk-mission-head{color:#a9bb97!important}
+#dashboard .fk-mission h3{color:#f3f5ef!important}
+#dashboard .fk-mission-track{background:#272e24!important}
+#dashboard .fk-mission-fill{background:#dfff28!important;box-shadow:none!important}
+#dashboard .fk-mission button{background:#20291a!important;color:#dfff28!important;border:1px solid #455735!important}
+#dashboard .kore-ring-card,#dashboard .kore-mini,#dashboard .kore-graph,
+#dashboard .card,#dashboard .fk-feature-card,
+#alimentazione .fk-feature-card,#allenamenti .fk-feature-card,#diario .fk-feature-card{background:#0e110f!important;border:1px solid #293128!important;box-shadow:none!important;animation:none!important}
+#dashboard .kore-ring{animation:none!important;box-shadow:none!important;filter:none!important}
+#dashboard .kore-ring-card .kore-live{color:#8f9c83!important}
+#dashboard .kore-ring-card .kore-ring-footer{color:#a3af98!important}
+#dashboard .kore-mini-icon{filter:none!important}
+#dashboard .kore-section-heading span{color:#8b9785!important}
+#dashboard .hx-tiles button{background:#101310!important;box-shadow:none!important}
+.nav{background:#080a08f5!important;border-top:1px solid #283024!important;box-shadow:none!important;backdrop-filter:blur(18px)}
+.nav button{box-shadow:none!important}
+.nav button.active{background:#151d10!important;border-color:#3b4b28!important}
+.nav .fk-k-center,.nav #fk-quick-open{box-shadow:0 0 15px #dfff003a!important}
+.kore-access-launch{box-shadow:none!important}
+button:focus-visible,a:focus-visible{outline:2px solid #dfff28!important;outline-offset:3px}
+@media(max-width:700px){
+ #dashboard .hx-welcome{margin:3px 0 11px!important}
+ #dashboard .hx-hero{min-height:178px!important;padding:19px!important;margin-bottom:10px!important}
+ #dashboard .hx-hero h2{font-size:clamp(29px,8vw,41px)!important}
+ #dashboard .hx-start{margin:8px 0 12px!important}
+ #dashboard .fk-mission{padding:15px!important;margin:0 0 16px!important}
+ #dashboard .kore-overview{margin-top:8px!important}
+ .nav:before{opacity:.17!important;animation:none!important}
+}
+@media(prefers-reduced-motion:reduce){#dashboard .hx-hero:before{animation:none!important}}
+</style><script type="module" src="./firebase-auth.js"></script></body></html>
