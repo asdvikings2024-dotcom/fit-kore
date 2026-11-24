@@ -278,3 +278,7 @@ html body #chart .bar.k-grow{animation:k-grow .9s var(--k-ease) both;animation-d
   .k-reveal{opacity:1!important;transform:none!important;filter:none!important}
   .section.active.k-enter,#chart .bar.k-grow,.k-bump{animation:none!important}
 }
+
+/* Anello calorie: solo il progresso reale (prima mostrava sempre una coda ciano/viola anche a 0 kcal) */
+html body .kore-ring{background:conic-gradient(from -90deg,var(--k-lime) 0 calc(var(--ring) * 100 / 70),rgba(255,255,255,.07) calc(var(--ring) * 100 / 70) 100%)!important}
+html body .kore-ring-details > div:nth-child(2) i,html body .kore-ring-details > div:nth-child(3) i{background:var(--k-lime)!important}
