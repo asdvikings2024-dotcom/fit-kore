@@ -1,0 +1,280 @@
+/* =====================================================================
+   FIT KORE — Redesign "KORE PULSE" (v22)
+   Livello finale: unifica palette, tipografia e componenti sopra gli
+   stili storici di app.css. Effetti "wow" in fondo al file.
+   ===================================================================== */
+:root{
+  --k-bg:#060807;
+  --k-bg2:#0b0f0d;
+  --k-surface:rgba(255,255,255,.035);
+  --k-surface-2:rgba(255,255,255,.06);
+  --k-line:rgba(255,255,255,.08);
+  --k-line-strong:rgba(223,255,0,.28);
+  --k-lime:#dfff00;
+  --k-lime-soft:rgba(223,255,0,.12);
+  --k-cyan:#5ee7ff;
+  --k-text:#f3f6ee;
+  --k-muted:#98a196;
+  --k-radius:22px;
+  --k-radius-sm:14px;
+  --k-head:"Barlow Condensed",Impact,"Arial Narrow",sans-serif;
+  --k-body:Inter,system-ui,-apple-system,"Segoe UI",Arial,sans-serif;
+  --k-ease:cubic-bezier(.2,.8,.2,1);
+}
+
+/* ---------- Base ---------- */
+html body,html body .section,html body .nav,html body .side{--section-led:#dfff00!important}
+html body{
+  background:var(--k-bg)!important;
+  color:var(--k-text)!important;
+  font-family:var(--k-body)!important;
+  -webkit-font-smoothing:antialiased;
+}
+html body .layout,html body .main{background:transparent!important}
+html body .main{position:relative;z-index:1}
+
+/* Sfondo aurora animato */
+.k-aurora{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.k-aurora i{position:absolute;border-radius:50%;filter:blur(70px);opacity:.55;will-change:transform}
+.k-aurora i:nth-child(1){width:70vmax;height:70vmax;left:-30vmax;top:-35vmax;background:radial-gradient(circle,rgba(223,255,0,.22),transparent 65%);animation:k-drift-a 22s ease-in-out infinite alternate}
+.k-aurora i:nth-child(2){width:60vmax;height:60vmax;right:-30vmax;top:20vh;background:radial-gradient(circle,rgba(94,231,255,.14),transparent 65%);animation:k-drift-b 28s ease-in-out infinite alternate}
+.k-aurora i:nth-child(3){width:50vmax;height:50vmax;left:10vw;bottom:-30vmax;background:radial-gradient(circle,rgba(140,255,90,.12),transparent 65%);animation:k-drift-a 34s ease-in-out infinite alternate-reverse}
+.k-aurora::after{content:"";position:absolute;inset:0;opacity:.06;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+@keyframes k-drift-a{to{transform:translate3d(12vw,10vh,0) scale(1.15)}}
+@keyframes k-drift-b{to{transform:translate3d(-14vw,-8vh,0) scale(1.1)}}
+
+/* ---------- Tipografia ---------- */
+html body h1,html body h2,html body .section h3,html body .hx-hero h2{font-family:var(--k-head)!important;letter-spacing:.01em}
+html body .section h3{
+  color:var(--k-text)!important;font-size:19px!important;font-weight:800!important;
+  text-transform:uppercase;letter-spacing:.04em!important;display:flex;align-items:center;gap:10px;
+  background:none!important;-webkit-text-fill-color:currentColor!important;text-shadow:none!important;
+}
+html body .section h3::before{content:"";width:4px;height:18px;border-radius:4px;background:var(--k-lime);box-shadow:0 0 12px var(--k-lime);flex:none}
+html body .section p,html body .muted{color:var(--k-muted)!important}
+html body .section strong{color:inherit}
+
+/* Titoli ripetuti: l'intestazione mostra già il nome della pagina */
+html body .section > h2.sectiontitle{display:none!important}
+
+/* ---------- Intestazione ---------- */
+html body .top{
+  background:rgba(10,13,11,.55)!important;border:1px solid var(--k-line)!important;
+  border-radius:var(--k-radius)!important;box-shadow:none!important;
+  backdrop-filter:blur(18px) saturate(140%);-webkit-backdrop-filter:blur(18px) saturate(140%);
+  position:sticky!important;top:10px;z-index:40;
+}
+html body .top .eyebrow{color:var(--k-lime)!important;letter-spacing:.18em!important;font-size:10.5px!important;font-weight:700!important}
+html body #pagetitle{font-size:26px!important;color:var(--k-text)!important;text-transform:uppercase;line-height:1!important}
+html body #replay-intro{display:none!important}
+
+/* ---------- Superfici: tutte le card con lo stesso linguaggio ---------- */
+html body .section article,
+html body .section .card,
+html body .kore-ring-card,html body .kore-graph,html body .kore-mini-grid > article,
+html body .fk-mission,html body .hx-hero{
+  background:linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015))!important;
+  border:1px solid var(--k-line)!important;border-radius:var(--k-radius)!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.05) inset,0 20px 40px -24px rgba(0,0,0,.8)!important;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  position:relative;overflow:hidden;isolation:isolate;
+}
+html body .section article article{background:var(--k-surface)!important;box-shadow:none!important}
+
+/* ---------- Campi ---------- */
+html body .section input:not([type=checkbox]):not([type=radio]):not([type=range]):not([type=file]),
+html body .section select,html body .section textarea,html body .field{
+  background:rgba(0,0,0,.35)!important;border:1px solid var(--k-line)!important;color:var(--k-text)!important;
+  border-radius:var(--k-radius-sm)!important;font-family:var(--k-body)!important;
+  transition:border-color .2s,box-shadow .2s;
+}
+html body .section input:focus,html body .section select:focus,html body .section textarea:focus{
+  outline:none!important;border-color:var(--k-lime)!important;box-shadow:0 0 0 4px var(--k-lime-soft)!important}
+html body input[type=checkbox]{accent-color:var(--k-lime)}
+
+/* ---------- Pulsanti ---------- */
+html body .section button,html body .section .fk-import-label{
+  font-family:var(--k-body)!important;font-weight:700!important;border-radius:var(--k-radius-sm)!important;
+  background:var(--k-surface-2)!important;color:var(--k-text)!important;border:1px solid var(--k-line)!important;
+  box-shadow:none!important;text-shadow:none!important;transition:transform .15s var(--k-ease),background .2s,border-color .2s;
+  position:relative;overflow:hidden;
+}
+html body .section button:hover{border-color:var(--k-line-strong)!important}
+html body .section button:active{transform:scale(.97)}
+/* Azioni primarie */
+html body .section .action,html body .section .fk-primary,html body #fk-mission-go,html body #fk-live-start,
+html body #fk-preset-start,html body #fk-timer-toggle,html body .section form button:not([type=button]),
+html body .k-tabs button[aria-selected=true]{
+  background:var(--k-lime)!important;color:#0b0f00!important;border-color:transparent!important;
+  box-shadow:0 10px 30px -10px rgba(223,255,0,.55)!important;
+}
+
+/* ---------- Dashboard ---------- */
+html body .fk-titanium-label,html body .hx-welcome{display:none!important}
+html body .kore-shortcuts,html body .hx-tiles{display:none!important}
+html body .hx-hero{min-height:170px}
+html body .hx-hero h2{font-size:44px!important;line-height:.92!important;color:var(--k-text)!important}
+html body .hx-hero em,html body .hx-hero h2 em{color:var(--k-lime)!important;font-style:normal!important;text-shadow:0 0 28px rgba(223,255,0,.45)}
+html body .hx-hero-k{color:transparent!important;-webkit-text-stroke:1.5px rgba(223,255,0,.35);text-shadow:none!important;opacity:1!important;transition:transform .2s linear}
+html body .hx-start{
+  background:var(--k-lime)!important;color:#0b0f00!important;border:0!important;border-radius:var(--k-radius)!important;
+  box-shadow:0 18px 50px -18px rgba(223,255,0,.8),0 0 0 1px rgba(255,255,255,.25) inset!important;
+  position:relative;overflow:hidden;font-family:var(--k-head)!important;
+}
+html body .hx-start strong{font-style:normal!important;letter-spacing:.06em}
+html body .hx-start .k-ico{width:24px;height:24px}
+html body .fk-mission-track{background:rgba(255,255,255,.08)!important;border-radius:9px;overflow:hidden}
+html body .fk-mission-track > *{background:linear-gradient(90deg,var(--k-lime),#9dff4a)!important;box-shadow:0 0 16px var(--k-lime)}
+html body .kore-section-heading h3{font-family:var(--k-head)!important;font-size:24px!important;text-transform:uppercase}
+html body .kore-section-heading span{color:var(--k-muted)!important}
+/* Anello calorie */
+html body .kore-ring{filter:drop-shadow(0 0 22px rgba(223,255,0,.25))}
+html body .kore-ring-details b,html body .kore-ring-details strong{font-family:var(--k-head)!important}
+html body .k-goal-link{cursor:pointer;border-radius:12px;transition:background .2s}
+html body .k-goal-link:hover{background:var(--k-surface)}
+html body .k-goal-link::after{content:"Modifica ›";display:block;white-space:nowrap;font-size:11px;color:var(--k-lime);font-weight:700;letter-spacing:.04em;margin-top:2px}
+/* Tessera passi: promessa non mantenuta, nascosta */
+html body .kore-mini-grid > article:first-child{display:none!important}
+html body .kore-mini-grid{grid-template-columns:1fr!important}
+/* Grafico settimanale reale */
+html body #chart{display:flex!important;align-items:flex-end;gap:10px;height:170px!important;padding-top:28px}
+html body #chart .bar{
+  flex:1;position:relative;border-radius:10px 10px 6px 6px!important;min-height:6px;
+  background:linear-gradient(180deg,var(--k-cyan),rgba(94,231,255,.25))!important;box-shadow:0 0 18px rgba(94,231,255,.25)!important;
+  transform-origin:bottom;
+}
+html body #chart .bar.is-today{background:linear-gradient(180deg,var(--k-lime),rgba(223,255,0,.25))!important;box-shadow:0 0 22px rgba(223,255,0,.45)!important}
+html body #chart .bar.is-empty{background:rgba(255,255,255,.07)!important;box-shadow:none!important}
+html body #chart .bar span{position:absolute;bottom:-22px;left:0;right:0;text-align:center;font-size:11px;color:var(--k-muted)}
+html body #chart .bar b{position:absolute;top:-20px;left:0;right:0;text-align:center;font-size:11px;font-weight:800;color:var(--k-text)}
+html body .kore-graph{padding-bottom:34px!important}
+html body .k-chart-empty{position:absolute;left:0;right:0;top:46%;text-align:center;font-size:13px;color:var(--k-muted)}
+
+/* ---------- Navigazione ---------- */
+html body .side{
+  background:rgba(6,8,7,.72)!important;border-top:1px solid var(--k-line)!important;box-shadow:0 -20px 40px -20px #000!important;
+  backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%);
+}
+html body .nav{position:relative}
+html body .nav button:not(.fk-k-center){
+  background:transparent!important;border:0!important;box-shadow:none!important;color:var(--k-muted)!important;
+  font-family:var(--k-body)!important;font-weight:600!important;font-size:10.5px!important;gap:5px!important;
+  transition:color .25s;position:relative;z-index:1;
+}
+html body .nav button:not(.fk-k-center)::before{display:none!important;content:none!important}
+html body .nav button .k-ico{width:22px;height:22px;transition:transform .35s var(--k-ease)}
+html body .nav button.active:not(.fk-k-center){color:var(--k-lime)!important}
+html body .nav button.active .k-ico{transform:translateY(-2px) scale(1.08);filter:drop-shadow(0 0 8px rgba(223,255,0,.7))}
+html body .nav .k-nav-pill{
+  position:absolute!important;z-index:0;border-radius:16px;pointer-events:none;margin:0!important;padding:0!important;
+  background:linear-gradient(180deg,rgba(223,255,0,.14),rgba(223,255,0,.04));border:1px solid rgba(223,255,0,.25);
+  transition:left .45s var(--k-ease),width .45s var(--k-ease),top .45s var(--k-ease),height .45s var(--k-ease);
+}
+html body .nav #fk-quick-open.fk-k-center{
+  display:flex!important;align-items:center!important;justify-content:center!important;text-align:center!important;
+  animation:none!important;filter:none!important;-webkit-text-fill-color:#0b0f00!important;letter-spacing:0!important;border:0!important;padding:0!important;
+  font-family:var(--k-head)!important;color:#0b0f00!important;font-weight:900!important;background:var(--k-lime)!important;border-radius:50%!important;
+  width:56px!important;height:56px!important;align-self:center;font-size:30px!important;line-height:56px!important;
+  box-shadow:0 0 0 6px rgba(223,255,0,.12),0 10px 30px -6px rgba(223,255,0,.7)!important;text-shadow:none!important;
+  position:relative;z-index:2;
+}
+html body .nav #fk-quick-open.fk-k-center::after{
+  content:"";position:absolute;inset:-7px;border-radius:50%;pointer-events:none;
+  background:conic-gradient(from 0deg,transparent 0 70%,rgba(223,255,0,.9) 85%,transparent);
+  -webkit-mask:radial-gradient(circle,transparent 61%,#000 62%);mask:radial-gradient(circle,transparent 61%,#000 62%);
+  animation:k-spin 3.2s linear infinite;
+}
+@keyframes k-spin{to{transform:rotate(360deg)}}
+
+/* Desktop: barra laterale */
+@media (min-width:701px){
+  html body .side{border-top:0!important;border-right:1px solid var(--k-line)!important;box-shadow:none!important}
+  html body .nav{background:transparent!important;border:0!important;box-shadow:none!important}
+  html body .nav button:not(.fk-k-center){flex-direction:row!important;justify-content:flex-start!important;gap:12px!important;font-size:15px!important;padding:14px 16px!important;min-height:52px}
+  html body .nav #fk-quick-open.fk-k-center{margin:14px auto 0!important}
+  html body .top{top:16px}
+  html body .k-tabs{top:110px}
+}
+
+/* ---------- Schede Allenamenti ---------- */
+.k-tabs{
+  position:sticky;top:86px;z-index:30;display:grid;grid-template-columns:repeat(3,1fr);gap:6px;padding:6px;margin:0 0 16px;
+  background:rgba(10,13,11,.7);border:1px solid var(--k-line);border-radius:18px;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+}
+html body .k-tabs button{
+  border:0!important;background:transparent!important;color:var(--k-muted)!important;padding:11px 6px!important;
+  font:700 13px/1 var(--k-body)!important;border-radius:13px!important;display:flex;align-items:center;justify-content:center;gap:7px;
+}
+html body .k-tabs button .k-ico{width:17px;height:17px}
+html body .k-tabs button[aria-selected=true]{color:#0b0f00!important}
+html body #allenamenti > [data-k-tab][hidden]{display:none!important}
+
+/* ---------- Notifica toast ---------- */
+.k-toast{
+  position:fixed;left:50%;bottom:112px;z-index:99999;transform:translate(-50%,30px) scale(.95);opacity:0;
+  padding:14px 20px;border-radius:18px;background:rgba(14,18,10,.92);border:1px solid rgba(223,255,0,.4);
+  color:var(--k-text);font:700 15px/1.2 var(--k-body);box-shadow:0 20px 60px -10px rgba(223,255,0,.45);
+  transition:transform .5s var(--k-ease),opacity .4s;backdrop-filter:blur(14px);white-space:nowrap;
+}
+.k-toast.show{transform:translate(-50%,0) scale(1);opacity:1}
+.k-toast b{color:var(--k-lime)}
+.k-confetti{position:fixed;inset:0;z-index:99998;pointer-events:none}
+
+/* ---------- Intro più rapida ---------- */
+#kore-intro .kore-intro-k{animation-duration:1.2s!important}
+#kore-intro.is-done{transition-duration:.45s!important}
+
+/* =====================================================================
+   EFFETTI WOW
+   ===================================================================== */
+/* 1. Entrata a cascata delle card */
+.k-reveal{opacity:0;transform:translateY(22px) scale(.985);filter:blur(6px)}
+.k-reveal.is-in{opacity:1;transform:none;filter:none;transition:opacity .7s var(--k-ease),transform .7s var(--k-ease),filter .7s var(--k-ease);transition-delay:var(--k-delay,0ms)}
+
+/* 2. Transizione tra le pagine */
+.section.active.k-enter{animation:k-page-in .55s var(--k-ease)}
+@keyframes k-page-in{from{opacity:0;transform:translateY(14px);filter:blur(8px)}to{opacity:1;transform:none;filter:none}}
+
+/* 3. Riflesso che segue il dito / il mouse */
+.k-spot::before{
+  content:"";position:absolute;inset:0;z-index:-1;pointer-events:none;opacity:0;transition:opacity .35s;
+  background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),rgba(223,255,0,.10),transparent 45%);
+}
+.k-spot::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;opacity:0;transition:opacity .35s;padding:1px;
+  background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(223,255,0,.65),transparent 50%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+}
+.k-spot.is-lit::before,.k-spot.is-lit::after{opacity:1}
+
+/* 4. Lampo di luce sui pulsanti principali */
+html body .hx-start::after,html body #fk-mission-go::after,html body #fk-live-start::after{
+  content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;pointer-events:none;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.75),transparent);transform:skewX(-20deg);
+  animation:k-shine 3.6s ease-in-out infinite;
+}
+@keyframes k-shine{0%,60%{left:-60%}100%{left:130%}}
+html body .hx-start{animation:k-breathe 3.6s ease-in-out infinite}
+@keyframes k-breathe{50%{box-shadow:0 22px 70px -14px rgba(223,255,0,1),0 0 0 1px rgba(255,255,255,.25) inset}}
+
+/* 5. Onda al tocco */
+.k-ripple{position:absolute;border-radius:50%;pointer-events:none;transform:scale(0);opacity:.45;background:currentColor;animation:k-ripple .6s ease-out forwards}
+@keyframes k-ripple{to{transform:scale(1);opacity:0}}
+
+/* 6. Barre del grafico che crescono */
+html body #chart .bar.k-grow{animation:k-grow .9s var(--k-ease) both;animation-delay:var(--k-delay,0ms)}
+@keyframes k-grow{from{transform:scaleY(0)}}
+
+/* 7. Numeri che "pulsano" quando cambiano */
+.k-bump{animation:k-bump .6s var(--k-ease)}
+@keyframes k-bump{40%{transform:scale(1.18);color:var(--k-lime);text-shadow:0 0 18px rgba(223,255,0,.7)}}
+
+/* Accessibilità: niente movimento per chi lo ha disattivato */
+@media (prefers-reduced-motion:reduce){
+  .k-aurora i,.nav .fk-k-center::after,.hx-start,.hx-start::after,#fk-mission-go::after,#fk-live-start::after{animation:none!important}
+  .k-reveal{opacity:1!important;transform:none!important;filter:none!important}
+  .section.active.k-enter,#chart .bar.k-grow,.k-bump{animation:none!important}
+}

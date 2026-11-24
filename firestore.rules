@@ -20,6 +20,17 @@ service cloud.firestore {
       && request.resource.data.reviewedAt == request.time;
    allow delete: if false;
   }
+  function approved() { return signedIn() && get(/databases/$(database)/documents/members/$(request.auth.uid)).data.status == 'approved'; }
+  // Dati personali dell'app: solo il proprietario, e solo se approvato (o amministratore).
+  match /users/{uid} {
+   allow read: if signedIn() && request.auth.uid == uid && (admin() || approved());
+   allow write: if signedIn() && request.auth.uid == uid && (admin() || approved())
+      && request.resource.data.keys().hasOnly(['data','rev','updatedAt'])
+      && request.resource.data.data is map
+      && request.resource.data.data.size() <= 40
+      && request.resource.data.rev is int
+      && request.resource.data.updatedAt == request.time;
+  }
   match /{document=**} { allow read, write: if false; }
  }
 }
