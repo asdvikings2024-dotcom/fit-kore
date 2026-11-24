@@ -1,4 +1,5 @@
 import {firebaseConfig} from './firebase-config.js';
+import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js';
 
 const required=['apiKey','authDomain','projectId','appId'];
 if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key].trim())){
@@ -41,7 +42,17 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
   function showGate(text){document.documentElement.classList.remove('fk-auth-approved');document.body.dataset.koreAccess='pending';modal.hidden=false;document.body.style.overflow='';status.textContent=text}
   function showApp(){document.documentElement.classList.add('fk-auth-approved');document.body.dataset.koreAccess='approved';modal.hidden=true;document.body.style.overflow=''}
   const signout=document.createElement('button');signout.type='button';signout.className='kore-access-secondary';signout.textContent='Esci dall’account';
-  signout.addEventListener('click',async()=>{try{await A.signOut(auth)}catch(e){report(e)}});
+  let flushSync=null;
+  signout.addEventListener('click',async()=>{
+   try{
+    status.textContent='Salvataggio dei dati e uscita…';
+    if(flushSync)await flushSync();
+    stopSync();flushSync=null;
+    await A.signOut(auth);
+    clearLocalData(); // i dati restano nel tuo account, non su questo dispositivo
+    location.reload();
+   }catch(e){report(e)}
+  });
   document.querySelector('.kore-access-panel')?.append(signout);
   const memberRef=uid=>F.doc(db,'members',uid);
   async function getMember(user){
@@ -57,7 +68,7 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
   async function refreshSession(user){
    const current=++sequence;
    $('fk-admin-panel')?.remove();
-   if(!user){showGate('Accedi oppure richiedi l’iscrizione.');return}
+   if(!user){stopSync();flushSync=null;showGate('Accedi oppure richiedi l’iscrizione.');return}
    showGate('Verifica del tuo account in corso…');
    try{
     const [member,admin]=await Promise.all([
@@ -67,10 +78,13 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
     if(current!==sequence||auth.currentUser?.uid!==user.uid)return;
     const isAdmin=admin.exists(),state=member.data()?.status;
     if(isAdmin||state==='approved'){
+     flushSync=await startSync({db,F,user});
+     if(current!==sequence)return;
      showApp();
      status.textContent=isAdmin?'Accesso amministratore autorizzato.':'Accesso approvato.';
      if(isAdmin)await renderAdmin();
     }else{
+     stopSync();flushSync=null;
      showGate(state==='rejected'?'La richiesta è stata rifiutata. Contatta l’amministratore.':'Richiesta inviata. In attesa dell’approvazione dell’amministratore.');
     }
    }catch(e){if(current===sequence){showGate('Impossibile verificare i permessi.');report(e)}}

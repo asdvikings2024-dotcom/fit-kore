@@ -1,0 +1,10 @@
+(function(){
+const modal=document.getElementById('kore-access-modal'),status=document.getElementById('kore-access-status'),form=document.getElementById('kore-access-form');let mode='login';
+function setMode(v){mode=v;document.getElementById('kore-tab-login').setAttribute('aria-selected',String(v==='login'));document.getElementById('kore-tab-register').setAttribute('aria-selected',String(v==='register'));document.getElementById('kore-access-submit').textContent=v==='login'?'Accedi':'Richiedi iscrizione';document.getElementById('kore-access-title').textContent=v==='login'?'Entra in FIT KORE':'Richiedi accesso';document.getElementById('kore-access-password').autocomplete=v==='login'?'current-password':'new-password';status.textContent='Le richieste di iscrizione dovranno essere approvate dall’amministratore.'}
+function open(){modal.hidden=false;document.body.style.overflow='hidden';document.getElementById('kore-access-email').focus()}
+function close(){modal.hidden=true;document.body.style.overflow='';form.reset()}
+document.getElementById('kore-tab-login').onclick=()=>setMode('login');document.getElementById('kore-tab-register').onclick=()=>setMode('register');document.getElementById('kore-access-close').onclick=close;modal.addEventListener('click',e=>{if(e.target===modal)close()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!modal.hidden)close()});
+form.addEventListener('submit',e=>{e.preventDefault();status.textContent='Accesso non ancora attivo: attendiamo la configurazione Firebase. Nessun dato è stato inviato.';document.getElementById('kore-access-password').value=''});
+document.getElementById('kore-google-login').onclick=()=>{status.textContent='Accesso Google non ancora collegato a Firebase.'};
+const launch=document.createElement('button');launch.className='kore-access-launch';launch.type='button';launch.textContent='Accedi / Registrati';launch.addEventListener('click',open);const header=document.querySelector('.top');if(header)header.appendChild(launch);
+})();

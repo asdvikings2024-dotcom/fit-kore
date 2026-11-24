@@ -7,4 +7,14 @@
 5. Registra un account di prova: il documento `members/UID` deve nascere con `status: pending`. Accedi come amministratore per approvarlo. Verifica con un secondo account che non possa modificare il proprio status.
 6. Verifica in GitHub Actions che Pages abbia pubblicato l'ultima versione. Non condividere password o chiavi private.
 
-Nota: l'autenticazione è predisposta ma rimane inattiva finché non si inserisce la configurazione e non si pubblicano le regole. I dati di alimentazione e allenamento sono ancora locali al browser, non sincronizzati nel cloud. L'approvazione non equivale ancora a protezione completa dei dati locali o delle schermate demo.
+## Sincronizzazione cloud
+
+Dopo l'approvazione, i dati dell'app (pasti, allenamenti, diario, acqua, obiettivi, peso, impostazioni orologio) vengono salvati nel documento `users/UID` e ripristinati su ogni dispositivo dove l'utente accede.
+
+- **Primo accesso:** i dati già presenti su quel dispositivo vengono caricati nell'account.
+- **Altro dispositivo:** al login i dati del cloud sostituiscono quelli locali e la pagina si ricarica una volta.
+- **Conflitti:** vince l'ultima modifica salvata.
+- **Uscita dall'account:** i dati vengono salvati e poi cancellati dal dispositivo (restano nell'account).
+- **Offline:** le modifiche restano sul dispositivo e vengono inviate al ritorno della connessione.
+
+Nota: finché `firebase-config.js` è vuoto l'app resta in modalità dimostrativa con i dati solo nel browser.
