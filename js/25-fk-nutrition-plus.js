@@ -63,7 +63,8 @@
   (totals || root.querySelector('p')).after(macroBox);
   function renderMacros() {
     const list = todayEntries(), g = goal();
-    const targets = { p: g * 0.25 / 4, c: g * 0.5 / 4, f: g * 0.25 / 9 };
+    const pt = typeof window.fkProfileTargets === 'function' ? window.fkProfileTargets() : null;
+    const targets = pt && pt.kcal === g ? { p: pt.p, c: pt.c, f: pt.f } : { p: g * 0.25 / 4, c: g * 0.5 / 4, f: g * 0.25 / 9 };
     const names = { p: 'Proteine', c: 'Carboidrati', f: 'Grassi' };
     const missing = list.filter(x => !num(x.p) && !num(x.c) && !num(x.f) && num(x.kcal) > 0).length;
     macroBox.innerHTML = ['p', 'c', 'f'].map(k => {

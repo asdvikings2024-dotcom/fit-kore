@@ -255,11 +255,47 @@
     return {};
   }
 
+  // Preferiti e alimenti personali (sincronizzati con l'account).
+  const FAVS = 'fk-food-favs-v1';
+  function readFavs() { try { const v = JSON.parse(localStorage.getItem(FAVS) || 'null'); return v && v.items && typeof v.items === 'object' ? v : { items: {} }; } catch (e) { return { items: {} }; } }
+  function customItems() {
+    const out = [];
+    for (const [name, f] of Object.entries(readFavs().items)) {
+      if (!f || !f.custom || !(Number(f.kcal) > 0)) continue;
+      out.push({ name, kcal: Number(f.kcal), unit: 'porzione', grams: 100, macro: null, custom: true,
+        terms: [norm(name).split(' ').filter(w => w && !STOP.has(w) && !/^\d/.test(w)).map(stem)] });
+    }
+    return out;
+  }
+  function remember(choice, typedName, kcal) {
+    const favs = readFavs(), now = Date.now();
+    let key, rec;
+    if (choice) { key = choice.name; rec = favs.items[key] || {}; rec.custom = false; }
+    else {
+      key = typedName.replace(/^\s*\d+([.,]\d+)?\s*(g|gr|grammi|ml|x)?\s+/i, '').trim();
+      key = key.charAt(0).toLocaleUpperCase('it') + key.slice(1);
+      if (key.length < 2 || !(kcal > 0)) return;
+      rec = favs.items[key] || {}; rec.custom = true; rec.kcal = kcal;
+    }
+    rec.count = (rec.count || 0) + 1; rec.last = now; favs.items[key] = rec;
+    // Tiene i 60 più usati.
+    const keys = Object.keys(favs.items).sort((a, b) => (favs.items[b].count - favs.items[a].count) || (favs.items[b].last - favs.items[a].last));
+    favs.items = Object.fromEntries(keys.slice(0, 60).map(k => [k, favs.items[k]]));
+    try { localStorage.setItem(FAVS, JSON.stringify(favs)); } catch (e) {}
+  }
+  function topFavorites(n) {
+    const favs = readFavs().items, customs = customItems();
+    return Object.entries(favs)
+      .sort((a, b) => (b[1].count - a[1].count) || (b[1].last - a[1].last))
+      .map(([name, f]) => f.custom ? customs.find(c => c.name === name) : index.find(i => i.name === name))
+      .filter(Boolean).slice(0, n);
+  }
+
   function search(text) {
     const words = norm(text).split(' ').filter(w => w && !STOP.has(w) && !/^\d/.test(w) && !(w in WORDNUM)).map(stem);
     if (!words.length) return [];
-    const results = [];
-    for (const item of index) {
+    const results = [], favs = readFavs().items;
+    for (const item of customItems().concat(index)) {
       let best = 0;
       for (const term of item.terms) {
         let hit = 0;
@@ -272,9 +308,14 @@
         const score = hit - Math.abs(term.length - words.length) * 0.6 + (term === item.terms[0] ? 0.3 : 0);
         best = Math.max(best, score);
       }
-      if (best >= 1.9) results.push({ item, score: best });
+      if (best >= 1.9) {
+        const f = favs[item.name];
+        if (f && f.custom === !!item.custom) best += Math.min(5, f.count || 0) * 0.35 + (item.custom ? 0.5 : 0);
+        results.push({ item, score: best });
+      }
     }
-    return results.sort((a, b) => b.score - a.score).slice(0, 5).map(r => r.item);
+    const seen = new Set();
+    return results.sort((a, b) => b.score - a.score).filter(r => !seen.has(r.item.name) && seen.add(r.item.name)).slice(0, 5).map(r => r.item);
   }
 
   const fmt = n => (Math.round(n * 10) / 10).toLocaleString('it-IT');
@@ -311,12 +352,13 @@
       if (!chosen) return;
       const n = Math.max(0, parseFloat(nInput.value) || 0);
       const grams = byGrams ? n : n * chosen.grams;
-      unitEl.textContent = byGrams ? 'grammi' : ('× ' + chosen.unit + ' da ' + chosen.grams + ' g = ' + fmt(grams) + ' g');
+      unitEl.textContent = chosen.custom ? '× porzione' : byGrams ? 'grammi' : ('× ' + chosen.unit + ' da ' + chosen.grams + ' g = ' + fmt(grams) + ' g');
+      modeBtn.hidden = !!chosen.custom;
       modeBtn.textContent = byGrams ? 'a ' + chosen.unit : 'in grammi';
       const kcal = kcalOf(chosen, grams);
       nameInput.fkChoice = { name: chosen.name, macro: chosen.macro, grams, kcal };
       if (!manual) { kcalInput.value = kcal ? String(kcal) : ''; lastAuto = kcalInput.value; badge.hidden = false; }
-      note.textContent = chosen.name + ' · ' + chosen.kcal + ' kcal/100 g → circa ' + kcal + ' kcal. Stima indicativa: per prodotti confezionati vale l’etichetta.';
+      note.textContent = chosen.custom ? 'Il tuo alimento: ' + chosen.kcal + ' kcal a porzione (come l’ultima volta).' : chosen.name + ' · ' + chosen.kcal + ' kcal/100 g → circa ' + kcal + ' kcal. Stima indicativa: per prodotti confezionati vale l’etichetta.';
       list.querySelectorAll('li').forEach(li => li.setAttribute('aria-selected', li.dataset.name === chosen.name));
     }
     function choose(item, qty) {
@@ -329,14 +371,15 @@
       chosen = null; nameInput.fkChoice = null; qtyRow.hidden = true; badge.hidden = true; note.textContent = msg || '';
       if (!manual && kcalInput.value === lastAuto) kcalInput.value = '';
     }
-    function render(items) {
+    function render(items, title) {
+      list.dataset.title = title || '';
       list.replaceChildren(...items.map(it => {
         const li = document.createElement('li');
         li.setAttribute('role', 'option'); li.dataset.name = it.name; li.tabIndex = 0;
         li.innerHTML = '<b></b><span></span>';
         li.firstChild.textContent = it.name;
-        li.lastChild.textContent = '1 ' + it.unit + ' (' + it.grams + ' g) · ' + kcalOf(it, it.grams) + ' kcal';
-        const pick = () => { choose(it, parseQty(nameInput.value)); try { navigator.vibrate && navigator.vibrate(6); } catch (e) {} };
+        li.lastChild.textContent = it.custom ? '★ tuo · ' + it.kcal + ' kcal a porzione' : '1 ' + it.unit + ' (' + it.grams + ' g) · ' + kcalOf(it, it.grams) + ' kcal';
+        const pick = () => { if (!norm(nameInput.value)) nameInput.value = it.name; choose(it, parseQty(nameInput.value)); try { navigator.vibrate && navigator.vibrate(6); } catch (e) {} };
         li.addEventListener('click', pick);
         li.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
         return li;
@@ -344,11 +387,29 @@
       list.hidden = !items.length;
     }
 
+    function showFavorites() {
+      if (norm(nameInput.value).length) return;
+      const favs = topFavorites(6);
+      render(favs, favs.length ? 'I tuoi preferiti' : '');
+    }
+    nameInput.addEventListener('focus', showFavorites);
+    nameInput.addEventListener('click', showFavorites);
+    const formEl = nameInput.form;
+    if (formEl) document.addEventListener('submit', e => {
+      if (e.target !== formEl) return;
+      const k = Number(kcalInput.value);
+      if (!nameInput.value.trim() || !(k > 0)) return;
+      if (chosen && chosen.custom) remember(null, chosen.name, Math.round(k / (parseFloat(nInput.value) || 1)));
+      else if (chosen && !manual) remember(chosen, nameInput.value, k);
+      // Calorie corrette a mano: lo ricordo come alimento tuo, con le tue calorie.
+      else remember(null, nameInput.value, k);
+    }, true);
     let timer = null;
     nameInput.addEventListener('input', () => {
       clearTimeout(timer);
       timer = setTimeout(() => {
         const text = nameInput.value;
+        if (!norm(text).length) { clear(); showFavorites(); return; }
         if (norm(text).length < 2) { render([]); clear(); return; }
         const items = search(text);
         render(items);
@@ -382,7 +443,7 @@
     }
   }
 
-  window.FKFood = { search, parseQty, attach, find: name => index.find(i => i.name === name) || search(name)[0] || null };
+  window.FKFood = { search, parseQty, attach, topFavorites, find: name => index.find(i => i.name === name) || search(name)[0] || null };
   attach(document.getElementById('fk-rescue-name'), document.getElementById('fk-rescue-kcal'));
   attach(document.getElementById('mealname'), document.getElementById('kcal'));
 })();

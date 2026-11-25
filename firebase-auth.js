@@ -1,5 +1,5 @@
-import {firebaseConfig} from './firebase-config.js?v=20261125c';
-import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125c';
+import {firebaseConfig} from './firebase-config.js?v=20261125d';
+import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125d';
 
 const required=['apiKey','authDomain','projectId','appId'];
 if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key].trim())){
@@ -143,6 +143,7 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
     const isAdmin=admin.exists(),state=member.data()?.status;
     if(isAdmin||state==='approved'){
      try{localStorage.setItem('fk-approved-uid',user.uid)}catch(e){}
+     window.fkUser={name:user.displayName||'',email:user.email||''};window.dispatchEvent(new Event('fk-user'));
      flushSync=await startSync({db,F,user});
      if(current!==sequence)return;
      showApp();
