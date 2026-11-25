@@ -125,9 +125,7 @@
         const j = await r.json();
         if (j && j.product) products = [j.product];
       } else {
-        const r = await fetch(`${OFF}/cgi/search.pl?search_terms=${encodeURIComponent(t)}&search_simple=1&action=process&json=1&page_size=15&lc=it&cc=it&fields=${FIELDS}`);
-        const j = await r.json();
-        products = (j && j.products) || [];
+        products = await searchByName(t);
       }
       found = products.map(toItem).filter(Boolean);
       if (!found.length) { status.textContent = /^\d+$/.test(t) ? 'Prodotto non trovato nel database. Prova a cercarlo per nome.' : 'Nessun prodotto con calorie trovato. Prova con un altro nome.'; return; }
@@ -139,6 +137,19 @@
       console.warn('FIT KORE OFF:', e);
       status.textContent = navigator.onLine ? 'Il database non risponde: riprova tra poco.' : 'Sei offline: la ricerca prodotti richiede la connessione.';
     }
+  }
+  // Ricerca per nome: il motore classico è a volte lento o limitato; in quel caso
+  // si usa il nuovo motore di ricerca e poi si leggono i dettagli dei prodotti.
+  async function searchByName(t) {
+    try {
+      const r = await fetch(`${OFF}/cgi/search.pl?search_terms=${encodeURIComponent(t)}&search_simple=1&json=1&page_size=15&fields=${FIELDS}`);
+      if (r.ok) { const j = await r.json(); if (j && Array.isArray(j.products) && j.products.length) return j.products; }
+    } catch (e) {}
+    const r = await fetch(`https://search.openfoodfacts.org/search?q=${encodeURIComponent(t)}&page_size=8&langs=it,en&fields=code`);
+    const j = await r.json();
+    const codes = (j.hits || []).map(h => h.code).filter(Boolean).slice(0, 8);
+    const list = await Promise.all(codes.map(c => fetch(`${OFF}/api/v2/product/${encodeURIComponent(c)}.json?fields=${FIELDS}`).then(x => x.json()).then(x => x.product).catch(() => null)));
+    return list.filter(Boolean);
   }
   function pick(it) {
     close();
