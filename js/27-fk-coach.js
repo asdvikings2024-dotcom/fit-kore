@@ -65,7 +65,7 @@
     <div class="k-row3">
       <div><label for="k-p-age">Età</label><input id="k-p-age" type="number" inputmode="numeric" min="14" max="100" placeholder="anni"></div>
       <div><label for="k-p-height">Altezza</label><input id="k-p-height" type="number" inputmode="numeric" min="120" max="230" placeholder="cm"></div>
-      <div><label for="k-p-weight">Peso</label><input id="k-p-weight" type="number" inputmode="decimal" min="30" max="300" step="any" placeholder="kg"></div>
+      <div><label for="k-p-weight">Peso</label><input id="k-p-weight" type="text" inputmode="decimal" autocomplete="off" placeholder="kg"></div>
     </div>
     <label for="k-p-activity">Quanto ti muovi?</label>
     <select id="k-p-activity">${ACTIVITY.map(([v, n, d]) => `<option value="${v}">${n} · ${d}</option>`).join('')}</select>
@@ -84,7 +84,7 @@
     return {
       name: $('k-p-name').value.trim(),
       sex: f.querySelector('[name="k-p-sex"]:checked').value,
-      age: num($('k-p-age').value), height: num($('k-p-height').value), weight: num($('k-p-weight').value),
+      age: num($('k-p-age').value), height: num($('k-p-height').value), weight: Math.round(num(String($('k-p-weight').value).replace(',', '.')) * 10) / 10,
       activity: num($('k-p-activity').value), goal: f.querySelector('[name="k-p-goal"]:checked').value,
       trainMin: Math.min(240, Math.max(5, num($('k-p-train').value) || 30))
     };
@@ -103,7 +103,7 @@
     $('k-p-name').value = p.name || (window.fkUser && window.fkUser.name ? window.fkUser.name.split(' ')[0] : '');
     f.querySelector(`[name="k-p-sex"][value="${p.sex === 'f' ? 'f' : 'm'}"]`).checked = true;
     $('k-p-age').value = p.age || ''; $('k-p-height').value = p.height || '';
-    $('k-p-weight').value = p.weight || (num(localStorage.getItem('fk-live-weight-v1')) || '');
+    $('k-p-weight').value = String(p.weight || num(localStorage.getItem('fk-live-weight-v1')) || '').replace('.', ',');
     $('k-p-activity').value = String(p.activity || 1.375);
     f.querySelector(`[name="k-p-goal"][value="${GOALS[p.goal] ? p.goal : 'keep'}"]`).checked = true;
     $('k-p-train').value = p.trainMin || 30;
@@ -133,6 +133,19 @@
     try { navigator.vibrate && navigator.vibrate([10, 30, 10]); } catch (err) {}
   });
   window.fkOpenProfile = openSheet;
+  // Nuovo peso registrato: aggiorna profilo e obiettivi (se il profilo esiste).
+  window.fkUpdateWeight = kg => {
+    const p = read(PROFILE, null);
+    if (!p) return null;
+    p.weight = kg;
+    const t = compute(p);
+    if (!t) return null;
+    const before = p.targets && p.targets.kcal;
+    p.targets = t; p.updatedAt = Date.now();
+    try { localStorage.setItem(PROFILE, JSON.stringify(p)); } catch (e) {}
+    applyGoal(t.kcal); schedule();
+    return { kcal: t.kcal, changed: before !== t.kcal };
+  };
 
   /* =================== Card coach in Home =================== */
   const card = document.createElement('article');

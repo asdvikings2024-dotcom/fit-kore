@@ -465,3 +465,90 @@ html body .section article.k-install .k-install-later{background:transparent!imp
   .k-coach-body{grid-template-columns:220px minmax(0,380px);gap:32px}
   html body .section .k-coach-msg{font-size:32px!important}
 }
+
+/* ---------- Area amministratore ---------- */
+html body .section article.k-admin-card{display:flex!important;align-items:center;justify-content:space-between;gap:12px;padding:16px 18px!important;margin:0 0 14px}
+html body .section article.k-admin-card.has-pending{border-color:rgba(223,255,0,.45)!important;box-shadow:0 0 0 1px rgba(223,255,0,.2) inset,0 20px 40px -24px rgba(223,255,0,.4)!important}
+.k-admin-eyebrow{display:block;font-size:11px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--k-muted)}
+.k-admin-count{font:800 19px/1.15 var(--k-head);text-transform:uppercase}
+.has-pending .k-admin-count{color:var(--k-lime)}
+html body .section .k-admin-open{width:auto!important;margin:0!important;flex:none;padding:10px 14px!important;font-size:13px!important}
+.k-admin-panel{gap:12px!important;max-height:94vh}
+.k-admin-filters{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+.k-admin-filters::-webkit-scrollbar{display:none}
+.k-admin-filters button{flex:none;display:flex;align-items:center;gap:6px;padding:9px 12px;border-radius:12px;border:1px solid var(--k-line);background:rgba(255,255,255,.04);color:var(--k-text);font:700 13px var(--k-body);cursor:pointer}
+.k-admin-filters button b{min-width:20px;padding:1px 6px;border-radius:999px;background:rgba(255,255,255,.1);font-size:11px;text-align:center}
+.k-admin-filters button[aria-selected=true]{background:var(--k-lime);color:#0b0f00;border-color:transparent}
+.k-admin-filters button[aria-selected=true] b{background:rgba(0,0,0,.15)}
+.k-sheet .k-admin-search{height:46px;padding:0 14px;border-radius:13px;border:1px solid var(--k-line);background:rgba(0,0,0,.4);color:var(--k-text);font:600 15px var(--k-body)}
+.k-sheet .k-admin-search:focus{outline:none;border-color:var(--k-lime)}
+.k-admin-list{display:grid;gap:8px}
+.k-admin-row{display:grid;grid-template-columns:1fr auto;gap:8px 10px;align-items:center;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid var(--k-line)}
+.k-admin-who{min-width:0;display:flex;flex-direction:column;gap:2px}
+.k-admin-who strong{font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.k-admin-who em{font-style:normal;color:var(--k-lime);font-weight:600}
+.k-admin-who span{font-size:12px;color:var(--k-muted)}
+.k-chip{font-size:11px;font-weight:800;letter-spacing:.04em;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.k-st-pending{background:rgba(255,209,102,.15);color:#ffd166}
+.k-st-approved{background:rgba(223,255,0,.14);color:var(--k-lime)}
+.k-st-suspended{background:rgba(255,179,138,.15);color:#ffb38a}
+.k-st-rejected{background:rgba(255,255,255,.08);color:var(--k-muted)}
+.k-admin-acts{grid-column:1/-1;display:flex;gap:6px;flex-wrap:wrap}
+.k-admin-acts:empty{display:none}
+.k-admin-acts button{padding:8px 14px;border-radius:11px;border:1px solid var(--k-line);background:rgba(255,255,255,.05);color:var(--k-text);font:700 13px var(--k-body);cursor:pointer}
+.k-admin-acts button.primary{background:var(--k-lime);color:#0b0f00;border-color:transparent}
+.k-admin-acts button.confirm{background:#ffb38a;color:#1a0d00;border-color:transparent}
+.k-admin-acts button:disabled{opacity:.5}
+.k-admin-empty{margin:8px 0;color:var(--k-muted);font-size:13.5px}
+.k-admin-status{margin:0;min-height:1em;font-size:13px;color:var(--k-lime)}
+.k-admin-reload{height:44px;border-radius:13px;border:1px solid var(--k-line);background:rgba(255,255,255,.05);color:var(--k-text);font:700 14px var(--k-body);cursor:pointer}
+
+/* ---------- Card nascoste dal riordino ---------- */
+html body .section article[hidden]{display:none!important}
+
+/* ---------- Costanza (mappa allenamenti) ---------- */
+.k-streak-stats,.k-weight-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:6px 0 16px}
+.k-weight-stats{grid-template-columns:repeat(3,1fr)}
+.k-streak-stats div,.k-weight-stats div{padding:10px;border-radius:13px;background:rgba(0,0,0,.25);border:1px solid var(--k-line);display:flex;flex-direction:column;gap:2px}
+.k-streak-stats b,.k-weight-stats b{font:800 22px/1 var(--k-head);color:var(--k-text)}
+.k-streak-stats div:first-child b{color:var(--k-lime);text-shadow:0 0 16px rgba(223,255,0,.5)}
+.k-streak-stats span,.k-weight-stats span{font-size:10.5px;line-height:1.25;color:var(--k-muted);font-weight:600}
+@media (max-width:400px){.k-streak-stats{grid-template-columns:repeat(2,1fr)}}
+.k-heat{display:flex;gap:4px;justify-content:space-between}
+.k-heat-days,.k-heat-col{display:grid;grid-template-rows:repeat(7,1fr);gap:4px}
+.k-heat-days span{font-size:9.5px;color:var(--k-muted);line-height:1;display:flex;align-items:center;width:10px}
+.k-heat-col{flex:1}
+.k-heat i,.k-heat-legend i{display:block;aspect-ratio:1;border-radius:4px;background:rgba(255,255,255,.06)}
+.k-heat i.l1,.k-heat-legend i.l1{background:rgba(223,255,0,.28)}
+.k-heat i.l2,.k-heat-legend i.l2{background:rgba(223,255,0,.58)}
+.k-heat i.l3,.k-heat-legend i.l3{background:var(--k-lime);box-shadow:0 0 8px rgba(223,255,0,.5)}
+.k-heat i.fut{background:transparent;border:1px dashed rgba(255,255,255,.06)}
+.k-heat i.is-today{outline:1.5px solid #fff;outline-offset:1px}
+.k-heat-legend{display:flex;align-items:center;justify-content:flex-end;gap:4px;margin-top:10px;font-size:10.5px;color:var(--k-muted)}
+.k-heat-legend i{width:11px}
+
+/* ---------- Peso ---------- */
+.k-weight-chart svg{width:100%;height:auto;display:block;margin-bottom:12px}
+.k-wline{fill:none;stroke:var(--k-lime);stroke-width:2.5;stroke-linejoin:round;stroke-linecap:round;filter:drop-shadow(0 0 6px rgba(223,255,0,.5))}
+.k-wdot{fill:#0b0f0d;stroke:var(--k-lime);stroke-width:2}
+.k-wlast{fill:var(--k-lime);stroke:#0b0f0d;stroke-width:2}
+.k-wt{fill:var(--k-muted);font:600 9px var(--k-body)}
+.k-weight-empty{grid-column:1/-1;margin:0!important;font-size:13px}
+.k-weight-form label{display:block;font-size:12px;font-weight:700;color:var(--k-muted);margin-bottom:6px}
+.k-weight-row{display:flex;gap:8px}
+html body .section .k-weight-row input{flex:1;min-width:0;height:48px!important;margin:0!important;font-size:17px!important;font-weight:700!important}
+html body .section .k-weight-row button{width:auto!important;flex:none;margin:0!important;padding:0 20px!important;height:48px}
+.k-weight-msg{margin:8px 0 0!important;font-size:13px!important;color:var(--k-lime)!important;min-height:1em}
+
+/* ---------- Diario e backup ---------- */
+html body #diario form button:not([type=button]){background:var(--k-lime)!important;color:#0b0f00!important;border-color:transparent!important;box-shadow:0 10px 30px -10px rgba(223,255,0,.55)!important}
+html body #diario textarea{min-height:120px}
+html body .section .k-file-input{position:absolute!important;width:1px!important;height:1px!important;opacity:0!important;pointer-events:none}
+.k-file{display:flex;flex-direction:column;gap:2px;padding:14px;margin:10px 0;border-radius:14px;border:1px dashed rgba(223,255,0,.4);background:rgba(223,255,0,.05);cursor:pointer;text-align:center}
+.k-file span{font-weight:700;color:var(--k-lime);font-size:14px}
+.k-file small{font-size:12px;color:var(--k-muted)}
+html body .section .fk-vault-actions{display:flex;gap:8px}
+html body .section .fk-vault-actions button{flex:1;margin:0!important}
+.k-goalcard .muted,.k-goalcard p:last-child{color:var(--k-muted)}
+html body .section .k-goalcard button{background:var(--k-lime)!important;color:#0b0f00!important;border-color:transparent!important}
+html body #diario .lower .action,html body #diario .lower button.action{background:var(--k-lime)!important;background-image:none!important;color:#0b0f00!important;border-color:transparent!important;box-shadow:0 10px 30px -10px rgba(223,255,0,.55)!important}

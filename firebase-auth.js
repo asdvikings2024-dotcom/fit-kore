@@ -1,5 +1,5 @@
-import {firebaseConfig} from './firebase-config.js?v=20261125e';
-import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125e';
+import {firebaseConfig} from './firebase-config.js?v=20261125f';
+import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125f';
 
 const required=['apiKey','authDomain','projectId','appId'];
 if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key].trim())){
@@ -167,36 +167,8 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
    }
   }
   async function renderAdmin(){
-   const root=document.querySelector('#dashboard');if(!root)return;
-   const panel=document.createElement('article');panel.className='fk-feature-card';panel.id='fk-admin-panel';
-   panel.innerHTML='<h3>🛡️ RICHIESTE DI ISCRIZIONE</h3><p>Approva o rifiuta le nuove richieste.</p><div class="fk-feature-row"><button type="button" id="fk-admin-refresh">Aggiorna richieste</button></div><p id="fk-admin-feedback" role="status"></p><div id="fk-admin-list"></div>';
-   root.append(panel);
-   const load=async()=>{
-    const list=$('fk-admin-list'),feedback=$('fk-admin-feedback');if(!list)return;
-    list.textContent='Caricamento…';feedback.textContent='';
-    try{
-     const q=F.query(F.collection(db,'members'),F.where('status','==','pending'));
-     const result=await F.getDocs(q);
-     list.replaceChildren();
-     if(result.empty){list.textContent='Nessuna richiesta in attesa.';return}
-     result.forEach(snap=>{
-      const row=document.createElement('div');row.className='fk-admin-row';
-      const label=document.createElement('span');label.textContent=snap.data().email||snap.id;row.append(label);
-      for(const [title,next] of [['Approva','approved'],['Rifiuta','rejected']]){
-       const button=document.createElement('button');button.type='button';button.textContent=title;
-       button.addEventListener('click',async()=>{
-        if(!confirm(next==='approved'?'Approvare questa iscrizione?':'Rifiutare questa iscrizione?'))return;
-        button.disabled=true;
-        try{await F.updateDoc(snap.ref,{status:next,reviewedAt:F.serverTimestamp()});row.remove();feedback.textContent='Richiesta aggiornata.'}
-        catch(e){button.disabled=false;feedback.textContent=messages[e?.code]||'Aggiornamento non riuscito.'}
-       });
-       row.append(button);
-      }
-      list.append(row);
-     });
-    }catch(e){list.textContent='Impossibile caricare le richieste.';report(e)}
-   };
-   $('fk-admin-refresh').onclick=load;await load();
+   try{const mod=await import('./js/admin.js?v=20261125f');mod.mountAdmin({db,F,me:auth.currentUser?.uid,messages})}
+   catch(e){console.error('FIT KORE admin:',e)}
   }
   // Il vecchio modulo dimostrativo aveva un listener che non invia dati: lo sostituiamo.
   const replacement=form.cloneNode(true);form.replaceWith(replacement);
