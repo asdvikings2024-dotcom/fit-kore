@@ -945,3 +945,41 @@ html body .section .k-rem-row input[type=time]{height:30px!important;padding:0 6
 .k-rem-note{font-size:12px!important;margin:10px 0 0!important}
 html body .section .k-rem-test{width:100%!important;margin:10px 0 0!important}
 html body .section .k-rem-test[hidden]{display:none!important}
+
+/* ---------- Community ---------- */
+html body .section article.k-comm{padding:20px!important;margin-top:14px;background:radial-gradient(110% 80% at 0% 0%,rgba(255,216,77,.14),transparent 55%),radial-gradient(90% 80% at 100% 100%,rgba(199,125,255,.14),transparent 60%),linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015))!important}
+.k-comm-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.k-comm-eyebrow{display:block;font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#ffd84d}
+html body .section .k-comm-refresh{width:40px!important;height:40px;padding:0!important;margin:0!important;border-radius:50%!important;font-size:18px!important}
+.k-chal{margin:12px 0;padding:14px;border-radius:16px;background:rgba(0,0,0,.3);border:1px solid rgba(255,138,76,.35)}
+.k-chal-top{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.k-chal-top span{font-weight:800;font-size:13px;color:#ffb38a}
+.k-chal-top b{font:800 22px var(--k-head)}
+.k-chal-top small{font:600 12px var(--k-body);color:var(--k-muted)}
+.k-chal-bar{height:8px;border-radius:9px;background:rgba(255,255,255,.08);overflow:hidden;margin:8px 0 6px}
+.k-chal-bar i{display:block;height:100%;border-radius:inherit;background:linear-gradient(90deg,#ff5fd2,#ff8a4c,#ffd84d,#dfff00);box-shadow:0 0 12px rgba(255,138,76,.6);position:relative;overflow:hidden;transition:width 1s var(--k-ease)}
+.k-chal-bar i::after{content:"";position:absolute;inset:0;width:40%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.8),transparent);animation:k-led-bar 2.4s ease-in-out infinite}
+.k-chal > small{font-size:12px;color:var(--k-muted)}
+.k-comm-text{font-size:13.5px!important}
+.k-comm-text b{color:var(--k-text)}
+.k-comm-join{display:grid;grid-template-columns:1fr auto;gap:8px;margin-top:8px}
+html body .section .k-comm-join input{height:48px!important;margin:0!important}
+html body .section .k-comm-join button{margin:0!important;height:48px;padding:0 20px!important;background:linear-gradient(135deg,#ffd84d,#dfff00)!important;color:#0b0f00!important;border:0!important;width:auto!important}
+.k-comm-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-bottom:10px}
+html body .section .k-comm-tabs button{margin:0!important;padding:9px!important;font-size:13px!important;width:auto!important}
+html body .section .k-comm-tabs button[aria-selected=true]{background:linear-gradient(135deg,#ffd84d,#ff8a4c)!important;color:#1a0d00!important;border-color:transparent!important}
+.k-comm-list{list-style:none;margin:0!important;padding:0!important;display:grid;gap:6px}
+.k-comm-list li{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:14px;background:rgba(255,255,255,.035);border:1px solid var(--k-line);margin:0!important}
+.k-rank{width:28px;text-align:center;font:800 18px var(--k-head);color:var(--k-muted)}
+.k-comm-list li b{flex:1;min-width:0;font-size:14.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.k-comm-list li b em{font-style:normal;color:var(--k-lime);font-weight:600}
+.k-val{font:800 18px var(--k-head);white-space:nowrap}
+.k-val small{font:600 11px var(--k-body);color:var(--k-muted)}
+.k-comm-list li.top1{border-color:rgba(255,216,77,.6);background:linear-gradient(90deg,rgba(255,216,77,.16),rgba(255,255,255,.02));box-shadow:0 0 22px -8px rgba(255,216,77,.8)}
+.k-comm-list li.top2{border-color:rgba(200,210,230,.45)}
+.k-comm-list li.top3{border-color:rgba(255,160,90,.45)}
+.k-comm-list li.is-me{outline:1.5px solid var(--k-lime);outline-offset:1px}
+.k-comm-empty{justify-content:center;color:var(--k-muted);font-size:13px}
+.k-comm-msg{font-size:12.5px!important;margin:8px 0 0!important;min-height:1em}
+html body .section .k-comm-leave{width:100%!important;margin:10px 0 0!important;background:transparent!important;color:var(--k-muted)!important;font-size:12.5px!important}
+html body .section .k-comm-leave.confirm{background:#ffb38a!important;color:#1a0d00!important}

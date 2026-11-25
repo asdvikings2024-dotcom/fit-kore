@@ -1,5 +1,5 @@
-import {firebaseConfig} from './firebase-config.js?v=20261125j';
-import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125j';
+import {firebaseConfig} from './firebase-config.js?v=20261125k';
+import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125k';
 
 const required=['apiKey','authDomain','projectId','appId'];
 if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key].trim())){
@@ -145,6 +145,7 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
     if(isAdmin||state==='approved'){
      try{localStorage.setItem('fk-approved-uid',user.uid)}catch(e){}
      window.fkUser={name:user.displayName||'',email:user.email||''};window.dispatchEvent(new Event('fk-user'));
+     window.fkFirebase={db,F,uid:user.uid};window.dispatchEvent(new Event('fk-firebase'));
      flushSync=await startSync({db,F,user});
      if(current!==sequence)return;
      showApp();
@@ -168,7 +169,7 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
    }
   }
   async function renderAdmin(){
-   try{const mod=await import('./js/admin.js?v=20261125j');mod.mountAdmin({db,F,me:auth.currentUser?.uid,messages})}
+   try{const mod=await import('./js/admin.js?v=20261125k');mod.mountAdmin({db,F,me:auth.currentUser?.uid,messages})}
    catch(e){console.error('FIT KORE admin:',e)}
   }
   // Il vecchio modulo dimostrativo aveva un listener che non invia dati: lo sostituiamo.
