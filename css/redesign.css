@@ -781,3 +781,167 @@ html body #diario textarea:focus{border-color:#c77dff!important;box-shadow:0 0 0
 /* coriandoli e toast multicolore restano; badge stima */
 .k-est-badge{background:linear-gradient(90deg,#dfff00,#9dff4a)}
 html body #diario .lower > article:first-child{border-color:rgba(199,125,255,.4)!important;box-shadow:0 20px 50px -24px rgba(199,125,255,.45)!important}
+
+/* =====================================================================
+   LED DINAMICI
+   ===================================================================== */
+@property --k-led-a{syntax:'<angle>';inherits:false;initial-value:0deg}
+@property --k-led-x{syntax:'<percentage>';inherits:false;initial-value:0%}
+
+/* 1. Bordo LED che gira intorno alle card principali */
+.k-led{position:relative;isolation:isolate}
+.k-led::after{
+  content:"";position:absolute;inset:0;border-radius:inherit;padding:1.5px;pointer-events:none;z-index:2;
+  background:conic-gradient(from var(--k-led-a),transparent 0 52%,var(--k-accent) 62%,#fff 66%,var(--k-accent2) 72%,transparent 82% 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);
+  animation:k-led-spin 5.5s linear infinite;opacity:.95;
+}
+.k-led::before{
+  content:"";position:absolute;inset:-1px;border-radius:inherit;pointer-events:none;z-index:-1;
+  background:conic-gradient(from var(--k-led-a),transparent 0 55%,rgba(var(--k-accent-rgb),.55) 66%,transparent 80% 100%);
+  filter:blur(14px);opacity:.55;animation:k-led-spin 5.5s linear infinite;
+}
+/* le card con il riflesso al tocco usano già ::before/::after: per loro il LED va su un elemento interno */
+.k-led-strip{position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:3;padding:1.5px;
+  background:conic-gradient(from var(--k-led-a),transparent 0 52%,var(--k-accent) 62%,#fff 66%,var(--k-accent2) 72%,transparent 82% 100%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;
+  mask:linear-gradient(#000 0 0) content-box exclude,linear-gradient(#000 0 0);animation:k-led-spin 5.5s linear infinite}
+.k-led-strip::before{content:"";position:absolute;inset:-6px;border-radius:inherit;background:inherit;filter:blur(12px);opacity:.5;-webkit-mask:none;mask:none}
+.k-led-strip.slow{animation-duration:9s}
+.k-led-strip.fast{animation-duration:3.2s}
+@keyframes k-led-spin{to{--k-led-a:360deg}}
+
+/* 2. Striscia LED che scorre su intestazione e menu */
+html body .top::after,html body .side::before{
+  content:"";position:absolute;left:14px;right:14px;height:2px;border-radius:2px;pointer-events:none;
+  background:linear-gradient(90deg,transparent,var(--k-accent) 20%,#fff 25%,var(--k-accent2) 32%,transparent 45%,transparent 60%,#c77dff 72%,#3ee8ff 80%,transparent 92%);
+  background-size:200% 100%;animation:k-led-run 6s linear infinite;filter:drop-shadow(0 0 6px rgba(var(--k-accent-rgb),.9))
+}
+html body .top::after{bottom:-1px}
+html body .side::before{top:-1px;z-index:5}
+@keyframes k-led-run{from{background-position:200% 0}to{background-position:0 0}}
+
+/* 3. Pulsanti primari: alone LED che respira */
+html body .k-gym-start,html body .k-gym-finish,html body .k-sheet-save,html body .k-coach-cta{animation:k-led-breathe 2.8s ease-in-out infinite}
+@keyframes k-led-breathe{50%{box-shadow:0 0 0 1px rgba(255,255,255,.35) inset,0 0 26px rgba(223,255,0,.85),0 14px 40px -10px rgba(223,255,0,.9)}}
+
+/* 4. K centrale: LED arcobaleno */
+html body .nav #fk-quick-open.fk-k-center::after{background:conic-gradient(from 0deg,transparent 0 40%,#dfff00 55%,#3ee8ff 68%,#c77dff 80%,#ff8a4c 90%,transparent)!important}
+
+/* 5. Anelli e indicatori: il bagliore cresce con il progresso */
+.k-ring{filter:drop-shadow(0 0 calc(4px + 14px * var(--glow,0)) rgba(223,255,0,calc(.25 + .6 * var(--glow,0))))}
+.k-ring-train{filter:drop-shadow(0 0 calc(4px + 14px * var(--glow,0)) rgba(62,232,255,calc(.25 + .6 * var(--glow,0))))}
+.k-ring-water{filter:drop-shadow(0 0 calc(4px + 14px * var(--glow,0)) rgba(184,198,255,calc(.25 + .6 * var(--glow,0))))}
+.k-cal-fill{filter:drop-shadow(0 0 calc(6px + 14px * var(--glow,0)) rgba(255,138,76,calc(.3 + .5 * var(--glow,0))))}
+/* punta luminosa che corre sull'anello del giorno */
+.k-ring-tip{fill:#fff;filter:drop-shadow(0 0 6px #fff) drop-shadow(0 0 12px var(--k-accent))}
+
+/* 6. Barre e grafici con riflesso LED che scorre */
+.k-meal-bar i,.k-macro-bar i,.fk-mission-track > *{position:relative;overflow:hidden}
+.k-meal-bar i::after,.k-macro-bar i::after,.fk-mission-track > *::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);width:40%;animation:k-led-bar 2.6s ease-in-out infinite}
+@keyframes k-led-bar{from{transform:translateX(-120%)}to{transform:translateX(320%)}}
+html body #chart .bar.is-today,.k-hbar.is-today .k-hbar-fill{animation:k-led-pulse 2.2s ease-in-out infinite}
+@keyframes k-led-pulse{50%{filter:brightness(1.35) drop-shadow(0 0 12px rgba(223,255,0,.9))}}
+.k-heat i.is-today{animation:k-led-pulse 2.2s ease-in-out infinite}
+.k-set.is-done .k-set-ok{animation:k-led-pulse 2.4s ease-in-out infinite}
+
+/* 7. Titoli card: la barretta LED pulsa */
+html body .section h3::before{animation:k-led-bar-v 3s ease-in-out infinite}
+@keyframes k-led-bar-v{50%{box-shadow:0 0 18px rgba(var(--k-accent-rgb),1),0 0 4px #fff}}
+
+@media (prefers-reduced-motion:reduce){
+  .k-led::after,.k-led::before,.k-led-strip,html body .top::after,html body .side::before,
+  html body .k-gym-start,html body .k-gym-finish,html body .k-sheet-save,html body .k-coach-cta,
+  .k-meal-bar i::after,.k-macro-bar i::after,.fk-mission-track > *::after,
+  html body #chart .bar.is-today,.k-hbar.is-today .k-hbar-fill,.k-heat i.is-today,.k-set.is-done .k-set-ok,html body .section h3::before{animation:none!important}
+}
+
+/* ---------- Piano settimanale ---------- */
+.k-plan-head{display:flex;justify-content:space-between;align-items:center;gap:10px}
+html body .section .k-plan-edit-btn{width:auto!important;margin:0!important;padding:8px 14px!important;font-size:13px!important}
+.k-plan-week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-top:12px}
+.k-plan-day{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 2px;border-radius:13px;background:rgba(0,0,0,.25);border:1px solid color-mix(in srgb,var(--pc) 45%,transparent);min-width:0}
+.k-plan-day span{font-size:10.5px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--k-muted)}
+.k-plan-day b{font:800 12.5px/1.05 var(--k-head);text-transform:uppercase;color:var(--pc);text-align:center;word-break:break-word;hyphens:auto}
+.k-plan-day.is-rest{border-color:var(--k-line)}
+.k-plan-day.is-rest b{color:var(--k-muted)}
+.k-plan-day.is-today{background:color-mix(in srgb,var(--pc) 18%,rgba(0,0,0,.3));box-shadow:0 0 0 1.5px var(--pc),0 0 18px -4px var(--pc);animation:k-led-pulse 2.4s ease-in-out infinite}
+.k-plan-day.is-today span{color:var(--k-text)}
+html body .section .k-plan-go{width:100%!important;margin:12px 0 0!important;height:50px;border:0!important;background:linear-gradient(135deg,var(--pc),color-mix(in srgb,var(--pc) 55%,#dfff00))!important;color:#0b0f00!important;font:800 17px var(--k-head)!important;text-transform:uppercase;letter-spacing:.04em;box-shadow:0 12px 30px -12px var(--pc)!important}
+.k-plan-hint{margin:10px 0 0!important;font-size:13px}
+.k-plan-edit{display:grid;gap:6px;margin:10px 0}
+.k-plan-edit label{display:grid;grid-template-columns:52px 1fr;align-items:center;gap:10px;margin:0}
+.k-plan-edit label span{font-weight:800;font-size:13px;text-transform:uppercase;color:var(--k-muted)}
+html body .section .k-plan-edit select{height:44px!important;margin:0!important}
+.k-plan-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+html body .section .k-plan-actions button{margin:0!important;height:46px}
+html body .section .k-plan-save{background:var(--k-lime)!important;color:#0b0f00!important;border:0!important}
+
+/* ---------- Grafici per esercizio ---------- */
+html body .section article.k-exchart{background:radial-gradient(100% 80% at 0% 0%,rgba(77,124,255,.16),transparent 60%),linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015))!important}
+html body .section .k-ex-select{height:46px!important;margin:8px 0 12px!important;font-weight:700!important}
+.k-ex-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.k-ex-stats div{padding:10px;border-radius:13px;background:rgba(0,0,0,.25);border:1px solid var(--k-line);display:flex;flex-direction:column;gap:2px}
+.k-ex-stats b{font:800 22px/1 var(--k-head);color:var(--k-text)}
+.k-ex-stats b small{font:600 11px var(--k-body);color:var(--k-muted)}
+.k-ex-stats div:first-child b{color:#ffd84d}
+.k-ex-stats b.up{color:#9dff4a}.k-ex-stats b.down{color:#ffb38a}
+.k-ex-stats span{font-size:10.5px;color:var(--k-muted);font-weight:600}
+.k-exchart svg{width:100%;height:auto;display:block}
+.k-exline{fill:none;stroke:url(#k-exg);stroke-width:3;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 6px rgba(62,232,255,.6))}
+.k-exdot{fill:#0b0f0d;stroke:#3ee8ff;stroke-width:2}
+.k-exbest{fill:#ffd84d;stroke:#0b0f0d;stroke-width:2;filter:drop-shadow(0 0 8px rgba(255,216,77,.9))}
+.k-ex-empty,.k-ex-foot{font-size:12.5px!important;margin:8px 0 0!important}
+html body .section article.k-weight,html body .section article.k-streak,html body .section article.k-exchart,html body .section article.k-plan,html body .section article.k-goalcard{padding:20px!important}
+.k-plan-week{grid-template-columns:repeat(7,minmax(0,1fr));gap:4px}
+.k-plan-day{padding:9px 1px}
+.k-plan-day b{font-size:11.5px;word-break:normal;hyphens:none;white-space:nowrap;overflow:hidden;text-overflow:clip;max-width:100%}
+
+/* ---------- Codice a barre / prodotti ---------- */
+.k-scan-tools{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:6px 0 8px}
+html body .section .k-scan-btn{margin:0!important;width:100%!important;height:42px;font-size:13px!important;display:flex!important;align-items:center;justify-content:center;gap:6px;
+  background:linear-gradient(135deg,rgba(255,138,76,.18),rgba(255,95,210,.10))!important;border-color:rgba(255,138,76,.45)!important;color:#ffd2b8!important}
+.k-scan-btn span{font-size:16px;color:#ff8a4c}
+.k-scan{gap:10px!important}
+.k-scan-cam{position:relative;border-radius:18px;overflow:hidden;background:#000;aspect-ratio:4/3;border:1px solid rgba(255,138,76,.5);box-shadow:0 0 30px -8px rgba(255,138,76,.6)}
+.k-scan-cam[hidden]{display:none}
+.k-scan-cam video{width:100%;height:100%;object-fit:cover;display:block}
+.k-scan-laser{position:absolute;left:8%;right:8%;top:50%;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,#ff5fd2,#ff8a4c,#dfff00,transparent);box-shadow:0 0 14px #ff8a4c,0 0 4px #fff;animation:k-laser 2s ease-in-out infinite}
+@keyframes k-laser{0%,100%{transform:translateY(-60px)}50%{transform:translateY(60px)}}
+.k-scan-tip{position:absolute;left:0;right:0;bottom:10px;margin:0;text-align:center;font-size:12.5px;font-weight:700;color:#fff;text-shadow:0 1px 4px #000}
+.k-scan-form{display:grid;grid-template-columns:1fr auto;gap:8px}
+.k-sheet .k-scan-q{height:48px;padding:0 14px;border-radius:13px;border:1px solid var(--k-line);background:rgba(0,0,0,.4);color:var(--k-text);font:600 15px var(--k-body)}
+.k-sheet .k-scan-q:focus{outline:none;border-color:#ff8a4c}
+.k-scan-form button{height:48px;padding:0 18px;border:0;border-radius:13px;background:var(--k-lime);color:#0b0f00;font:800 14px var(--k-body);cursor:pointer}
+.k-scan-status{margin:0;font-size:13px;color:var(--k-muted);min-height:1em}
+.k-scan-results{display:grid;gap:6px;max-height:44vh;overflow:auto}
+.k-scan-item{display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:12px 14px;border-radius:13px;border:1px solid var(--k-line);background:rgba(255,255,255,.035);color:var(--k-text);text-align:left;cursor:pointer;font-family:var(--k-body)}
+.k-scan-item b{font-size:14.5px}
+.k-scan-item span{font-size:12px;color:#ffb38a}
+.k-scan-item:hover,.k-scan-item:focus-visible{border-color:#ff8a4c;outline:none}
+.k-scan-credit{margin:4px 0 0;font-size:11.5px;color:var(--k-muted)}
+.k-scan-credit a{color:#ff8a4c}
+@media (prefers-reduced-motion:reduce){.k-scan-laser{animation:none}}
+
+/* ---------- Promemoria ---------- */
+html body .section article.k-rem{padding:20px!important;background:radial-gradient(100% 80% at 100% 0%,rgba(199,125,255,.16),transparent 60%),linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015))!important}
+.k-rem-head{display:flex;justify-content:space-between;align-items:center}
+.k-rem-sub{margin:4px 0 10px!important;font-size:13px}
+.k-rem-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 0;border-top:1px solid var(--k-line);margin:0!important;cursor:pointer}
+.k-rem-row > span{display:flex;flex-direction:column;gap:3px}
+.k-rem-row b{font-size:15px}
+.k-rem-row small{font-size:12.5px;color:var(--k-muted)}
+html body .section .k-rem-row input[type=time]{height:30px!important;padding:0 6px!important;margin:0 2px!important;width:auto!important;font-size:13px!important;border-radius:8px!important;display:inline-block}
+.k-rem input[role=switch]{position:absolute;opacity:0;width:1px;height:1px}
+.k-rem input[role=switch] + i{flex:none;position:relative;width:50px;height:30px;border-radius:999px;background:rgba(255,255,255,.12);transition:background .25s;box-shadow:inset 0 0 0 1px var(--k-line)}
+.k-rem input[role=switch] + i::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .25s var(--k-ease)}
+.k-rem input[role=switch]:checked + i{background:linear-gradient(135deg,#c77dff,#ff5fd2);box-shadow:0 0 14px rgba(199,125,255,.6)}
+.k-rem .k-rem-master input[role=switch]:checked + i{background:var(--k-lime);box-shadow:0 0 14px rgba(223,255,0,.6)}
+.k-rem input[role=switch]:checked + i::after{transform:translateX(20px)}
+.k-rem input[role=switch]:disabled + i{opacity:.35}
+.k-rem input[role=switch]:focus-visible + i{outline:2px solid var(--k-lime);outline-offset:2px}
+.k-rem-master{display:flex;margin:0!important;cursor:pointer}
+.k-rem-note{font-size:12px!important;margin:10px 0 0!important}
+html body .section .k-rem-test{width:100%!important;margin:10px 0 0!important}
+html body .section .k-rem-test[hidden]{display:none!important}

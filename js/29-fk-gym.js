@@ -283,5 +283,8 @@
 
   // "Inizia allenamento" in Home porta alla palestra.
   window.fkGymStart = start;
+  window.fkGymTemplates = Object.keys(TEMPLATES);
+  window.fkGymActive = () => !!db.active;
+  window.fkGymHistory = () => load().history;
   render();
 })();

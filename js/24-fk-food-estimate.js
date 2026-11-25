@@ -261,6 +261,11 @@
   function customItems() {
     const out = [];
     for (const [name, f] of Object.entries(readFavs().items)) {
+      if (f && f.product && Number(f.product.kcal) >= 0) {
+        out.push({ name, kcal: Number(f.product.kcal), unit: f.product.unit || 'porzione', grams: Number(f.product.grams) || 100, macro: f.product.macro || null, product: true,
+          terms: [norm(name).split(' ').filter(w => w && !STOP.has(w) && !/^\d/.test(w)).map(stem)] });
+        continue;
+      }
       if (!f || !f.custom || !(Number(f.kcal) > 0)) continue;
       out.push({ name, kcal: Number(f.kcal), unit: 'porzione', grams: 100, macro: null, custom: true,
         terms: [norm(name).split(' ').filter(w => w && !STOP.has(w) && !/^\d/.test(w)).map(stem)] });
@@ -270,7 +275,8 @@
   function remember(choice, typedName, kcal) {
     const favs = readFavs(), now = Date.now();
     let key, rec;
-    if (choice) { key = choice.name; rec = favs.items[key] || {}; rec.custom = false; }
+    if (choice && choice.product) { key = choice.name; rec = favs.items[key] || {}; rec.custom = false; rec.product = { kcal: choice.kcal, unit: choice.unit, grams: choice.grams, macro: choice.macro || null }; }
+    else if (choice) { key = choice.name; rec = favs.items[key] || {}; rec.custom = false; }
     else {
       key = typedName.replace(/^\s*\d+([.,]\d+)?\s*(g|gr|grammi|ml|x)?\s+/i, '').trim();
       key = key.charAt(0).toLocaleUpperCase('it') + key.slice(1);
@@ -287,7 +293,7 @@
     const favs = readFavs().items, customs = customItems();
     return Object.entries(favs)
       .sort((a, b) => (b[1].count - a[1].count) || (b[1].last - a[1].last))
-      .map(([name, f]) => f.custom ? customs.find(c => c.name === name) : index.find(i => i.name === name))
+      .map(([name, f]) => (f.custom || f.product) ? customs.find(c => c.name === name) : index.find(i => i.name === name))
       .filter(Boolean).slice(0, n);
   }
 
@@ -310,7 +316,7 @@
       }
       if (best >= 1.9) {
         const f = favs[item.name];
-        if (f && f.custom === !!item.custom) best += Math.min(5, f.count || 0) * 0.35 + (item.custom ? 0.5 : 0);
+        if (f && (f.custom === !!item.custom || (f.product && item.product))) best += Math.min(5, f.count || 0) * 0.35 + (item.custom ? 0.5 : 0);
         results.push({ item, score: best });
       }
     }
@@ -358,7 +364,7 @@
       const kcal = kcalOf(chosen, grams);
       nameInput.fkChoice = { name: chosen.name, macro: chosen.macro, grams, kcal };
       if (!manual) { kcalInput.value = kcal ? String(kcal) : ''; lastAuto = kcalInput.value; badge.hidden = false; }
-      note.textContent = chosen.custom ? 'Il tuo alimento: ' + chosen.kcal + ' kcal a porzione (come l’ultima volta).' : chosen.name + ' · ' + chosen.kcal + ' kcal/100 g → circa ' + kcal + ' kcal. Stima indicativa: per prodotti confezionati vale l’etichetta.';
+      note.textContent = chosen.product ? chosen.name + ' · ' + chosen.kcal + ' kcal/100 g (Open Food Facts) → ' + kcal + ' kcal.' : chosen.custom ? 'Il tuo alimento: ' + chosen.kcal + ' kcal a porzione (come l’ultima volta).' : chosen.name + ' · ' + chosen.kcal + ' kcal/100 g → circa ' + kcal + ' kcal. Stima indicativa: per prodotti confezionati vale l’etichetta.';
       list.querySelectorAll('li').forEach(li => li.setAttribute('aria-selected', li.dataset.name === chosen.name));
     }
     function choose(item, qty) {
@@ -378,7 +384,7 @@
         li.setAttribute('role', 'option'); li.dataset.name = it.name; li.tabIndex = 0;
         li.innerHTML = '<b></b><span></span>';
         li.firstChild.textContent = it.name;
-        li.lastChild.textContent = it.custom ? '★ tuo · ' + it.kcal + ' kcal a porzione' : '1 ' + it.unit + ' (' + it.grams + ' g) · ' + kcalOf(it, it.grams) + ' kcal';
+        li.lastChild.textContent = it.product ? '▦ prodotto · 1 ' + it.unit + ' (' + it.grams + ' g) · ' + kcalOf(it, it.grams) + ' kcal' : it.custom ? '★ tuo · ' + it.kcal + ' kcal a porzione' : '1 ' + it.unit + ' (' + it.grams + ' g) · ' + kcalOf(it, it.grams) + ' kcal';
         const pick = () => { if (!norm(nameInput.value)) nameInput.value = it.name; choose(it, parseQty(nameInput.value)); try { navigator.vibrate && navigator.vibrate(6); } catch (e) {} };
         li.addEventListener('click', pick);
         li.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(); } });
@@ -404,6 +410,7 @@
       // Calorie corrette a mano: lo ricordo come alimento tuo, con le tue calorie.
       else remember(null, nameInput.value, k);
     }, true);
+    nameInput.fkSetItem = item => { nameInput.value = item.name; render([item], 'Prodotto trovato'); choose(item, {}); kcalInput.dispatchEvent(new Event('change')); };
     let timer = null;
     nameInput.addEventListener('input', () => {
       clearTimeout(timer);

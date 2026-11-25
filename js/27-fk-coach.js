@@ -199,6 +199,8 @@
     if (d.kcal > d.goal * 1.1) return `Sei ${it(d.kcal - d.goal)} kcal sopra l’obiettivo: punta su verdure e proteine magre.`;
     if (d.train >= d.trainGoal && d.kcal >= d.goal * 0.85) return 'Giornata completa: allenamento fatto e calorie a posto. 🔥';
     if (d.train >= d.trainGoal) return `Allenamento fatto! Ti restano ${it(Math.max(0, left))} kcal per oggi.`;
+    const plan = typeof window.fkPlanToday === 'function' ? window.fkPlanToday() : '';
+    if (plan && d.train < d.trainGoal) return `Oggi tocca ${plan}. ` + (h < 11 ? 'Prima però registra la colazione.' : 'Quando sei pronto, si parte.');
     if (h < 11 && !d.meals.has('Colazione') && !d.kcal) return 'Inizia bene: registra la colazione.';
     if (h >= 12 && h < 15 && !d.meals.has('Pranzo')) return 'È ora di pranzo: cosa mangi oggi?';
     if (h >= 19 && h < 22 && !d.meals.has('Cena') && d.kcal) return `Per cena ti restano ${it(Math.max(0, left))} kcal.`;
@@ -224,13 +226,23 @@
     };
     if (firstPaint && !reduce) { firstPaint = false; requestAnimationFrame(() => requestAnimationFrame(apply)); } else apply();
     card.querySelector('.k-coach-cta').hidden = !!(d.profile && d.profile.targets);
+    const planName = typeof window.fkPlanToday === 'function' ? window.fkPlanToday() : '';
+    const tb = card.querySelector('.k-coach-train'), tl = planName && d.train < d.trainGoal ? planName : 'Inizia';
+    if (tb.textContent !== tl) tb.textContent = tl;
     if (celebrate && !reduce) { card.classList.remove('k-pop'); void card.offsetWidth; card.classList.add('k-pop'); }
   }
 
   card.querySelector('.k-coach-profile').addEventListener('click', openSheet);
   card.querySelector('.k-coach-cta').addEventListener('click', openSheet);
   card.querySelector('.k-coach-goal').addEventListener('click', openSheet);
-  card.querySelector('.k-coach-train').addEventListener('click', () => $('hx-start') ? $('hx-start').click() : document.querySelector('[data-page="allenamenti"]')?.click());
+  card.querySelector('.k-coach-train').addEventListener('click', () => {
+    const plan = typeof window.fkPlanToday === 'function' ? window.fkPlanToday() : '';
+    document.querySelector('[data-page="allenamenti"]')?.click();
+    setTimeout(() => {
+      $('k-tab-sessione')?.click();
+      if (plan && window.fkGymTemplates && window.fkGymTemplates.includes(plan) && window.fkGymStart && !(window.fkGymActive && window.fkGymActive())) window.fkGymStart(plan);
+    }, 150);
+  });
   card.querySelector('.k-coach-water').addEventListener('click', () => {
     const btn = $('fk-water-add');
     if (btn) btn.click();
@@ -255,6 +267,7 @@
   });
   window.addEventListener('storage', schedule);
   window.addEventListener('fk-user', schedule);
+  window.addEventListener('fk-plan', schedule);
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') schedule(); });
   setInterval(schedule, 5 * 60000);
   renderCoach();

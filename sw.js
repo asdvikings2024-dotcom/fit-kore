@@ -1,5 +1,5 @@
 // FIT KORE — service worker: l'app si apre anche senza connessione.
-const VERSION = 'fk-20261125h';
+const VERSION = 'fk-20261125i';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icons/icon-192.png', './icons/icon-512.png', './privacy.html'];
 
 self.addEventListener('install', event => {
@@ -43,4 +43,14 @@ self.addEventListener('fetch', event => {
     }).catch(() => caches.match(req)));
   }
   // Tutto il resto (Firestore, login Google) passa direttamente alla rete.
+});
+
+// Tocco su un promemoria: apre FIT KORE sulla sezione giusta.
+self.addEventListener('notificationclick', event => {
+  event.notification.close();
+  const page = (event.notification.data && event.notification.data.page) || 'dashboard';
+  event.waitUntil(self.clients.matchAll({ type: 'window', includeUncontrolled: true }).then(list => {
+    for (const c of list) { if ('focus' in c) { c.postMessage({ fkPage: page }); return c.focus(); } }
+    return self.clients.openWindow('./?go=' + page);
+  }));
 });
