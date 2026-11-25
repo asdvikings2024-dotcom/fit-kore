@@ -691,3 +691,93 @@ html body #fk-rescue-meals li{display:flex!important;align-items:center;gap:10px
 html body #fk-rescue-meals .k-food-del{flex:none;width:32px!important;height:32px!important;padding:0!important;margin:0!important;border-radius:50%!important;font-size:12px!important;color:var(--k-muted)!important;background:rgba(255,255,255,.05)!important}
 html body #fk-rescue-meals .k-meal-add{width:100%!important;margin:10px 0 0!important;height:42px;border:1px dashed rgba(255,255,255,.16)!important;background:transparent!important;color:var(--k-text)!important;font-size:13.5px!important}
 html body #fk-rescue-meals .fk-rescue-meal.is-empty .k-meal-add{border-color:rgba(223,255,0,.35)!important;color:var(--k-lime)!important}
+
+/* =====================================================================
+   PIÙ COLORI — accento per sezione, il lime resta il colore principale
+   ===================================================================== */
+:root{--k-accent:#dfff00;--k-accent2:#9dff4a;--k-accent-rgb:223,255,0}
+html[data-sec="alimentazione"]{--k-accent:#ff8a4c;--k-accent2:#ffd166;--k-accent-rgb:255,138,76}
+html[data-sec="allenamenti"]{--k-accent:#3ee8ff;--k-accent2:#4d7cff;--k-accent-rgb:62,232,255}
+html[data-sec="diario"]{--k-accent:#c77dff;--k-accent2:#ff5fd2;--k-accent-rgb:199,125,255}
+
+/* sfondo: la prima aurora prende il colore della sezione */
+.k-aurora i{transition:background 1s ease}
+html[data-sec] .k-aurora i:nth-child(1){background:radial-gradient(circle,rgba(var(--k-accent-rgb),.24),transparent 65%)}
+html[data-sec="dashboard"] .k-aurora i:nth-child(2),html:not([data-sec]) .k-aurora i:nth-child(2){background:radial-gradient(circle,rgba(199,125,255,.12),transparent 65%)}
+html[data-sec="alimentazione"] .k-aurora i:nth-child(2){background:radial-gradient(circle,rgba(255,95,210,.12),transparent 65%)}
+html[data-sec="allenamenti"] .k-aurora i:nth-child(2){background:radial-gradient(circle,rgba(77,124,255,.18),transparent 65%)}
+html[data-sec="diario"] .k-aurora i:nth-child(2){background:radial-gradient(circle,rgba(62,232,255,.12),transparent 65%)}
+
+/* intestazione e titoli card */
+html body .top .eyebrow{color:var(--k-accent)!important}
+html body #pagetitle{background:linear-gradient(90deg,#fff 0 55%,var(--k-accent) 100%);-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent}
+html body .section h3::before{background:linear-gradient(180deg,var(--k-accent),var(--k-accent2))!important;box-shadow:0 0 12px rgba(var(--k-accent-rgb),.8)!important}
+.k-spot::before{background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),rgba(var(--k-accent-rgb),.12),transparent 45%)}
+.k-spot::after{background:radial-gradient(260px circle at var(--mx,50%) var(--my,50%),rgba(var(--k-accent-rgb),.7),transparent 50%)}
+
+/* navigazione: ogni voce ha il suo colore */
+html body .nav button[data-page="dashboard"]{--nc:#dfff00;--nc-rgb:223,255,0}
+html body .nav button[data-page="alimentazione"]{--nc:#ff8a4c;--nc-rgb:255,138,76}
+html body .nav button[data-page="allenamenti"]{--nc:#3ee8ff;--nc-rgb:62,232,255}
+html body .nav button[data-page="diario"]{--nc:#c77dff;--nc-rgb:199,125,255}
+html body .nav button[data-page].active:not(.fk-k-center){color:var(--nc)!important}
+html body .nav button[data-page].active .k-ico{filter:drop-shadow(0 0 8px rgba(var(--nc-rgb),.8))}
+html body .nav .k-nav-pill{background:linear-gradient(180deg,rgba(var(--k-accent-rgb),.16),rgba(var(--k-accent-rgb),.04));border-color:rgba(var(--k-accent-rgb),.35);transition:left .45s var(--k-ease),width .45s var(--k-ease),top .45s var(--k-ease),height .45s var(--k-ease),background .5s,border-color .5s}
+
+/* schede Allenamenti */
+html body .k-tabs button[aria-selected=true]{background:linear-gradient(135deg,var(--k-accent),var(--k-accent2))!important;color:#03141a!important;box-shadow:0 10px 30px -10px rgba(var(--k-accent-rgb),.7)!important}
+
+/* Home: card colorate */
+html body .section article.k-coach{background:radial-gradient(120% 90% at 100% 0%,rgba(223,255,0,.14),transparent 55%),radial-gradient(90% 80% at 0% 100%,rgba(199,125,255,.12),transparent 60%),linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.015))!important}
+html body .section article.fk-mission{background:radial-gradient(100% 120% at 100% 0%,rgba(255,138,76,.16),transparent 60%),linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015))!important}
+html body .fk-mission-track > *{background:linear-gradient(90deg,#ff8a4c,#ffd166,#dfff00)!important}
+html body .section article.kore-graph{background:radial-gradient(100% 120% at 0% 0%,rgba(62,232,255,.12),transparent 60%),linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015))!important}
+html body #chart .bar:not(.is-today):not(.is-empty){background:linear-gradient(180deg,#3ee8ff,#4d7cff 70%,rgba(77,124,255,.3))!important}
+
+/* Cibo */
+html body .section article#fk-rescue-diary{background:radial-gradient(110% 60% at 50% 0%,rgba(255,138,76,.14),transparent 60%),linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015))!important}
+.k-cal-fill{stroke:url(#k-calg2)}
+html body #fk-rescue-meals .fk-rescue-meal{border-left:3px solid color-mix(in srgb,var(--c,#dfff00) 70%,transparent)!important}
+html body #fk-rescue-meals .fk-rescue-meal[data-meal="Colazione"]{--c:#ffd166}
+html body #fk-rescue-meals .fk-rescue-meal[data-meal="Pranzo"]{--c:#dfff00}
+html body #fk-rescue-meals .fk-rescue-meal[data-meal="Cena"]{--c:#8fb3ff}
+html body #fk-rescue-meals .fk-rescue-meal[data-meal="Spuntino"]{--c:#ff8f8f}
+html body #fk-rescue-meals .fk-rescue-meal .k-meal-bar i{background:linear-gradient(90deg,color-mix(in srgb,var(--c) 60%,#fff),var(--c));box-shadow:0 0 10px color-mix(in srgb,var(--c) 60%,transparent)}
+html body .section article.k-history{background:radial-gradient(100% 80% at 100% 0%,rgba(255,95,210,.12),transparent 60%),linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015))!important}
+.k-hbar:not(.is-today):not(.is-empty):not(.is-over) .k-hbar-fill{background:linear-gradient(180deg,#ff8a4c,rgba(255,95,210,.35))!important;box-shadow:0 0 16px rgba(255,138,76,.3)!important}
+
+/* Palestra */
+html body .section .k-gym-templates button{position:relative;overflow:hidden!important}
+html body .section .k-gym-templates button::after{content:"";position:absolute;inset:auto -20% -60% auto;width:90px;height:90px;border-radius:50%;background:var(--tc);opacity:.28;filter:blur(20px);pointer-events:none}
+html body .section .k-gym-templates button{border-color:color-mix(in srgb,var(--tc) 40%,transparent)!important}
+html body .section .k-gym-templates button b{color:var(--tc)!important}
+.k-gym-templates button:nth-child(1){--tc:#ff6b6b}
+.k-gym-templates button:nth-child(2){--tc:#4d9bff}
+.k-gym-templates button:nth-child(3){--tc:#9dff4a}
+.k-gym-templates button:nth-child(4){--tc:#ffd84d}
+.k-gym-templates button:nth-child(5){--tc:#c77dff}
+.k-gym-templates button:nth-child(6){--tc:#2ee6a6}
+.k-gym-eyebrow{color:var(--k-accent)!important}
+.k-gym-clock b{color:var(--k-accent)!important;text-shadow:0 0 18px rgba(var(--k-accent-rgb),.5)!important}
+.k-ex-muscle[data-c]{color:var(--mc)!important;background:color-mix(in srgb,var(--mc) 15%,transparent)!important}
+.k-ex{border-left:3px solid color-mix(in srgb,var(--k-accent) 55%,transparent)!important}
+.k-picker-muscles button[data-c]{border-color:color-mix(in srgb,var(--mc) 45%,transparent);color:var(--mc)}
+.k-picker-muscles button[data-c][aria-pressed=true]{background:var(--mc);color:#0b0f00}
+.k-pick span[data-c]{color:var(--mc)}
+.k-heat i.l1{background:rgba(62,232,255,.30)!important}
+.k-heat i.l2{background:linear-gradient(135deg,#3ee8ff,#4d7cff)!important}
+.k-heat i.l3{background:linear-gradient(135deg,#dfff00,#9dff4a)!important}
+.k-heat-legend i.l1{background:rgba(62,232,255,.30)!important}.k-heat-legend i.l2{background:#3ee8ff!important}
+.k-streak-stats div:nth-child(2) b{color:#ffd84d}
+.k-streak-stats div:nth-child(3) b{color:#3ee8ff}
+.k-streak-stats div:nth-child(4) b{color:#c77dff}
+html body .section article.k-weight{background:radial-gradient(100% 80% at 100% 0%,rgba(199,125,255,.14),transparent 60%),linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015))!important}
+.k-wline{stroke:url(#k-wline-g)}
+
+/* Diario */
+html body .section #diario .lower > article:first-child,html body #diario .lower > article:first-child{background:radial-gradient(100% 90% at 100% 0%,rgba(199,125,255,.18),transparent 60%),radial-gradient(80% 80% at 0% 100%,rgba(255,95,210,.10),transparent 60%),linear-gradient(160deg,rgba(255,255,255,.055),rgba(255,255,255,.015))!important}
+html body #diario textarea:focus{border-color:#c77dff!important;box-shadow:0 0 0 4px rgba(199,125,255,.15)!important}
+
+/* coriandoli e toast multicolore restano; badge stima */
+.k-est-badge{background:linear-gradient(90deg,#dfff00,#9dff4a)}
+html body #diario .lower > article:first-child{border-color:rgba(199,125,255,.4)!important;box-shadow:0 20px 50px -24px rgba(199,125,255,.45)!important}

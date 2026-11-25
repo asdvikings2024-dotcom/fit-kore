@@ -1,5 +1,5 @@
 // FIT KORE — service worker: l'app si apre anche senza connessione.
-const VERSION = 'fk-20261125g';
+const VERSION = 'fk-20261125h';
 const CORE = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icons/icon-192.png', './icons/icon-512.png', './privacy.html'];
 
 self.addEventListener('install', event => {

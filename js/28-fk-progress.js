@@ -122,7 +122,7 @@
       const line = pts.map((p, i) => (i ? 'L' : 'M') + X(p).toFixed(1) + ' ' + Y(p.kg).toFixed(1)).join(' ');
       const area = line + ` L${X(pts[pts.length - 1]).toFixed(1)} ${H - P} L${X(pts[0]).toFixed(1)} ${H - P} Z`;
       chart.innerHTML = `<svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Andamento del peso: da ${kg(pts[0].kg)} a ${kg(last.kg)} kg">
-        <defs><linearGradient id="k-wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#dfff00" stop-opacity=".35"/><stop offset="1" stop-color="#dfff00" stop-opacity="0"/></linearGradient></defs>
+        <defs><linearGradient id="k-wg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#c77dff" stop-opacity=".35"/><stop offset="1" stop-color="#c77dff" stop-opacity="0"/></linearGradient><linearGradient id="k-wline-g" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#c77dff"/><stop offset=".6" stop-color="#3ee8ff"/><stop offset="1" stop-color="#dfff00"/></linearGradient></defs>
         <text x="${P}" y="12" class="k-wt">${kg(hi - 0.5)}</text><text x="${P}" y="${H - 4}" class="k-wt">${kg(lo + 0.5)}</text>
         <path d="${area}" fill="url(#k-wg)"/><path d="${line}" class="k-wline"/>
         ${pts.map((p, i) => `<circle cx="${X(p).toFixed(1)}" cy="${Y(p.kg).toFixed(1)}" r="${i === pts.length - 1 ? 5 : 3}" class="${i === pts.length - 1 ? 'k-wlast' : 'k-wdot'}"><title>${new Date(p.d + 'T12:00:00').toLocaleDateString('it-IT', { day: 'numeric', month: 'short' })}: ${kg(p.kg)} kg</title></circle>`).join('')}
