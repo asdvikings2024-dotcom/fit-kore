@@ -194,6 +194,45 @@
     ['Panna', 300, 'cucchiaio', 15, 'panna da cucina', 'panna montata']
   ];
 
+  // Macronutrienti per 100 g: [proteine, carboidrati, grassi] (valori medi indicativi).
+  const MACROS = {
+    'Biscotto frollino': [6.5, 70, 18], 'Biscotto secco': [7, 77, 9], 'Biscotto integrale': [7, 66, 16], 'Fetta biscottata': [11, 75, 6],
+    'Cornetto vuoto': [7.5, 48, 21], 'Cornetto alla crema': [6.5, 47, 18], 'Crostata': [5, 63, 14], 'Torta': [6, 55, 15], 'Muffin': [5.5, 52, 19],
+    'Merendina': [6, 58, 18], 'Krapfen': [6.5, 47, 21], 'Cannolo siciliano': [7, 42, 17], 'Tiramisù': [6, 30, 17], 'Panna cotta': [3, 20, 15],
+    'Gelato': [4, 28, 10], 'Pandoro': [8, 52, 18], 'Panettone': [7, 53, 14], 'Pancake': [6.5, 32, 8.5], 'Cioccolato fondente': [7.5, 47, 34],
+    'Cioccolato al latte': [7.5, 57, 31], 'Crema spalmabile': [6.3, 57, 31], 'Marmellata': [0.4, 61, 0.1], 'Miele': [0.6, 80, 0], 'Zucchero': [0, 100, 0],
+    'Caramella': [3, 92, 0.5], 'Cereali': [7.5, 84, 0.9], 'Muesli': [9.5, 64, 7.5], 'Fiocchi d’avena': [13, 60, 7], 'Barretta ai cereali': [6, 68, 12],
+    'Barretta proteica': [30, 33, 11], 'Caffè espresso': [0.1, 0.3, 0.2], 'Caffè zuccherato': [0.1, 17, 0.2], 'Cappuccino': [3.1, 4.6, 2.2],
+    'Caffè latte': [3, 4.8, 2], 'Latte intero': [3.3, 4.9, 3.6], 'Latte parzialmente scremato': [3.4, 5, 1.6], 'Latte scremato': [3.5, 5, 0.2],
+    'Latte di soia': [3.3, 1.5, 1.9], 'Tè': [0, 0.3, 0], 'Tè freddo': [0, 7.5, 0], 'Succo di frutta': [0.3, 12, 0.1], 'Spremuta d’arancia': [0.7, 10, 0.2],
+    'Coca-Cola': [0, 10.6, 0], 'Coca-Cola Zero': [0, 0, 0], 'Birra': [0.5, 3.5, 0], 'Vino rosso': [0.1, 2.6, 0], 'Vino bianco': [0.1, 2.6, 0],
+    'Prosecco': [0.1, 1.5, 0], 'Spritz': [0.1, 9, 0], 'Gin tonic': [0, 8, 0], 'Acqua': [0, 0, 0], 'Proteine in polvere': [78, 7, 5],
+    'Pasta (cruda)': [12.5, 72, 1.5], 'Pasta al pomodoro': [4.5, 23, 3.3], 'Pasta al pesto': [5, 21, 6.5], 'Pasta alla carbonara': [8.5, 21, 10],
+    'Pasta al ragù': [7.5, 21, 6.5], 'Pasta all’amatriciana': [7, 21, 8.5], 'Pasta cacio e pepe': [8, 24, 8], 'Pasta integrale (cruda)': [13.5, 66, 2.5],
+    'Lasagna': [8, 14, 8], 'Risotto': [3.5, 22, 4], 'Riso bianco (cotto)': [2.7, 28, 0.3], 'Riso (crudo)': [7, 80, 0.6], 'Gnocchi': [3.5, 32, 0.6],
+    'Tortellini': [12, 40, 9], 'Cous cous (crudo)': [12.5, 73, 1], 'Minestrone': [1.8, 6, 1.5], 'Pasta e fagioli': [5, 16, 2.5],
+    'Pizza margherita': [10, 33, 8], 'Pizza al taglio': [9, 36, 10], 'Focaccia': [7, 42, 11], 'Piadina farcita': [11, 30, 12], 'Panino imbottito': [11, 32, 9],
+    'Toast': [13, 30, 11], 'Tramezzino': [9, 26, 12], 'Hamburger (panino)': [12.5, 24, 11.5], 'Kebab': [11, 20, 10], 'Crocchette di pollo': [15, 16, 16],
+    'Arancino': [7, 28, 9.5], 'Supplì': [8, 27, 10], 'Sushi': [6, 25, 3], 'Poke bowl': [8, 18, 4], 'Pane': [8.5, 53, 1.5], 'Pane integrale': [9.5, 46, 2.5],
+    'Panino (rosetta)': [8.5, 56, 1.5], 'Pan carré': [8, 48, 5], 'Grissini': [12, 68, 9], 'Crackers': [10, 70, 12], 'Gallette di riso': [8, 81, 3],
+    'Taralli': [9, 62, 18], 'Petto di pollo': [31, 0, 3.6], 'Pollo arrosto': [27, 0, 9], 'Cotoletta': [17, 14, 13], 'Hamburger di manzo': [20, 1, 18],
+    'Bistecca di manzo': [28, 0, 10], 'Vitello': [21, 0, 2.7], 'Maiale': [26, 0, 13], 'Salsiccia': [15, 1, 26], 'Würstel': [11, 3, 25], 'Polpette': [15, 8, 14],
+    'Uovo': [12.4, 0.7, 8.7], 'Frittata': [11, 2, 14], 'Salmone': [20, 0, 13], 'Tonno sott’olio': [25, 0, 10], 'Tonno al naturale': [23, 0, 1],
+    'Merluzzo': [17, 0, 0.7], 'Orata': [20, 0, 4.5], 'Pesce spada': [19, 0, 4], 'Gamberi': [14, 0.5, 0.8], 'Frittura di pesce': [14, 15, 15],
+    'Bastoncini di pesce': [13, 18, 8.5], 'Prosciutto crudo': [26, 0.3, 18], 'Prosciutto cotto': [20, 1, 14.5], 'Bresaola': [32, 0.5, 2.6],
+    'Mortadella': [15, 1.5, 28], 'Salame': [26, 1.5, 33], 'Speck': [28, 0.5, 20], 'Mozzarella': [18.5, 0.7, 19.5], 'Burrata': [14, 1, 25],
+    'Parmigiano': [33, 0, 28], 'Ricotta': [9.5, 3.5, 10], 'Stracchino': [18.5, 0, 25], 'Formaggio': [25, 1, 28], 'Formaggio spalmabile': [6, 4, 23],
+    'Feta': [15, 1.5, 21], 'Yogurt bianco': [3.8, 4.3, 3.9], 'Yogurt greco 0%': [10, 4, 0.2], 'Yogurt alla frutta': [3.2, 15, 2.5],
+    'Lenticchie (cotte)': [9, 17, 0.4], 'Fagioli (cotti)': [7, 16, 0.5], 'Ceci (cotti)': [8, 18, 2.5], 'Piselli': [5.5, 11, 0.4], 'Hummus': [7, 14, 10],
+    'Tofu': [13, 2, 7.5], 'Insalata': [1.5, 2.2, 0.3], 'Pomodoro': [1, 3.5, 0.2], 'Verdure grigliate': [1.5, 5, 3.5], 'Verdure lesse': [2.5, 3.5, 0.4],
+    'Carota': [1, 7.5, 0.2], 'Patate lesse': [2, 18, 0.1], 'Patate al forno': [2.5, 22, 5.5], 'Patatine fritte': [3.4, 41, 15], 'Patatine in busta': [6.5, 53, 33],
+    'Popcorn': [12, 70, 9], 'Mela': [0.3, 13.7, 0.2], 'Banana': [1.1, 22.8, 0.3], 'Arancia': [0.9, 9, 0.2], 'Mandarino': [0.8, 13, 0.3], 'Pera': [0.4, 13, 0.1],
+    'Kiwi': [1.1, 14.7, 0.5], 'Fragole': [0.7, 7.7, 0.3], 'Uva': [0.6, 17, 0.2], 'Pesca': [0.9, 9.5, 0.3], 'Albicocca': [1.4, 11, 0.4], 'Ciliegie': [1, 16, 0.2],
+    'Ananas': [0.5, 13, 0.1], 'Anguria': [0.6, 7.5, 0.2], 'Melone': [0.8, 8, 0.2], 'Frutti di bosco': [0.9, 10, 0.4], 'Avocado': [2, 8.5, 15],
+    'Datteri': [2.5, 75, 0.4], 'Frutta secca': [20, 15, 52], 'Burro d’arachidi': [25, 20, 50], 'Olio d’oliva': [0, 0, 100], 'Burro': [0.8, 0.6, 83],
+    'Maionese': [1.1, 1.5, 75], 'Ketchup': [1.2, 25, 0.2], 'Sugo di pomodoro': [1.5, 7, 1.5], 'Panna': [2.5, 3.5, 30]
+  };
+
   const WORDNUM = { un: 1, uno: 1, una: 1, 'un’': 1, mezzo: 0.5, mezza: 0.5, due: 2, tre: 3, quattro: 4, cinque: 5, sei: 6, sette: 7, otto: 8, nove: 9, dieci: 10 };
   const STOP = new Set(['di', 'del', 'della', 'dello', 'dei', 'degli', 'delle', 'al', 'alla', 'allo', 'ai', 'agli', 'alle', 'con', 'e', 'in', 'il', 'lo', 'la', 'i', 'gli', 'le', 'a', 'da', 'per', 'g', 'gr', 'grammi', 'ml', 'pz', 'pezzi', 'pezzo', 'fetta', 'fette', 'porzione', 'porzioni', 'piatto', 'bicchiere', 'tazza', 'tazzina', 'cucchiaio', 'cucchiaini', 'cucchiaino', 'vasetto']);
 
@@ -201,7 +240,7 @@
   const stem = w => w.length > 4 ? w.replace(/(i|e|a|o|he|hi)$/, '') : w;
 
   const index = DB.map(([name, kcal, unit, grams, ...aliases]) => ({
-    name, kcal, unit, grams,
+    name, kcal, unit, grams, macro: MACROS[name] || null,
     terms: [name, ...aliases].map(t => norm(t).split(' ').filter(w => w && !STOP.has(w)).map(stem))
   }));
 
@@ -275,6 +314,7 @@
       unitEl.textContent = byGrams ? 'grammi' : ('× ' + chosen.unit + ' da ' + chosen.grams + ' g = ' + fmt(grams) + ' g');
       modeBtn.textContent = byGrams ? 'a ' + chosen.unit : 'in grammi';
       const kcal = kcalOf(chosen, grams);
+      nameInput.fkChoice = { name: chosen.name, macro: chosen.macro, grams, kcal };
       if (!manual) { kcalInput.value = kcal ? String(kcal) : ''; lastAuto = kcalInput.value; badge.hidden = false; }
       note.textContent = chosen.name + ' · ' + chosen.kcal + ' kcal/100 g → circa ' + kcal + ' kcal. Stima indicativa: per prodotti confezionati vale l’etichetta.';
       list.querySelectorAll('li').forEach(li => li.setAttribute('aria-selected', li.dataset.name === chosen.name));
@@ -286,7 +326,7 @@
       update();
     }
     function clear(msg) {
-      chosen = null; qtyRow.hidden = true; badge.hidden = true; note.textContent = msg || '';
+      chosen = null; nameInput.fkChoice = null; qtyRow.hidden = true; badge.hidden = true; note.textContent = msg || '';
       if (!manual && kcalInput.value === lastAuto) kcalInput.value = '';
     }
     function render(items) {
@@ -342,7 +382,7 @@
     }
   }
 
-  window.FKFood = { search, parseQty, attach };
+  window.FKFood = { search, parseQty, attach, find: name => index.find(i => i.name === name) || search(name)[0] || null };
   attach(document.getElementById('fk-rescue-name'), document.getElementById('fk-rescue-kcal'));
   attach(document.getElementById('mealname'), document.getElementById('kcal'));
 })();

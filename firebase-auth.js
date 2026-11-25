@@ -1,5 +1,5 @@
-import {firebaseConfig} from './firebase-config.js?v=20261125b';
-import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125b';
+import {firebaseConfig} from './firebase-config.js?v=20261125c';
+import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125c';
 
 const required=['apiKey','authDomain','projectId','appId'];
 if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key].trim())){
@@ -63,6 +63,7 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
     stopSync();flushSync=null;
     await A.signOut(auth);
     clearLocalData(); // i dati restano nel tuo account, non su questo dispositivo
+    try{localStorage.removeItem('fk-approved-uid')}catch(e){}
     location.reload();
    }catch(e){report(e)}
   });
@@ -141,16 +142,28 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
     if(current!==sequence||auth.currentUser?.uid!==user.uid)return;
     const isAdmin=admin.exists(),state=member.data()?.status;
     if(isAdmin||state==='approved'){
+     try{localStorage.setItem('fk-approved-uid',user.uid)}catch(e){}
      flushSync=await startSync({db,F,user});
      if(current!==sequence)return;
      showApp();
      status.textContent=isAdmin?'Accesso amministratore autorizzato.':'Accesso approvato.';
      if(isAdmin)await renderAdmin();
     }else{
-     stopSync();flushSync=null;
+     stopSync();flushSync=null;try{localStorage.removeItem('fk-approved-uid')}catch(e){}
      showGate(state==='rejected'?'La richiesta è stata rifiutata. Contatta l’amministratore.':'Richiesta inviata. In attesa dell’approvazione dell’amministratore.');
     }
-   }catch(e){if(current===sequence){showGate('Impossibile verificare i permessi.');report(e)}}
+   }catch(e){
+    if(current!==sequence)return;
+    // Senza connessione: se questo account era già approvato su questo dispositivo, l'app resta utilizzabile
+    // e le modifiche vengono inviate al cloud appena torna la rete.
+    let known=false;try{known=localStorage.getItem('fk-approved-uid')===user.uid}catch(x){}
+    if(known&&(!navigator.onLine||e?.code==='unavailable'||/offline/i.test(e?.message||''))){
+     flushSync=await startSync({db,F,user});showApp();status.textContent='Offline: dati salvati sul dispositivo.';
+     window.addEventListener('online',()=>refreshSession(auth.currentUser),{once:true});
+     return;
+    }
+    showGate('Impossibile verificare i permessi.');report(e);
+   }
   }
   async function renderAdmin(){
    const root=document.querySelector('#dashboard');if(!root)return;

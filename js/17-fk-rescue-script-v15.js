@@ -9,6 +9,7 @@ root.querySelectorAll('.fk-rescue-meal').forEach(box=>{const type=box.dataset.me
 root.querySelectorAll('[data-add]').forEach(b=>b.onclick=()=>{$('fk-rescue-form').hidden=false;$('fk-rescue-type').value=b.dataset.add;$('fk-rescue-heading').textContent='Aggiungi a '+b.dataset.add;$('fk-rescue-name').focus()});
 $('fk-rescue-cancel').onclick=()=>{$('fk-rescue-form').hidden=true};
 $('fk-rescue-form').onsubmit=e=>{e.preventDefault();const name=$('fk-rescue-name').value.trim(),kcal=Number($('fk-rescue-kcal').value),type=$('fk-rescue-type').value;if(!name||!Number.isFinite(kcal)||kcal<1||kcal>5000)return;const data=read();if(data.date!==today()){data.date=today();data.entries=[]}if(!Array.isArray(data.entries))data.entries=[];data.entries.push({name,kcal,mealType:type,p:0,c:0,f:0});try{localStorage.setItem(key,JSON.stringify(data))}catch(e){$('fk-rescue-status').textContent='Salvataggio non riuscito.';return}$('fk-rescue-form').reset();$('fk-rescue-form').hidden=true;$('fk-rescue-status').textContent='Pasto salvato.';draw();if(typeof render==='function')render()};
+window.fkRescueDraw=draw;
 $('fk-rescue-advanced').onclick=()=>{const panel=document.querySelector('#alimentazione .fk-nutrition');if(panel){panel.style.setProperty('display','block','important');panel.scrollIntoView({behavior:'smooth'})}};
 draw();
 })();
