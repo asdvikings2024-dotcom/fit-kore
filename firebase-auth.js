@@ -1,5 +1,5 @@
-import {firebaseConfig} from './firebase-config.js?v=20261125f';
-import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125f';
+import {firebaseConfig} from './firebase-config.js?v=20261125g';
+import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125g';
 
 const required=['apiKey','authDomain','projectId','appId'];
 if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key].trim())){
@@ -24,13 +24,14 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
   #fk-admin-list .fk-admin-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #37402e}
   #fk-admin-list .fk-admin-row span{overflow-wrap:anywhere;flex:1 1 180px}
   `;
+  css.textContent+=`.kore-access-google{display:flex!important;align-items:center;justify-content:center;gap:12px;width:100%;height:54px;margin:14px 0 6px;border-radius:15px;border:0;background:#fff!important;color:#1f1f1f!important;font:700 16px Inter,system-ui,sans-serif;cursor:pointer;box-shadow:0 12px 30px -12px rgba(255,255,255,.35)}.kore-access-google:disabled{opacity:.6}.kore-google-hint{margin:0 0 6px;font-size:12.5px;color:#b9c2b5;text-align:center}.kore-or{display:flex;align-items:center;gap:10px;margin:14px 0 10px;color:#8d978a;font-size:12px;text-transform:uppercase;letter-spacing:.1em}.kore-or::before,.kore-or::after{content:'';flex:1;height:1px;background:rgba(255,255,255,.1)}.kore-terms a{color:#dfff00}.fk-auth-approved .kore-access-google,.fk-auth-approved .kore-google-hint,.fk-auth-approved .kore-or{display:none!important}`;
   css.textContent+=`.fk-auth-approved #kore-access-form,.fk-auth-approved .kore-access-tabs,.fk-auth-approved #kore-google-login,.fk-auth-approved .kore-terms,.fk-auth-approved .kore-forgot,.fk-auth-approved .kore-access-warning{display:none!important}.kore-account{margin:6px 0 12px;display:grid;gap:10px}.kore-account[hidden],.kore-account [hidden]{display:none!important}.kore-account-who{font-weight:700;color:#dfff00;margin:0}.kore-account-pass{display:grid;gap:8px;padding:14px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(255,255,255,.03)}.kore-account-pass p{margin:0;font-size:12.5px;line-height:1.45;color:#b9c2b5}.kore-account-ok{margin:0;color:#dfff00;font-size:13px}.kore-forgot{background:none!important;border:0!important;color:#b9c2b5!important;font-size:12.5px!important;text-decoration:underline;padding:6px 0!important;cursor:pointer;box-shadow:none!important;width:auto!important;justify-self:start}.kore-terms{display:flex;gap:10px;align-items:flex-start;margin:12px 0 4px;font-size:12.5px;line-height:1.45;color:#b9c2b5;cursor:pointer}.kore-terms input{margin-top:2px;width:18px;height:18px;flex:none;accent-color:#dfff00}`;
   document.head.append(css);
   if(warning)warning.textContent='Le nuove iscrizioni richiedono approvazione. Le credenziali sono gestite da Firebase.';
   // Condizioni della beta: necessarie solo per creare la richiesta d'iscrizione.
   const TERMS_VERSION='beta-2026-11-19';
   const termsLabel=document.createElement('label');termsLabel.className='kore-terms';
-  termsLabel.innerHTML='<input type="checkbox" id="kore-terms"> <span>Per iscrivermi accetto le condizioni della beta: i miei dati FIT KORE (pasti, allenamenti, diario) vengono salvati nel mio account su Firebase e l’accesso è soggetto ad approvazione. Posso chiedere la cancellazione in qualsiasi momento.</span>';
+  termsLabel.innerHTML='<input type="checkbox" id="kore-terms"> <span>Accetto le <a href="./privacy.html" target="_blank" rel="noopener">condizioni e l’informativa privacy</a> e acconsento al salvataggio dei miei dati FIT KORE (pasti, allenamenti, peso, diario) nel mio account. Posso chiederne la cancellazione in qualsiasi momento.</span>';
   form.after(termsLabel);
   const messages={
    'auth/provider-already-linked':'Hai già una password collegata a questo account.',
@@ -167,7 +168,7 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
    }
   }
   async function renderAdmin(){
-   try{const mod=await import('./js/admin.js?v=20261125f');mod.mountAdmin({db,F,me:auth.currentUser?.uid,messages})}
+   try{const mod=await import('./js/admin.js?v=20261125g');mod.mountAdmin({db,F,me:auth.currentUser?.uid,messages})}
    catch(e){console.error('FIT KORE admin:',e)}
   }
   // Il vecchio modulo dimostrativo aveva un listener che non invia dati: lo sostituiamo.
@@ -184,6 +185,17 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
    }catch(e){report(e)}finally{submit.disabled=false;$('kore-access-password').value=''}
   });
   const google=$('kore-google-login').cloneNode(true);$('kore-google-login').replaceWith(google);
+  // Google come accesso principale: in alto, con le condizioni subito sotto; email come alternativa.
+  {
+   const panel=document.querySelector('.kore-access-panel'),tabs=panel?.querySelector('.kore-access-tabs');
+   if(panel&&tabs){
+    google.className='kore-access-google';
+    google.innerHTML='<svg viewBox="0 0 48 48" width="20" height="20" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="m6.3 14.7 6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg><span>Continua con Google</span>';
+    const hint=document.createElement('p');hint.className='kore-google-hint';hint.textContent='Consigliato: nessuna password da ricordare. Funziona sia per entrare sia per iscriverti.';
+    const divider=document.createElement('div');divider.className='kore-or';divider.innerHTML='<span>oppure con email</span>';
+    panel.insertBefore(google,tabs);google.after(hint);hint.after(termsLabel);termsLabel.after(divider);
+   }
+  }
   google.addEventListener('click',async()=>{
    google.disabled=true;status.textContent='Accesso Google in corso…';
    try{const credential=await A.signInWithPopup(auth,new A.GoogleAuthProvider());await refreshSession(credential.user)}

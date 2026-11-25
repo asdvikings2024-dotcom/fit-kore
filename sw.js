@@ -1,6 +1,6 @@
 // FIT KORE — service worker: l'app si apre anche senza connessione.
-const VERSION = 'fk-20261125f';
-const CORE = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icons/icon-192.png', './icons/icon-512.png'];
+const VERSION = 'fk-20261125g';
+const CORE = ['./', './index.html', './manifest.webmanifest', './icon.svg', './icons/icon-192.png', './icons/icon-512.png', './privacy.html'];
 
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(VERSION).then(c => c.addAll(CORE)).then(() => self.skipWaiting()));

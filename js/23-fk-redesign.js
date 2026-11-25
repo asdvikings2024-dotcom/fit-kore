@@ -328,6 +328,7 @@
     }).observe(count, { childList: true, characterData: true, subtree: true });
   }
 
+  window.fkConfetti = confetti; window.fkToast = toast;
   /* ---------- Avvio ---------- */
   revealSection();
   setTimeout(() => countAll(document), 250);
