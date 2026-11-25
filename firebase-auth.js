@@ -1,5 +1,5 @@
-import {firebaseConfig} from './firebase-config.js?v=20261125a';
-import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125a';
+import {firebaseConfig} from './firebase-config.js?v=20261125b';
+import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125b';
 
 const required=['apiKey','authDomain','projectId','appId'];
 if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key].trim())){
@@ -24,7 +24,7 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
   #fk-admin-list .fk-admin-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #37402e}
   #fk-admin-list .fk-admin-row span{overflow-wrap:anywhere;flex:1 1 180px}
   `;
-  css.textContent+=`.kore-terms{display:flex;gap:10px;align-items:flex-start;margin:12px 0 4px;font-size:12.5px;line-height:1.45;color:#b9c2b5;cursor:pointer}.kore-terms input{margin-top:2px;width:18px;height:18px;flex:none;accent-color:#dfff00}`;
+  css.textContent+=`.fk-auth-approved #kore-access-form,.fk-auth-approved .kore-access-tabs,.fk-auth-approved #kore-google-login,.fk-auth-approved .kore-terms,.fk-auth-approved .kore-forgot,.fk-auth-approved .kore-access-warning{display:none!important}.kore-account{margin:6px 0 12px;display:grid;gap:10px}.kore-account[hidden],.kore-account [hidden]{display:none!important}.kore-account-who{font-weight:700;color:#dfff00;margin:0}.kore-account-pass{display:grid;gap:8px;padding:14px;border:1px solid rgba(255,255,255,.1);border-radius:14px;background:rgba(255,255,255,.03)}.kore-account-pass p{margin:0;font-size:12.5px;line-height:1.45;color:#b9c2b5}.kore-account-ok{margin:0;color:#dfff00;font-size:13px}.kore-forgot{background:none!important;border:0!important;color:#b9c2b5!important;font-size:12.5px!important;text-decoration:underline;padding:6px 0!important;cursor:pointer;box-shadow:none!important;width:auto!important;justify-self:start}.kore-terms{display:flex;gap:10px;align-items:flex-start;margin:12px 0 4px;font-size:12.5px;line-height:1.45;color:#b9c2b5;cursor:pointer}.kore-terms input{margin-top:2px;width:18px;height:18px;flex:none;accent-color:#dfff00}`;
   document.head.append(css);
   if(warning)warning.textContent='Le nuove iscrizioni richiedono approvazione. Le credenziali sono gestite da Firebase.';
   // Condizioni della beta: necessarie solo per creare la richiesta d'iscrizione.
@@ -33,10 +33,16 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
   termsLabel.innerHTML='<input type="checkbox" id="kore-terms"> <span>Per iscrivermi accetto le condizioni della beta: i miei dati FIT KORE (pasti, allenamenti, diario) vengono salvati nel mio account su Firebase e l’accesso è soggetto ad approvazione. Posso chiedere la cancellazione in qualsiasi momento.</span>';
   form.after(termsLabel);
   const messages={
+   'auth/provider-already-linked':'Hai già una password collegata a questo account.',
+   'auth/credential-already-in-use':'Questa email è già usata da un altro account con password.',
+   'auth/weak-password':'Password troppo debole: usa almeno 8 caratteri.',
+   'auth/popup-closed-by-user':'Finestra di Google chiusa prima di completare.',
+   'auth/popup-blocked':'Il browser ha bloccato la finestra di Google: consenti i popup e riprova.',
+   'auth/too-many-requests':'Troppi tentativi: attendi qualche minuto e riprova.',
    'fk/terms':'Per completare l’iscrizione spunta l’accettazione delle condizioni qui sotto.',
    'auth/email-already-in-use':'Email già registrata. Prova ad accedere.',
    'auth/invalid-email':'Indirizzo email non valido.',
-   'auth/invalid-credential':'Email o password non valide.',
+   'auth/invalid-credential':'Email o password non valide. Se ti sei iscritto con Google, usa «Continua con Google» oppure imposta una password dal tuo account.',
    'auth/weak-password':'Scegli una password più sicura.',
    'auth/too-many-requests':'Troppi tentativi. Riprova più tardi.',
    'auth/operation-not-allowed':'Metodo di accesso non abilitato nella console Firebase.',
@@ -61,6 +67,54 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
    }catch(e){report(e)}
   });
   document.querySelector('.kore-access-panel')?.append(signout);
+  // Pannello account (visibile solo dopo l'accesso): email collegata e password FIT KORE.
+  const account=document.createElement('div');account.className='kore-account';account.hidden=true;
+  account.innerHTML='<p class="kore-account-who"></p>'+
+   '<form class="kore-account-pass" novalidate><strong>Accesso anche con email e password</strong>'+
+   '<p>Il tuo account usa Google. Se imposti una password potrai entrare anche con la tua email e questa password, da qualsiasi dispositivo.</p>'+
+   '<label for="kore-new-pass">Nuova password</label><input id="kore-new-pass" type="password" autocomplete="new-password" minlength="8" placeholder="Almeno 8 caratteri">'+
+   '<label for="kore-new-pass2">Ripeti la password</label><input id="kore-new-pass2" type="password" autocomplete="new-password" minlength="8">'+
+   '<button type="submit" class="kore-access-primary">Imposta password</button></form>'+
+   '<p class="kore-account-ok" hidden>✓ Puoi entrare sia con Google sia con email e password.</p>';
+  signout.before(account);
+  const passForm=account.querySelector('form');
+  function refreshAccount(){
+   const u=auth.currentUser;account.hidden=!u;if(!u)return;
+   account.querySelector('.kore-account-who').textContent='Collegato come '+(u.email||'utente');
+   const hasPass=u.providerData.some(p=>p.providerId==='password');
+   passForm.hidden=hasPass;account.querySelector('.kore-account-ok').hidden=!hasPass||!u.providerData.some(p=>p.providerId==='google.com');
+  }
+  passForm.addEventListener('submit',async e=>{
+   e.preventDefault();
+   const u=auth.currentUser,p1=$('kore-new-pass').value,p2=$('kore-new-pass2').value;
+   if(!u||!u.email)return;
+   if(p1.length<8){status.textContent='La password deve avere almeno 8 caratteri.';return}
+   if(p1!==p2){status.textContent='Le due password non coincidono.';return}
+   const btn=passForm.querySelector('button');btn.disabled=true;status.textContent='Impostazione della password…';
+   const cred=A.EmailAuthProvider.credential(u.email,p1);
+   try{
+    try{await A.linkWithCredential(u,cred)}
+    catch(err){
+     if(err?.code!=='auth/requires-recent-login')throw err;
+     status.textContent='Per sicurezza conferma di nuovo con Google…';
+     await A.reauthenticateWithPopup(u,new A.GoogleAuthProvider());
+     await A.linkWithCredential(u,cred);
+    }
+    await u.reload();passForm.reset();refreshAccount();
+    status.textContent='Password impostata. Ora puoi entrare anche con email e password.';
+   }catch(err){report(err)}
+   finally{btn.disabled=false;$('kore-new-pass').value='';$('kore-new-pass2').value=''}
+  });
+  // Password dimenticata (account email/password).
+  const forgot=document.createElement('button');forgot.type='button';forgot.className='kore-forgot';forgot.textContent='Password dimenticata?';
+  form.after(forgot);
+  forgot.addEventListener('click',async()=>{
+   const email=$('kore-access-email').value.trim();
+   if(!email){status.textContent='Scrivi la tua email qui sopra, poi premi di nuovo “Password dimenticata?”.';$('kore-access-email').focus();return}
+   try{await A.sendPasswordResetEmail(auth,email);status.textContent='Se l’email è registrata con una password, riceverai il link per reimpostarla. Controlla anche lo spam.'}
+   catch(err){report(err)}
+  });
+  A.onAuthStateChanged(auth,()=>refreshAccount());
   const memberRef=uid=>F.doc(db,'members',uid);
   async function getMember(user){
    const ref=memberRef(user.uid);let snap=await F.getDoc(ref);
