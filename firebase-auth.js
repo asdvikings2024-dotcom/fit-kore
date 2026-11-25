@@ -1,5 +1,5 @@
-import {firebaseConfig} from './firebase-config.js?v=20261125d';
-import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125d';
+import {firebaseConfig} from './firebase-config.js?v=20261125e';
+import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125e';
 
 const required=['apiKey','authDomain','projectId','appId'];
 if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key].trim())){

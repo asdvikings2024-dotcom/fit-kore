@@ -459,3 +459,9 @@ html body .section .k-coach-cta[hidden]{display:none!important}
 .k-sheet-note{margin:6px 0 0;font-size:11.5px;line-height:1.45;color:var(--k-muted)}
 body.k-sheet-open{overflow:hidden}
 @media (prefers-reduced-motion:reduce){.k-ring,.k-sheet-panel{transition:none}.k-ring.is-full,.k-pop{animation:none}}
+html body .section article.k-install .k-install-go{background:var(--k-lime)!important;color:#0b0f00!important;border:0!important}
+html body .section article.k-install .k-install-later{background:transparent!important;color:var(--k-muted)!important}
+@media (min-width:701px){
+  .k-coach-body{grid-template-columns:220px minmax(0,380px);gap:32px}
+  html body .section .k-coach-msg{font-size:32px!important}
+}
