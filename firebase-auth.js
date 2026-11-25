@@ -1,5 +1,5 @@
-import {firebaseConfig} from './firebase-config.js';
-import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js';
+import {firebaseConfig} from './firebase-config.js?v=20261125a';
+import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261125a';
 
 const required=['apiKey','authDomain','projectId','appId'];
 if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key].trim())){
@@ -24,9 +24,16 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
   #fk-admin-list .fk-admin-row{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid #37402e}
   #fk-admin-list .fk-admin-row span{overflow-wrap:anywhere;flex:1 1 180px}
   `;
+  css.textContent+=`.kore-terms{display:flex;gap:10px;align-items:flex-start;margin:12px 0 4px;font-size:12.5px;line-height:1.45;color:#b9c2b5;cursor:pointer}.kore-terms input{margin-top:2px;width:18px;height:18px;flex:none;accent-color:#dfff00}`;
   document.head.append(css);
   if(warning)warning.textContent='Le nuove iscrizioni richiedono approvazione. Le credenziali sono gestite da Firebase.';
+  // Condizioni della beta: necessarie solo per creare la richiesta d'iscrizione.
+  const TERMS_VERSION='beta-2026-11-19';
+  const termsLabel=document.createElement('label');termsLabel.className='kore-terms';
+  termsLabel.innerHTML='<input type="checkbox" id="kore-terms"> <span>Per iscrivermi accetto le condizioni della beta: i miei dati FIT KORE (pasti, allenamenti, diario) vengono salvati nel mio account su Firebase e l’accesso è soggetto ad approvazione. Posso chiedere la cancellazione in qualsiasi momento.</span>';
+  form.after(termsLabel);
   const messages={
+   'fk/terms':'Per completare l’iscrizione spunta l’accettazione delle condizioni qui sotto.',
    'auth/email-already-in-use':'Email già registrata. Prova ad accedere.',
    'auth/invalid-email':'Indirizzo email non valido.',
    'auth/invalid-credential':'Email o password non valide.',
@@ -58,7 +65,9 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
   async function getMember(user){
    const ref=memberRef(user.uid);let snap=await F.getDoc(ref);
    if(!snap.exists()){
-    try{await F.setDoc(ref,{email:user.email,status:'pending',createdAt:F.serverTimestamp()})}
+    const terms=$('kore-terms');
+    if(!terms||!terms.checked){const err=new Error('terms');err.code='fk/terms';throw err}
+    try{await F.setDoc(ref,{email:user.email,status:'pending',createdAt:F.serverTimestamp(),termsVersion:TERMS_VERSION,termsAcceptedAt:F.serverTimestamp()})}
     catch(e){const retry=await F.getDoc(ref);if(!retry.exists())throw e}
     snap=await F.getDoc(ref);
    }
@@ -142,6 +151,8 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
   });
   // La schermata di attesa resta consultabile e consente di cambiare account.
   A.onAuthStateChanged(auth,user=>{refreshSession(user)});
+  // Dopo aver spuntato le condizioni, completa la richiesta per l'account già collegato.
+  $('kore-terms').addEventListener('change',e=>{if(e.target.checked&&auth.currentUser)refreshSession(auth.currentUser)});
  }catch(error){
   console.error('FIT KORE: impossibile inizializzare Firebase',error);
   const status=document.getElementById('kore-access-status');

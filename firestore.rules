@@ -2,34 +2,61 @@ rules_version = '2';
 service cloud.firestore {
  match /databases/{database}/documents {
   function signedIn() { return request.auth != null; }
-  function admin() { return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); }
+  function owns(uid) { return signedIn() && request.auth.uid == uid; }
+  function isAdmin() { return signedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid)); }
+  function approved(uid) { return owns(uid) && (isAdmin() || get(/databases/$(database)/documents/members/$(uid)).data.status == 'approved'); }
+  function consented(uid) { return get(/databases/$(database)/documents/members/$(uid)/settings/sync).data.enabled == true; }
+  function validMember(data) {
+   return data.keys().hasAll(['email','status','createdAt','termsVersion','termsAcceptedAt']) && data.keys().hasOnly(['email','status','createdAt','termsVersion','termsAcceptedAt','reviewedAt']) &&
+    data.email is string && data.email.size() > 0 && data.email.size() <= 254 && data.createdAt is timestamp &&
+    data.status in ['pending','approved','rejected','suspended'] &&
+    data.termsVersion == 'beta-2026-11-19' && data.termsAcceptedAt is timestamp &&
+    (!('reviewedAt' in data) || data.reviewedAt is timestamp);
+  }
   match /admins/{uid} {
-   allow read: if admin() && request.auth.uid == uid;
-   allow write: if false;
+   allow get: if owns(uid);
+   allow write, list: if false;
   }
   match /members/{uid} {
-   allow read: if admin() || (signedIn() && request.auth.uid == uid);
-   allow create: if signedIn() && request.auth.uid == uid
-      && request.resource.data.keys().hasOnly(['email','status','createdAt'])
-      && request.resource.data.email == request.auth.token.email
-      && request.resource.data.status == 'pending'
-      && request.resource.data.createdAt == request.time;
-   allow update: if admin()
-      && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','reviewedAt'])
-      && request.resource.data.status in ['approved','rejected']
-      && request.resource.data.reviewedAt == request.time;
+   allow read: if owns(uid) || isAdmin();
+   allow create: if owns(uid) && validMember(request.resource.data) && request.resource.data.keys().hasOnly(['email','status','createdAt','termsVersion','termsAcceptedAt']) &&
+    request.resource.data.email == request.auth.token.email && request.resource.data.status == 'pending' && request.resource.data.createdAt == request.time && request.resource.data.termsAcceptedAt == request.time;
+   allow update: if isAdmin() && validMember(request.resource.data) &&
+    request.resource.data.diff(resource.data).affectedKeys().hasOnly(['status','reviewedAt']) &&
+    request.resource.data.status in ['approved','rejected','suspended'] && request.resource.data.reviewedAt == request.time;
    allow delete: if false;
+   match /settings/sync {
+    function validPreference(data) {
+     return data.keys().hasAll(['enabled','version','updatedAt']) && data.keys().hasOnly(['enabled','version','updatedAt']) &&
+      data.enabled is bool && data.version == 'beta-2026-11-19' && data.updatedAt == request.time;
+    }
+    allow read: if owns(uid);
+    allow create, update: if approved(uid) && validPreference(request.resource.data);
+    allow delete: if false;
+   }
+   match /workouts/{workoutId} {
+    function validWorkout(data) {
+     return data.keys().hasAll(['name','day','completedAt','minutes','kind','details']) && data.keys().hasOnly(['name','day','completedAt','minutes','kind','details']) &&
+      data.name is string && data.name.size() > 0 && data.name.size() <= 150 &&
+      data.day is string && data.day.size() == 10 && data.day.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$') &&
+      data.completedAt is string && data.completedAt.size() == 24 && data.completedAt.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}[.][0-9]{3}Z$') &&
+      data.minutes is number && data.minutes >= 0 && data.minutes <= 10080 && data.kind in ['basic','sets'] &&
+      data.details is string && data.details.size() <= 120000;
+    }
+    allow read, delete: if approved(uid) && consented(uid);
+    allow create, update: if approved(uid) && consented(uid) && validWorkout(request.resource.data);
+   }
   }
-  function approved() { return signedIn() && get(/databases/$(database)/documents/members/$(request.auth.uid)).data.status == 'approved'; }
-  // Dati personali dell'app: solo il proprietario, e solo se approvato (o amministratore).
+  // App GitHub Pages: copia completa dei dati dell'app per utente approvato (js/cloud-sync.js).
   match /users/{uid} {
-   allow read: if signedIn() && request.auth.uid == uid && (admin() || approved());
-   allow write: if signedIn() && request.auth.uid == uid && (admin() || approved())
+   allow read: if approved(uid);
+   allow create, update: if approved(uid)
       && request.resource.data.keys().hasOnly(['data','rev','updatedAt'])
       && request.resource.data.data is map
       && request.resource.data.data.size() <= 40
       && request.resource.data.rev is int
       && request.resource.data.updatedAt == request.time;
+   allow delete: if false;
   }
   match /{document=**} { allow read, write: if false; }
  }
