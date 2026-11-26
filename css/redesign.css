@@ -1381,3 +1381,46 @@ html[data-theme="light"] .k-photo-add span{color:#7a2fc6}
 html[data-theme="light"] body .section .k-combo{background:linear-gradient(150deg,rgba(255,138,76,.16),#fff)!important}
 html[data-theme="light"] body .section article.k-report,html[data-theme="light"] body .section article.k-photos{background:radial-gradient(90% 80% at 100% 0%,rgba(215,245,0,.28),transparent 60%),linear-gradient(155deg,rgba(255,255,255,.9),rgba(255,255,255,.65))!important}
 .k-meal-ico{font-style:normal}
+
+/* =====================================================================
+   TEMA CHIARO "MORBIDO": meno luminoso, più caldo e riposante
+   ===================================================================== */
+html[data-theme="light"]{--k-bg:#ecebe4;--k-text:#1b1f17;--k-muted:#5f6659}
+html[data-theme="light"] body{
+  background:
+    radial-gradient(60% 45% at 0% 0%,rgba(200,230,0,.16),transparent 70%),
+    radial-gradient(55% 40% at 100% 12%,rgba(62,200,240,.12),transparent 70%),
+    radial-gradient(60% 45% at 100% 100%,rgba(230,110,190,.09),transparent 70%),
+    radial-gradient(50% 40% at 0% 85%,rgba(240,140,80,.10),transparent 70%),
+    #ecebe4!important}
+html[data-theme="light"] .k-aurora{opacity:.55!important}
+/* card: avorio opaco invece di bianco puro, ombre più morbide */
+html[data-theme="light"] body .section article,html[data-theme="light"] body .section article.k-coach,html[data-theme="light"] body .section article.fk-mission,
+html[data-theme="light"] body .section article.kore-graph,html[data-theme="light"] body .section article#fk-rescue-diary,html[data-theme="light"] body .section article.k-history,
+html[data-theme="light"] body .section article.k-gym,html[data-theme="light"] body .section article.k-weight,html[data-theme="light"] body .section article.k-exchart,
+html[data-theme="light"] body .section article.k-comm,html[data-theme="light"] body .section article.k-rem,html[data-theme="light"] body #diario .lower > article:first-child,
+html[data-theme="light"] #dashboard article.fk-mission,html[data-theme="light"] #dashboard article.kore-graph,html[data-theme="light"] body .section article.k-report,html[data-theme="light"] body .section article.k-photos{
+  background-color:#f6f5f0!important;border-color:rgba(40,45,30,.07)!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.7) inset,0 14px 32px -26px rgba(var(--k-accent-rgb),.35),0 6px 16px -14px rgba(30,30,20,.18)!important}
+html[data-theme="light"] body .section article.k-coach{background:radial-gradient(90% 70% at 100% 0%,rgba(200,230,0,.16),transparent 60%),radial-gradient(80% 70% at 0% 100%,rgba(170,120,230,.10),transparent 60%),#f6f5f0!important}
+html[data-theme="light"] #dashboard article.fk-mission{background:radial-gradient(90% 90% at 100% 0%,rgba(240,130,70,.13),transparent 60%),#f6f5f0!important}
+html[data-theme="light"] #dashboard article.kore-graph{background:radial-gradient(90% 90% at 0% 0%,rgba(62,200,240,.12),transparent 60%),#f6f5f0!important}
+html[data-theme="light"] body .section article#fk-rescue-diary{background:radial-gradient(100% 50% at 50% 0%,rgba(240,130,70,.11),transparent 65%),#f6f5f0!important}
+html[data-theme="light"] body .section article.k-gym{background:radial-gradient(90% 70% at 100% 0%,rgba(62,200,240,.13),transparent 60%),#f6f5f0!important}
+html[data-theme="light"] body .section article.k-comm{background:radial-gradient(90% 70% at 0% 0%,rgba(240,200,70,.15),transparent 60%),#f6f5f0!important}
+html[data-theme="light"] body #diario .lower > article:first-child{background:radial-gradient(90% 80% at 100% 0%,rgba(170,120,230,.13),transparent 60%),#f6f5f0!important}
+html[data-theme="light"] body .section article.k-report,html[data-theme="light"] body .section article.k-photos{background:radial-gradient(90% 80% at 100% 0%,rgba(200,230,0,.14),transparent 60%),#f6f5f0!important}
+html[data-theme="light"] .k-lf-bg{background:#f1f0ea!important}
+/* box interni e campi meno bianchi */
+html[data-theme="light"] .k-cal-row div,html[data-theme="light"] .k-macro,html[data-theme="light"] .k-streak-stats div,html[data-theme="light"] .k-ex-stats div,
+html[data-theme="light"] .k-weight-stats div,html[data-theme="light"] body #fk-rescue-meals .fk-rescue-meal,html[data-theme="light"] .k-ex,html[data-theme="light"] .k-plan-day{filter:saturate(.85)}
+html[data-theme="light"] body .section input:not([type=checkbox]):not([type=radio]):not([type=range]),html[data-theme="light"] body .section select,html[data-theme="light"] body .section textarea{background:#eceae3!important}
+html[data-theme="light"] body .section button{background:#e9e8e1!important}
+/* intestazione e menu */
+html[data-theme="light"] body .top{background:rgba(246,245,240,.88)!important;border-color:rgba(40,45,30,.07)!important}
+html[data-theme="light"] body .side{background:rgba(240,239,233,.94)!important}
+html[data-theme="light"] body .top::after,html[data-theme="light"] body .side::before{opacity:.6!important}
+/* lime un filo più morbido sui grandi pulsanti */
+html[data-theme="light"] body .hx-start,html[data-theme="light"] body .section .k-gym-start,html[data-theme="light"] body .section .k-coach-cta,html[data-theme="light"] body .section .k-report-go{
+  background:linear-gradient(135deg,#dcf53a,#c4e80a)!important;box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 12px 26px -16px rgba(140,170,0,.7)!important}
+html[data-theme="light"] .k-led-strip{opacity:.55!important}
