@@ -1,5 +1,5 @@
-import {firebaseConfig} from './firebase-config.js?v=20261126d';
-import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261126d';
+import {firebaseConfig} from './firebase-config.js?v=20261126e';
+import {startSync,stopSync,clearLocalData} from './js/cloud-sync.js?v=20261126e';
 
 const required=['apiKey','authDomain','projectId','appId'];
 if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key].trim())){
@@ -169,7 +169,7 @@ if(required.every(key=>typeof firebaseConfig[key]==='string'&&firebaseConfig[key
    }
   }
   async function renderAdmin(){
-   try{const mod=await import('./js/admin.js?v=20261126d');mod.mountAdmin({db,F,me:auth.currentUser?.uid,messages})}
+   try{const mod=await import('./js/admin.js?v=20261126e');mod.mountAdmin({db,F,me:auth.currentUser?.uid,messages})}
    catch(e){console.error('FIT KORE admin:',e)}
   }
   // Il vecchio modulo dimostrativo aveva un listener che non invia dati: lo sostituiamo.

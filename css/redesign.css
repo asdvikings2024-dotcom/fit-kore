@@ -1309,3 +1309,7 @@ html:not([data-theme="light"]) .k-ex{background:linear-gradient(150deg,rgba(62,2
 html:not([data-theme="light"]) body .hx-start,html:not([data-theme="light"]) body .section .k-gym-start,html:not([data-theme="light"]) body .section .k-coach-cta{
   background:linear-gradient(135deg,#e8ff3a,#d4f500 55%,#b2e800)!important;box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 18px 40px -16px rgba(215,245,0,.7)!important}
 html[data-fx="off"] body .section article{backdrop-filter:none!important}
+.k-theme-toggle{flex:none;display:grid;place-items:center;width:42px;height:42px;margin-left:auto;margin-right:8px;border-radius:50%;cursor:pointer;
+  border:1px solid rgba(223,255,0,.45);background:rgba(223,255,0,.08);color:#dfff00;transition:transform .3s var(--k-ease),background .3s}
+.k-theme-toggle:active{transform:rotate(40deg) scale(.92)}
+html[data-theme="light"] .k-theme-toggle{border-color:rgba(60,60,90,.25);background:#1a1d2b;color:#fff}
