@@ -7,7 +7,7 @@
   const mq = window.matchMedia('(prefers-color-scheme: light)');
   function apply() {
     const l = read(), t = l.theme === 'auto' ? (mq.matches ? 'light' : 'dark') : (l.theme || 'dark');
-    html.dataset.theme = t; html.dataset.fx = l.fx || 'soft';
+    html.dataset.theme = t; html.dataset.fx = l.fx || 'soft'; html.dataset.size = l.size || 'large';
     const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = t === 'light' ? '#f3f5ef' : '#060807';
   }
   mq.addEventListener && mq.addEventListener('change', () => { if (read().theme === 'auto') apply(); });
@@ -92,13 +92,16 @@
       <p class="k-look-label">Tema</p>
       ${seg('theme', [['dark', '🌙 Scuro', 'neon'], ['light', '☀️ Chiaro', 'luminoso'], ['auto', '◐ Automatico', 'come il telefono']], l.theme || 'dark')}
       <p class="k-look-label">Effetti luminosi</p>
-      ${seg('fx', [['full', 'Intensi', 'LED ovunque'], ['soft', 'Leggeri', 'consigliato'], ['off', 'Spenti', 'statico']], l.fx || 'soft')}`;
+      ${seg('fx', [['full', 'Intensi', 'LED ovunque'], ['soft', 'Leggeri', 'consigliato'], ['off', 'Spenti', 'statico']], l.fx || 'soft')}
+      <p class="k-look-label">Dimensione testo</p>
+      ${seg('size', [['normal', 'Normale', 'compatto'], ['large', 'Grande', 'consigliato'], ['xl', 'Extra', 'massima lettura']], l.size || 'large')}`;
   }
   card.addEventListener('click', e => {
-    const b = e.target.closest('[data-theme],[data-fx]'); if (!b) return;
+    const b = e.target.closest('[data-theme],[data-fx],[data-size]'); if (!b) return;
     const l = read();
     if (b.dataset.theme) l.theme = b.dataset.theme;
     if (b.dataset.fx) l.fx = b.dataset.fx;
+    if (b.dataset.size) l.size = b.dataset.size;
     try { localStorage.setItem(KEY, JSON.stringify(l)); } catch (err) {}
     html.classList.add('k-theme-anim'); apply(); render();
     setTimeout(() => html.classList.remove('k-theme-anim'), 600);

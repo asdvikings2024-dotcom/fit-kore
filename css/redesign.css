@@ -1461,3 +1461,62 @@ html[data-fx="off"] .k-photo-bg i{transition:none}
 /* opzione in Aspetto */
 .k-look-credit{margin:10px 0 0!important;font-size:11px!important;line-height:1.5}
 .k-look-credit a{color:inherit;text-decoration:underline}
+
+/* =====================================================================
+   LEGGIBILITÀ: testo più grande (Diario → Aspetto → Dimensione testo)
+   ===================================================================== */
+html[data-size="large"] .layout,html[data-size="large"] .k-sheet,html[data-size="large"] .k-toast{zoom:1.12}
+html[data-size="xl"] .layout,html[data-size="xl"] .k-sheet,html[data-size="xl"] .k-toast{zoom:1.25}
+@media (min-width:1100px){
+  html[data-size="large"] .layout{zoom:1.15}
+  html[data-size="xl"] .layout{zoom:1.3}
+}
+/* etichette piccole: mai sotto i 12px, più contrasto */
+html:not([data-theme="light"]){--k-muted:#b9c1b4}
+html[data-theme="light"]{--k-muted:#474e42}
+html body .section .k-coach-stats li span,html body .eyebrow,html body .k-look-label,html body .section [class*="-label"]{font-size:12.5px!important;letter-spacing:.08em!important}
+html body .section .k-coach-stats li b{font-size:28px!important}
+html body .section .k-coach-stats li b small{font-size:13.5px!important}
+html body .section .k-coach-stats button{font-size:14px!important;padding:10px 14px!important}
+html body .section p,html body .section li,html body .section label{font-size:max(14px,1em)}
+html body .section small{font-size:max(12.5px,.85em)}
+html body .side .nav button{font-size:16px!important}
+
+/* =====================================================================
+   GRADIENTI DI GIALLO FLUO
+   ===================================================================== */
+:root{
+  --k-y-lampo:linear-gradient(115deg,#fbff29 0%,#dfff00 48%,#b4f500 100%);
+  --k-y-limone:linear-gradient(115deg,#fffb6b 0%,#f0ff1a 55%,#d4ff00 100%);
+  --k-y-oro:linear-gradient(100deg,#ffe100 0%,#f4ff00 35%,#d8ff00 70%,#a8f000 100%);
+}
+/* pulsanti principali: "lampo" */
+html body .section .k-coach-cta,html body .k-install-go,html body .section article.k-install .k-install-go,
+html body .section .k-gym-start,html body .section .k-gym-finish,html body .section .k-plan-save,html body .section .k-goalcard button,
+html body #diario form button:not([type=button]),html body #diario .lower .action,html body .section .k-comm-join button,
+.k-sheet .k-sheet-save,.k-scan-form button,.k-admin-acts button.primary,.k-rest .k-rest-skip{
+  background:var(--k-y-lampo)!important;color:#0d1100!important;-webkit-text-fill-color:#0d1100!important;text-shadow:none!important;
+  box-shadow:0 10px 26px -12px rgba(200,255,0,.75),inset 0 1px 0 rgba(255,255,255,.55)!important;border-color:transparent!important}
+/* scelte attive: "limone" */
+html body .section .k-look-seg button[aria-checked=true],html body .section .k-history-days button[aria-selected=true],
+.k-admin-filters button[aria-selected=true],.k-picker-muscles button[aria-pressed=true],.k-seg input:checked + span,
+html body .side .nav button.active{background:var(--k-y-limone)!important;color:#0d1100!important;-webkit-text-fill-color:#0d1100!important;border-color:transparent!important}
+html body .side .nav button.active::before,html body .side .nav button.active *{color:#0d1100!important}
+/* grande pulsante "Inizia allenamento": "oro fluo", testo sempre scuro e nitido */
+html body .hx-start,html body #dashboard .hx-start{background:var(--k-y-oro)!important;border:0!important;min-height:72px!important}
+html body .hx-start strong,html body .hx-start span,html body .hx-start svg{position:relative;z-index:2;color:#0d1100!important;-webkit-text-fill-color:#0d1100!important;text-shadow:none!important;stroke:currentColor}
+html body .hx-start strong{font-size:clamp(26px,5.6vw,36px)!important}
+html body .hx-start::after{z-index:1;background:linear-gradient(100deg,transparent,rgba(255,255,255,.45),transparent)!important}
+/* barre e titoli con sfumature di giallo */
+html[data-sec="dashboard"] body .section h3::before{background:linear-gradient(180deg,#fff200,#dfff00,#a8f000)!important}
+.k-chal-bar i,html body .fk-mission-track > *,.k-macro-p .k-macro-bar i,.k-coach-stats li:first-child i{background:var(--k-y-oro)!important}
+.k-heat i.l3,.k-heat-legend i.l3{background:linear-gradient(135deg,#fff200,#c8ff00)!important}
+html[data-theme="light"] body .hx-start{box-shadow:0 14px 30px -14px rgba(150,190,0,.8)!important}
+@media (max-width:560px){
+  html body .section .k-coach-body{grid-template-columns:1fr!important;gap:14px}
+  html body .section .k-rings{max-width:170px;margin:0 auto}
+  html body .section .k-coach-stats li b{font-size:26px!important}
+}
+html body .section .k-macro-top b{white-space:nowrap;font-size:22px!important}
+html body .section .k-macro-top b small{font-size:13px!important}
+@media (max-width:560px){html body .section .k-macro-top b{font-size:19px!important}html body .section .k-macro-top b small{font-size:11.5px!important}}
