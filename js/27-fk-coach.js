@@ -194,6 +194,7 @@
     const meals = new Set(entries.map(x => x.mealType));
     return { kcal, goal, train, trainGoal, water, waterGoal, meals, profile: p };
   }
+  window.fkDayData = data;
   function message(d) {
     const h = new Date().getHours(), left = d.goal - d.kcal;
     if (d.kcal > d.goal * 1.1) return `Sei ${it(d.kcal - d.goal)} kcal sopra l’obiettivo: punta su verdure e proteine magre.`;

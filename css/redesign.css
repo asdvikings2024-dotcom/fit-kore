@@ -1603,3 +1603,51 @@ html body .section .k-cal-center{top:30%!important}
   html body .hx-start strong{font-size:36px!important}
   html body .section .k-streak-stats b,html body .section .k-weight-stats b,html body .section .k-ex-stats b{font-size:30px!important}
 }
+
+/* =====================================================================
+   MASCOTTE (Kory, Pepe, Ghisa)
+   ===================================================================== */
+.k-mascot{position:fixed;right:10px;bottom:calc(96px + env(safe-area-inset-bottom));z-index:900;display:flex;align-items:flex-end;gap:6px;pointer-events:none;
+  --mc:#dfff00}
+.k-mascot[data-who="pepe"]{--mc:#3ee8ff}.k-mascot[data-who="ghisa"]{--mc:#b9c6a6}
+.k-mascot[hidden]{display:none}
+.k-mascot-char{pointer-events:auto;width:76px;height:86px;padding:0!important;margin:0!important;border:0!important;background:none!important;box-shadow:none!important;cursor:pointer;
+  filter:drop-shadow(0 8px 14px rgba(0,0,0,.45));animation:k-m-breathe 3.4s ease-in-out infinite;transform-origin:50% 100%}
+.k-mascot-char svg{width:100%;height:100%;display:block}
+@keyframes k-m-breathe{0%,100%{transform:translateY(0) scale(1,1)}50%{transform:translateY(-3px) scale(1.015,.985)}}
+.k-mascot.k-in .k-mascot-char{animation:k-m-in .6s cubic-bezier(.2,1.5,.4,1),k-m-breathe 3.4s ease-in-out .6s infinite}
+@keyframes k-m-in{0%{transform:translateY(40px) scale(.6);opacity:0}100%{transform:none;opacity:1}}
+.k-mascot.k-talk .k-mascot-char{animation:k-m-talk .5s ease,k-m-breathe 3.4s ease-in-out .5s infinite}
+@keyframes k-m-talk{30%{transform:translateY(-8px) rotate(-4deg)}60%{transform:translateY(0) rotate(3deg)}}
+.k-mascot.k-cheer .k-mascot-char{animation:k-m-cheer .9s cubic-bezier(.3,1.6,.5,1),k-m-breathe 3.4s ease-in-out .9s infinite}
+@keyframes k-m-cheer{25%{transform:translateY(-26px) rotate(-8deg) scale(1.08)}55%{transform:translateY(0) rotate(6deg)}75%{transform:translateY(-10px)}}
+.k-mascot[data-mood="worried"] .k-mascot-char{animation:k-m-shake .6s ease,k-m-breathe 3.4s ease-in-out .6s infinite}
+@keyframes k-m-shake{20%,60%{transform:translateX(-4px) rotate(-3deg)}40%,80%{transform:translateX(4px) rotate(3deg)}}
+.k-mascot[data-mood="sleepy"] .k-mascot-char{animation:k-m-sleep 4s ease-in-out infinite}
+@keyframes k-m-sleep{50%{transform:rotate(-6deg) translateY(2px)}}
+.k-mascot-bubble{pointer-events:auto;position:relative;max-width:min(260px,calc(100vw - 110px));margin-bottom:58px;padding:11px 30px 11px 14px;border-radius:16px 16px 4px 16px;
+  background:#0b0e06;color:#fff;border:2px solid var(--mc);font:700 14px/1.35 var(--k-body,Inter,sans-serif);box-shadow:0 14px 30px -12px rgba(0,0,0,.6);
+  animation:k-m-pop .35s cubic-bezier(.2,1.4,.4,1)}
+.k-mascot-bubble[hidden]{display:none}
+@keyframes k-m-pop{0%{transform:scale(.7) translateY(10px);opacity:0}100%{transform:none;opacity:1}}
+.k-mascot-bubble button{position:absolute;top:4px;right:4px;width:22px!important;height:22px!important;min-height:0!important;padding:0!important;margin:0!important;border:0!important;
+  background:none!important;color:#9aa394!important;font:700 17px/1 Inter,sans-serif!important;cursor:pointer;box-shadow:none!important}
+html[data-theme="light"] .k-mascot-bubble{background:#fffef8;color:#15190f;box-shadow:0 14px 30px -14px rgba(40,50,20,.45)}
+html[data-theme="light"] .k-mascot-char{filter:drop-shadow(0 8px 12px rgba(40,50,20,.3))}
+html[data-fx="off"] .k-mascot-char,html[data-fx="off"] .k-mascot-bubble{animation:none!important}
+@media (prefers-reduced-motion:reduce){.k-mascot-char,.k-mascot-bubble{animation:none!important}}
+@media (min-width:701px){
+  .k-mascot{right:22px;bottom:22px}
+  .k-mascot-char{width:104px;height:118px}
+  .k-mascot-bubble{margin-bottom:84px;font-size:15px;max-width:300px}
+}
+/* durante l'allenamento la mascotte si fa più piccola */
+body:has(.k-gym.is-active) .k-mascot-char{width:58px;height:66px}
+/* telefono e tablet: piccola, e quando tace si nasconde a metà sul bordo per non coprire i pulsanti */
+@media (max-width:1099px){
+  .k-mascot{right:4px}
+  .k-mascot-char{width:62px;height:70px;transition:transform .45s cubic-bezier(.2,1,.3,1),opacity .45s}
+  .k-mascot.k-tuck .k-mascot-char{animation:none!important;transform:translateX(62%) rotate(-12deg);opacity:.85}
+  .k-mascot-bubble{margin-bottom:50px}
+}
+@media (min-width:701px) and (max-width:1099px){.k-mascot{right:8px}}
