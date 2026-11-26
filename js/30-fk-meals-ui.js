@@ -64,7 +64,7 @@
       if (!head) {
         head = document.createElement('div'); head.className = 'k-meal-head';
         const [ico, col] = ICON[type] || ['🍽️', '#dfff00'];
-        head.innerHTML = `<span class="k-meal-ico" style="--c:${col}">${ico}</span><div class="k-meal-txt"><b>${type}</b><small></small></div><em></em>`;
+        head.innerHTML = `<i class="k-meal-ico" style="--c:${col}">${ico}</i><div class="k-meal-txt"><b>${type}</b><small></small></div><em></em>`;
         box.prepend(head);
         const bar = document.createElement('div'); bar.className = 'k-meal-bar'; bar.innerHTML = '<i></i>';
         head.after(bar);
