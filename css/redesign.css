@@ -1313,3 +1313,24 @@ html[data-fx="off"] body .section article{backdrop-filter:none!important}
   border:1px solid rgba(223,255,0,.45);background:rgba(223,255,0,.08);color:#dfff00;transition:transform .3s var(--k-ease),background .3s}
 .k-theme-toggle:active{transform:rotate(40deg) scale(.92)}
 html[data-theme="light"] .k-theme-toggle{border-color:rgba(60,60,90,.25);background:#1a1d2b;color:#fff}
+
+/* =====================================================================
+   FONT "STADIUM": Anton per i titoli, Oswald per i numeri, Inter per i testi
+   ===================================================================== */
+:root{--k-head:Anton,"Oswald",Impact,"Arial Narrow",sans-serif;--k-num:Oswald,"Arial Narrow",sans-serif}
+html body h1,html body h2,html body .section h3,html body .hx-hero h2,html body #pagetitle,
+.k-coach-msg,.k-gym-title,.k-gym-templates b,.k-gym-name,.k-ex-head b,.k-meal-txt b,.k-day-head strong,.k-plan-day b,.k-gym-last b,.k-admin-count,
+.k-sheet-head h2,.k-install-text strong,.kore-section-heading h3,.hx-start strong,.k-gym-start,.k-gym-finish,.k-plan-go{
+  font-family:var(--k-head)!important;font-weight:400!important;font-synthesis:none;letter-spacing:.015em!important}
+html body .section h3{font-size:20px!important;letter-spacing:.03em!important}
+html body .section .k-coach-msg{font-size:29px!important;line-height:1.02!important}
+html body #pagetitle{font-size:28px!important}
+/* numeri da tabellone, leggermente inclinati */
+.k-cal-center b,.k-coach-stats li b,.k-gym-clock b,.k-macro-top b,.k-streak-stats b,.k-ex-stats b,.k-weight-stats b,.k-cal-row b,
+.k-meal-head em,.k-result-main b,.k-chal-top b,.k-val,.k-food-kcal,.k-rest-text b,html body #chart .bar b,.k-hbar b,.k-rank,.k-set-n,
+.k-result-macros b,.kore-ring-details b,.kore-ring-details strong,#d-sessions,#traincount,.k-goal-line span{
+  font-family:var(--k-num)!important;font-weight:700!important;font-style:italic;letter-spacing:-.005em}
+.k-cal-center b{font-size:56px!important}
+.k-gym-clock b{font-size:34px!important}
+html body .section .k-set input{font-family:var(--k-num)!important;font-weight:600!important;font-size:20px!important}
+.k-coach-stats li b small,.k-meal-head em small,.k-macro-top small,.k-ex-stats b small,.k-chal-top small,.k-val small{font-style:normal;font-family:var(--k-body)!important}
