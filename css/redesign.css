@@ -1572,3 +1572,34 @@ html:not([data-theme="light"]) body .section .k-cal-row b,html:not([data-theme="
 /* contatore calorie: niente spazio vuoto sopra l'arco */
 html body .section .k-cal-center{top:30%!important}
 @media (min-width:1100px){html body .section .k-cal-center{top:27%!important}}
+/* PC: via di mezzo, grande ma non esagerato */
+@media (min-width:1100px){
+  html[data-size="large"] .layout{zoom:1.04}
+  html[data-size="xl"] .layout{zoom:1.18}
+  html body #pagetitle{font-size:34px!important}
+  html body .section h3{font-size:22px!important}
+  html body .section .k-coach-msg{font-size:34px!important}
+  html body .section .k-coach-body{grid-template-columns:220px minmax(0,1fr)!important;gap:36px!important}
+  html body .section .k-coach-stats{gap:14px!important}
+  html body .section .k-coach-stats li i{height:44px!important}
+  html body .section .k-coach-stats li span{font-size:13px!important}
+  html body .section .k-coach-stats li b{font-size:36px!important}
+  html body .section .k-coach-stats li b small{font-size:14px!important}
+  html body .section .k-coach-stats button{font-size:14px!important;padding:10px 16px!important;min-width:108px}
+  html body .section .k-cal-gauge{width:min(360px,100%)!important}
+  html body .section .k-cal-center small{font-size:13px!important}
+  html body .section .k-cal-center b{font-size:74px!important}
+  html body .section .k-cal-center span{font-size:14px!important}
+  html body .section .k-cal-row div{padding:12px 10px!important}
+  html body .section .k-cal-row small{font-size:12.5px!important}
+  html body .section .k-cal-row b{font-size:32px!important}
+  html body .section .k-macro-top span{font-size:12.5px!important}
+  html body .section .k-macro-top b{font-size:28px!important}
+  html body .section .k-macro-top b small{font-size:14px!important}
+  html body .section .k-meal-head em{font-size:28px!important}
+  html body .section .k-meal-txt b{font-size:22px!important}
+  html body .section .k-meal-ico{transform:none}
+  html body .hx-start{min-height:76px!important}
+  html body .hx-start strong{font-size:36px!important}
+  html body .section .k-streak-stats b,html body .section .k-weight-stats b,html body .section .k-ex-stats b{font-size:30px!important}
+}
