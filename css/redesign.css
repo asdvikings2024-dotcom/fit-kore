@@ -1244,3 +1244,68 @@ html[data-theme="light"] .k-ex{background:linear-gradient(150deg,rgba(62,232,255
 html[data-theme="light"] .k-meal-bar i::after,html[data-theme="light"] .k-macro-bar i::after,html[data-theme="light"] .fk-mission-track > *::after{background:linear-gradient(90deg,transparent,rgba(255,255,255,.95),transparent)}
 html[data-theme="light"][data-fx="off"] body .section article{backdrop-filter:none}
 html[data-theme="light"] body .section h3.k-gym-title{background:none!important;color:#13170f!important;-webkit-text-fill-color:#13170f!important}
+
+/* =====================================================================
+   TEMA SCURO "AURORA" — stesso stile del chiaro, in versione notte
+   ===================================================================== */
+html:not([data-theme="light"]) body{
+  background:
+    radial-gradient(60% 45% at 0% 0%,rgba(190,230,0,.16),transparent 70%),
+    radial-gradient(55% 40% at 100% 10%,rgba(40,200,255,.14),transparent 70%),
+    radial-gradient(60% 45% at 100% 100%,rgba(255,70,200,.12),transparent 70%),
+    radial-gradient(50% 40% at 0% 85%,rgba(255,120,60,.12),transparent 70%),
+    #05070a!important;background-attachment:fixed!important}
+html:not([data-theme="light"]) .k-aurora{opacity:1!important}
+html:not([data-theme="light"]) .k-aurora i{filter:blur(70px)}
+html:not([data-theme="light"]) .k-aurora i:nth-child(1){background:radial-gradient(circle,rgba(var(--k-accent-rgb),.28),transparent 62%)!important}
+html:not([data-theme="light"]) .k-aurora i:nth-child(2){background:radial-gradient(circle,rgba(199,125,255,.22),transparent 62%)!important}
+html:not([data-theme="light"]) .k-aurora i:nth-child(3){background:radial-gradient(circle,rgba(62,232,255,.18),transparent 62%)!important}
+
+/* card in vetro scuro con bagliore colorato */
+html:not([data-theme="light"]) body .section article,html:not([data-theme="light"]) body .section article.k-coach,html:not([data-theme="light"]) body .section article.fk-mission,
+html:not([data-theme="light"]) body .section article.kore-graph,html:not([data-theme="light"]) body .section article#fk-rescue-diary,html:not([data-theme="light"]) body .section article.k-history,
+html:not([data-theme="light"]) body .section article.k-gym,html:not([data-theme="light"]) body .section article.k-weight,html:not([data-theme="light"]) body .section article.k-exchart,
+html:not([data-theme="light"]) body .section article.k-comm,html:not([data-theme="light"]) body .section article.k-rem,html:not([data-theme="light"]) body #diario .lower > article:first-child{
+  background:linear-gradient(155deg,rgba(255,255,255,.075),rgba(255,255,255,.02))!important;
+  border:1px solid rgba(255,255,255,.10)!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.08) inset,0 0 0 1px rgba(var(--k-accent-rgb),.08),0 24px 50px -28px rgba(var(--k-accent-rgb),.45),0 10px 24px -16px rgba(0,0,0,.7)!important;
+  backdrop-filter:blur(22px) saturate(160%);-webkit-backdrop-filter:blur(22px) saturate(160%)}
+html:not([data-theme="light"]) body .section article.k-coach{background:radial-gradient(90% 70% at 100% 0%,rgba(215,245,0,.16),transparent 60%),radial-gradient(80% 70% at 0% 100%,rgba(199,125,255,.16),transparent 60%),linear-gradient(155deg,rgba(255,255,255,.07),rgba(255,255,255,.02))!important}
+html:not([data-theme="light"]) #dashboard article.fk-mission{background:radial-gradient(90% 90% at 100% 0%,rgba(255,138,76,.20),transparent 60%),linear-gradient(155deg,rgba(255,255,255,.07),rgba(255,255,255,.02))!important}
+html:not([data-theme="light"]) #dashboard article.kore-graph{background:radial-gradient(90% 90% at 0% 0%,rgba(62,232,255,.16),transparent 60%),linear-gradient(155deg,rgba(255,255,255,.07),rgba(255,255,255,.02))!important}
+html:not([data-theme="light"]) body .section article#fk-rescue-diary{background:radial-gradient(100% 50% at 50% 0%,rgba(255,138,76,.18),transparent 65%),linear-gradient(155deg,rgba(255,255,255,.07),rgba(255,255,255,.02))!important}
+html:not([data-theme="light"]) body .section article.k-gym{background:radial-gradient(90% 70% at 100% 0%,rgba(62,232,255,.18),transparent 60%),radial-gradient(70% 60% at 0% 100%,rgba(215,245,0,.12),transparent 60%),linear-gradient(155deg,rgba(255,255,255,.07),rgba(255,255,255,.02))!important}
+html:not([data-theme="light"]) body .section article.k-comm{background:radial-gradient(90% 70% at 0% 0%,rgba(255,216,77,.18),transparent 60%),radial-gradient(80% 70% at 100% 100%,rgba(199,125,255,.16),transparent 60%),linear-gradient(155deg,rgba(255,255,255,.07),rgba(255,255,255,.02))!important}
+html:not([data-theme="light"]) body .section article.k-history{background:radial-gradient(90% 70% at 100% 0%,rgba(255,95,210,.16),transparent 60%),linear-gradient(155deg,rgba(255,255,255,.07),rgba(255,255,255,.02))!important}
+html:not([data-theme="light"]) body .section article.k-weight,html:not([data-theme="light"]) body .section article.k-rem{background:radial-gradient(90% 70% at 100% 0%,rgba(199,125,255,.16),transparent 60%),linear-gradient(155deg,rgba(255,255,255,.07),rgba(255,255,255,.02))!important}
+html:not([data-theme="light"]) body .section article.k-exchart{background:radial-gradient(90% 70% at 0% 0%,rgba(77,124,255,.18),transparent 60%),linear-gradient(155deg,rgba(255,255,255,.07),rgba(255,255,255,.02))!important}
+html:not([data-theme="light"]) body #diario .lower > article:first-child{background:radial-gradient(90% 80% at 100% 0%,rgba(199,125,255,.20),transparent 60%),radial-gradient(70% 70% at 0% 100%,rgba(255,95,210,.12),transparent 60%),linear-gradient(155deg,rgba(255,255,255,.07),rgba(255,255,255,.02))!important}
+
+/* LED olografico arcobaleno sulla card del coach */
+html:not([data-theme="light"]) .k-led-strip{padding:1.5px;background:conic-gradient(from var(--k-led-a),#d7f500,#3ee8ff,#c77dff,#ff5fd2,#ff8a4c,#d7f500)!important}
+html:not([data-theme="light"])[data-fx="soft"] #k-coach > .k-led-strip{opacity:.8!important}
+
+/* intestazione e menu: vetro con riga arcobaleno */
+html:not([data-theme="light"]) body .top{background:linear-gradient(135deg,rgba(255,255,255,.08),rgba(255,255,255,.03))!important;border:1px solid rgba(255,255,255,.12)!important;
+  box-shadow:0 18px 40px -26px rgba(var(--k-accent-rgb),.5)!important;backdrop-filter:blur(22px) saturate(170%)}
+html:not([data-theme="light"]) body .top::after,html:not([data-theme="light"]) body .side::before{opacity:.9!important;height:2px;background:linear-gradient(90deg,#d7f500,#3ee8ff,#c77dff,#ff5fd2,#ff8a4c,#d7f500)!important;background-size:200% 100%!important;filter:drop-shadow(0 0 6px rgba(199,125,255,.6))!important}
+html:not([data-theme="light"]) body .side{background:linear-gradient(180deg,rgba(10,12,16,.6),rgba(10,12,16,.85))!important;backdrop-filter:blur(22px) saturate(170%)}
+
+/* titoli con gradiente */
+html:not([data-theme="light"]) body #pagetitle{background:linear-gradient(90deg,#fff 0 40%,var(--k-accent) 75%,var(--k-accent2))!important;-webkit-background-clip:text!important;background-clip:text!important}
+html:not([data-theme="light"]) .k-coach-msg,html:not([data-theme="light"]) .k-cal-center b{background:linear-gradient(100deg,#fff 30%,var(--k-accent));-webkit-background-clip:text;background-clip:text;color:transparent!important;-webkit-text-fill-color:transparent!important}
+
+/* box interni con tinta del loro colore */
+html:not([data-theme="light"]) .k-cal-row div:nth-child(1),html:not([data-theme="light"]) .k-macro-p,html:not([data-theme="light"]) .k-streak-stats div:nth-child(1){background:linear-gradient(160deg,rgba(215,245,0,.12),rgba(0,0,0,.25))!important}
+html:not([data-theme="light"]) .k-cal-row div:nth-child(2),html:not([data-theme="light"]) .k-macro-c,html:not([data-theme="light"]) .k-streak-stats div:nth-child(3){background:linear-gradient(160deg,rgba(62,232,255,.12),rgba(0,0,0,.25))!important}
+html:not([data-theme="light"]) .k-cal-row div:nth-child(3),html:not([data-theme="light"]) .k-macro-f,html:not([data-theme="light"]) .k-streak-stats div:nth-child(2){background:linear-gradient(160deg,rgba(255,180,80,.12),rgba(0,0,0,.25))!important}
+html:not([data-theme="light"]) .k-streak-stats div:nth-child(4){background:linear-gradient(160deg,rgba(199,125,255,.12),rgba(0,0,0,.25))!important}
+html:not([data-theme="light"]) body #fk-rescue-meals .fk-rescue-meal{background:linear-gradient(150deg,color-mix(in srgb,var(--c) 12%,transparent),rgba(0,0,0,.25))!important}
+html:not([data-theme="light"]) .k-plan-day{background:linear-gradient(160deg,color-mix(in srgb,var(--pc) 14%,transparent),rgba(0,0,0,.25))}
+html:not([data-theme="light"]) body .section .k-gym-templates button{background:linear-gradient(150deg,color-mix(in srgb,var(--tc) 18%,transparent),rgba(255,255,255,.02))!important;box-shadow:0 12px 26px -18px var(--tc)!important}
+html:not([data-theme="light"]) .k-ex{background:linear-gradient(150deg,rgba(62,232,255,.08),rgba(0,0,0,.28))!important}
+
+/* pulsante principale lime con riflesso */
+html:not([data-theme="light"]) body .hx-start,html:not([data-theme="light"]) body .section .k-gym-start,html:not([data-theme="light"]) body .section .k-coach-cta{
+  background:linear-gradient(135deg,#e8ff3a,#d4f500 55%,#b2e800)!important;box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 -2px 0 rgba(0,0,0,.12) inset,0 18px 40px -16px rgba(215,245,0,.7)!important}
+html[data-fx="off"] body .section article{backdrop-filter:none!important}
