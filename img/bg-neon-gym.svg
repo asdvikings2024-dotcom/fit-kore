@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 932" preserveAspectRatio="xMidYMax slice">
+<defs><filter id="g" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter><linearGradient id="fl" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3ee8ff" stop-opacity="0"/><stop offset="1" stop-color="#3ee8ff" stop-opacity=".25"/></linearGradient></defs>
+<g fill="none" stroke-linecap="round" stroke-linejoin="round" filter="url(#g)">
+ <!-- rastrelliera squat -->
+ <g stroke="#c77dff" stroke-width="3" opacity=".75"><path d="M40 900V560M150 900V560M30 560h130M40 700h-18M150 700h18M40 640h-12M150 640h12"/></g>
+ <!-- bilanciere sulla rastrelliera -->
+ <g stroke="#dfff00" stroke-width="3.5"><path d="M-10 636H195"/><rect x="2" y="596" width="16" height="80" rx="4"/><rect x="20" y="608" width="12" height="56" rx="3"/><rect x="168" y="596" width="16" height="80" rx="4"/><rect x="156" y="608" width="12" height="56" rx="3"/></g>
+ <!-- panca -->
+ <g stroke="#3ee8ff" stroke-width="3" opacity=".8"><path d="M210 830h150M225 830v60M345 830v60M250 830l-30-90h40"/></g>
+ <!-- manubri a terra -->
+ <g stroke="#ff8a4c" stroke-width="3.2"><path d="M232 905h56"/><rect x="214" y="890" width="16" height="30" rx="5"/><rect x="290" y="890" width="16" height="30" rx="5"/></g>
+ <g stroke="#ff5fd2" stroke-width="3"><path d="M318 912h46"/><rect x="304" y="900" width="13" height="24" rx="4"/><rect x="365" y="900" width="13" height="24" rx="4"/></g>
+ <!-- kettlebell -->
+ <g stroke="#dfff00" stroke-width="3.2"><path d="M378 830c0-26 40-26 40 0"/><path d="M370 858a28 28 0 1 0 56 0a28 28 0 1 0-56 0" transform="translate(0 0)"/><path d="M386 854h24" opacity=".7"/></g>
+ <!-- linee di luce sul soffitto -->
+ <g stroke-width="2.5" opacity=".55"><path d="M20 90h150" stroke="#3ee8ff"/><path d="M230 60h180" stroke="#c77dff"/><path d="M60 150h110" stroke="#dfff00"/></g>
+</g>
+<rect x="0" y="760" width="430" height="172" fill="url(#fl)"/>
+<g stroke="#3ee8ff" stroke-opacity=".22" stroke-width="1" fill="none"><path d="M0 932L215 760L430 932M100 932L215 760M330 932L215 760M0 840h430M0 880h430"/></g>
+</svg>

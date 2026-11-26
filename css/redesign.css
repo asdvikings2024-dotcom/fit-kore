@@ -1424,3 +1424,40 @@ html[data-theme="light"] body .top::after,html[data-theme="light"] body .side::b
 html[data-theme="light"] body .hx-start,html[data-theme="light"] body .section .k-gym-start,html[data-theme="light"] body .section .k-coach-cta,html[data-theme="light"] body .section .k-report-go{
   background:linear-gradient(135deg,#dcf53a,#c4e80a)!important;box-shadow:0 1px 0 rgba(255,255,255,.6) inset,0 12px 26px -16px rgba(140,170,0,.7)!important}
 html[data-theme="light"] .k-led-strip{opacity:.55!important}
+
+/* =====================================================================
+   SFONDI FOTO DI PALESTRA (uno per sezione)
+   ===================================================================== */
+.k-photo-bg{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.k-photo-bg i{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transition:opacity .9s ease;filter:saturate(1.15) contrast(1.05)}
+.k-photo-bg i.on{opacity:1}
+.k-photo-bg i::before{content:"";position:absolute;inset:0;mix-blend-mode:color}
+/* scuro: foto visibile ai bordi e in alto, centro coperto per non disturbare la lettura */
+.k-photo-bg::after{content:"";position:absolute;inset:0;
+  background:
+    radial-gradient(ellipse 46% 58% at 50% 56%,rgba(5,7,10,.9) 0%,rgba(5,7,10,.78) 55%,rgba(5,7,10,.45) 100%),
+    linear-gradient(180deg,rgba(5,7,10,.35) 0%,rgba(5,7,10,.55) 45%,rgba(5,7,10,.9) 100%)}
+@media (max-width:700px){.k-photo-bg::after{background:
+    radial-gradient(ellipse 70% 55% at 50% 58%,rgba(5,7,10,.88) 0%,rgba(5,7,10,.72) 60%,rgba(5,7,10,.45) 100%),
+    linear-gradient(180deg,rgba(5,7,10,.3) 0%,rgba(5,7,10,.55) 40%,rgba(5,7,10,.9) 100%)}}
+.k-photo-bg i[data-s="dashboard"]::before{background:linear-gradient(135deg,rgba(223,255,0,.45),rgba(62,232,255,.4))}
+.k-photo-bg i[data-s="alimentazione"]::before{background:linear-gradient(135deg,rgba(255,95,210,.5),rgba(255,138,76,.45))}
+.k-photo-bg i[data-s="allenamenti"]::before{background:linear-gradient(135deg,rgba(62,232,255,.5),rgba(77,124,255,.5))}
+.k-photo-bg i[data-s="diario"]::before{background:linear-gradient(135deg,rgba(199,125,255,.55),rgba(62,232,255,.4))}
+html.k-has-photo .k-aurora{opacity:.55!important}
+html.k-has-photo body{background-attachment:scroll!important}
+
+/* chiaro: foto come un acquerello, centro quasi invisibile */
+html[data-theme="light"] .k-photo-bg i{filter:grayscale(.2) saturate(.9) contrast(.9) brightness(1.15)}
+html[data-theme="light"] .k-photo-bg i::before{mix-blend-mode:soft-light;opacity:.7}
+html[data-theme="light"] .k-photo-bg::after{background:
+    radial-gradient(ellipse 46% 58% at 50% 56%,rgba(236,235,228,.96) 0%,rgba(236,235,228,.88) 55%,rgba(236,235,228,.62) 100%),
+    linear-gradient(180deg,rgba(236,235,228,.5) 0%,rgba(236,235,228,.72) 45%,rgba(236,235,228,.95) 100%)}
+@media (max-width:700px){html[data-theme="light"] .k-photo-bg::after{background:
+    radial-gradient(ellipse 70% 55% at 50% 58%,rgba(236,235,228,.95) 0%,rgba(236,235,228,.86) 60%,rgba(236,235,228,.6) 100%),
+    linear-gradient(180deg,rgba(236,235,228,.45) 0%,rgba(236,235,228,.72) 40%,rgba(236,235,228,.95) 100%)}}
+html[data-fx="off"] .k-photo-bg i{transition:none}
+
+/* opzione in Aspetto */
+.k-look-credit{margin:10px 0 0!important;font-size:11px!important;line-height:1.5}
+.k-look-credit a{color:inherit;text-decoration:underline}

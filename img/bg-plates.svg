@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 430 932" preserveAspectRatio="xMidYMid slice">
+<defs><filter id="g"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+<g filter="url(#g)" opacity=".85">
+<g transform="rotate(-12 390 170)" stroke="#dfff00" fill="none">
+<circle cx="390" cy="170" r="150" stroke-width="3"/><circle cx="390" cy="170" r="129.0" stroke-width="1.5" opacity=".6"/>
+<circle cx="390" cy="170" r="33.0" stroke-width="3"/><circle cx="390" cy="170" r="15.0" stroke-width="2"/>
+<text x="390" y="98.0" fill="#dfff00" stroke="none" font-family="Anton,Impact,sans-serif" font-size="36.0" text-anchor="middle" letter-spacing="2">20 KG</text>
+<text x="390" y="263.0" fill="#dfff00" stroke="none" font-family="Anton,Impact,sans-serif" font-size="21.0" text-anchor="middle" letter-spacing="4" opacity=".7">FIT KORE</text></g>
+<g transform="rotate(18 40 560)" stroke="#3ee8ff" fill="none">
+<circle cx="40" cy="560" r="120" stroke-width="3"/><circle cx="40" cy="560" r="103.2" stroke-width="1.5" opacity=".6"/>
+<circle cx="40" cy="560" r="26.4" stroke-width="3"/><circle cx="40" cy="560" r="12.0" stroke-width="2"/>
+<text x="40" y="502.4" fill="#3ee8ff" stroke="none" font-family="Anton,Impact,sans-serif" font-size="28.8" text-anchor="middle" letter-spacing="2">15 KG</text>
+<text x="40" y="634.4" fill="#3ee8ff" stroke="none" font-family="Anton,Impact,sans-serif" font-size="16.8" text-anchor="middle" letter-spacing="4" opacity=".7">FIT KORE</text></g>
+<g transform="rotate(-25 360 830)" stroke="#ff5fd2" fill="none">
+<circle cx="360" cy="830" r="105" stroke-width="3"/><circle cx="360" cy="830" r="90.3" stroke-width="1.5" opacity=".6"/>
+<circle cx="360" cy="830" r="23.1" stroke-width="3"/><circle cx="360" cy="830" r="10.5" stroke-width="2"/>
+<text x="360" y="779.6" fill="#ff5fd2" stroke="none" font-family="Anton,Impact,sans-serif" font-size="25.2" text-anchor="middle" letter-spacing="2">10 KG</text>
+<text x="360" y="895.1" fill="#ff5fd2" stroke="none" font-family="Anton,Impact,sans-serif" font-size="14.7" text-anchor="middle" letter-spacing="4" opacity=".7">FIT KORE</text></g>
+<g transform="rotate(8 120 960)" stroke="#ff8a4c" fill="none">
+<circle cx="120" cy="960" r="70" stroke-width="3"/><circle cx="120" cy="960" r="60.2" stroke-width="1.5" opacity=".6"/>
+<circle cx="120" cy="960" r="15.4" stroke-width="3"/><circle cx="120" cy="960" r="7.0" stroke-width="2"/>
+<text x="120" y="926.4" fill="#ff8a4c" stroke="none" font-family="Anton,Impact,sans-serif" font-size="16.8" text-anchor="middle" letter-spacing="2">5 KG</text>
+<text x="120" y="1003.4" fill="#ff8a4c" stroke="none" font-family="Anton,Impact,sans-serif" font-size="9.8" text-anchor="middle" letter-spacing="4" opacity=".7">FIT KORE</text></g>
+</g></svg>
