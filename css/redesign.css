@@ -1569,3 +1569,6 @@ html:not([data-theme="light"]) body .section .k-cal-row b,html:not([data-theme="
   html body .hx-start strong{font-size:44px!important}
   html body .section .k-streak-stats b,html body .section .k-weight-stats b,html body .section .k-ex-stats b{font-size:38px!important}
 }
+/* contatore calorie: niente spazio vuoto sopra l'arco */
+html body .section .k-cal-center{top:30%!important}
+@media (min-width:1100px){html body .section .k-cal-center{top:27%!important}}

@@ -17,7 +17,7 @@
   hero.className = 'k-cal';
   hero.innerHTML = `
     <div class="k-cal-gauge">
-      <svg viewBox="0 0 220 160" aria-hidden="true">
+      <svg viewBox="0 38 220 122" aria-hidden="true">
         <defs><linearGradient id="k-calg" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#9dff4a"/><stop offset="1" stop-color="#dfff00"/></linearGradient><linearGradient id="k-calg2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff5fd2"/><stop offset=".45" stop-color="#ff8a4c"/><stop offset="1" stop-color="#dfff00"/></linearGradient></defs>
         <path class="k-cal-track" d="M 30 140 A 80 80 0 1 1 190 140"/>
         <path class="k-cal-fill" d="M 30 140 A 80 80 0 1 1 190 140"/>
