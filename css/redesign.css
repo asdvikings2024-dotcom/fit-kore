@@ -983,3 +983,181 @@ html body .section .k-comm-tabs button[aria-selected=true]{background:linear-gra
 .k-comm-msg{font-size:12.5px!important;margin:8px 0 0!important;min-height:1em}
 html body .section .k-comm-leave{width:100%!important;margin:10px 0 0!important;background:transparent!important;color:var(--k-muted)!important;font-size:12.5px!important}
 html body .section .k-comm-leave.confirm{background:#ffb38a!important;color:#1a0d00!important}
+
+/* =====================================================================
+   ASPETTO — impostazioni
+   ===================================================================== */
+html body .section article.k-look{padding:20px!important}
+.k-look-label{margin:12px 0 6px!important;font-size:11px!important;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.k-look-seg{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+html body .section .k-look-seg button{margin:0!important;width:auto!important;display:flex!important;flex-direction:column;align-items:center;gap:2px;padding:12px 6px!important;border-radius:14px!important}
+.k-look-seg b{font-size:13.5px}
+.k-look-seg small{font-size:11px;color:var(--k-muted);font-weight:600}
+html body .section .k-look-seg button[aria-checked=true]{background:var(--k-lime)!important;color:#0b0f00!important;border-color:transparent!important}
+html body .section .k-look-seg button[aria-checked=true] small{color:#3a4500}
+html.k-theme-anim body,html.k-theme-anim body *{transition:background-color .45s ease,color .45s ease,border-color .45s ease!important}
+
+/* =====================================================================
+   EFFETTI "LEGGERI" (predefinito) — scuro meno invasivo
+   ===================================================================== */
+html[data-fx="soft"] .k-aurora{opacity:.45}
+html[data-fx="soft"] .k-aurora i{animation-duration:60s!important}
+html[data-fx="soft"] .k-led-strip{opacity:.5;animation-duration:12s!important}
+html[data-fx="soft"] .k-led-strip::before{opacity:.25}
+html[data-fx="soft"] .k-led-strip:not(#k-coach > .k-led-strip){display:none}
+html[data-fx="soft"] body .top::after,html[data-fx="soft"] body .side::before{opacity:.45;animation-duration:14s}
+html[data-fx="soft"] body .hx-start,html[data-fx="soft"] body .k-gym-start,html[data-fx="soft"] body .k-gym-finish,html[data-fx="soft"] body .k-sheet-save,html[data-fx="soft"] body .k-coach-cta{animation:none!important}
+html[data-fx="soft"] body .hx-start::after{animation-duration:9s!important}
+html[data-fx="soft"] body #fk-mission-go::after,html[data-fx="soft"] body #fk-live-start::after{animation:none!important;display:none}
+html[data-fx="soft"] body .section h3::before{animation:none!important;box-shadow:0 0 6px rgba(var(--k-accent-rgb),.5)!important}
+html[data-fx="soft"] .k-meal-bar i::after,html[data-fx="soft"] .k-macro-bar i::after,html[data-fx="soft"] .fk-mission-track > *::after,html[data-fx="soft"] .k-chal-bar i::after{animation-duration:6s}
+html[data-fx="soft"] .k-set.is-done .k-set-ok,html[data-fx="soft"] .k-heat i.is-today{animation:none!important}
+html[data-fx="soft"] body .nav #fk-quick-open.fk-k-center::after{animation-duration:8s}
+html[data-fx="soft"] body .nav #fk-quick-open.fk-k-center{box-shadow:0 0 0 5px rgba(223,255,0,.10),0 8px 22px -8px rgba(223,255,0,.55)!important}
+html[data-fx="soft"] body .section article{box-shadow:0 1px 0 rgba(255,255,255,.04) inset,0 14px 30px -24px rgba(0,0,0,.8)!important}
+html[data-fx="soft"] .k-ring,html[data-fx="soft"] .k-cal-fill{filter:drop-shadow(0 0 4px rgba(var(--k-accent-rgb),.3))!important}
+html[data-fx="soft"] .k-ring.is-full{animation:none}
+html[data-fx="soft"] body .hx-hero-k,html[data-fx="soft"] body .hx-hero em{text-shadow:none!important}
+
+/* EFFETTI "SPENTI" */
+html[data-fx="off"] .k-aurora,html[data-fx="off"] .k-led-strip,html[data-fx="off"] body .top::after,html[data-fx="off"] body .side::before{display:none!important}
+html[data-fx="off"] body *,html[data-fx="off"] body *::before,html[data-fx="off"] body *::after{animation:none!important}
+html[data-fx="off"] .k-spot::before,html[data-fx="off"] .k-spot::after{display:none!important}
+html[data-fx="off"] .k-ring,html[data-fx="off"] .k-cal-fill,html[data-fx="off"] .k-exline,html[data-fx="off"] .k-wline{filter:none!important}
+
+/* =====================================================================
+   TEMA CHIARO
+   ===================================================================== */
+html[data-theme="light"]{
+  --k-bg:#f3f5ef;--k-text:#13170f;--k-muted:#5d6658;--k-line:rgba(20,30,10,.10);--k-line-strong:rgba(90,120,0,.35);
+  --k-surface:rgba(20,30,10,.035);--k-surface-2:rgba(20,30,10,.055);--k-lime-soft:rgba(160,200,0,.18);
+  --k-ink:#4f7300;color-scheme:light}
+html[data-theme="light"][data-sec="alimentazione"]{--k-accent:#e8622a;--k-accent2:#f2a33a;--k-accent-rgb:232,98,42}
+html[data-theme="light"][data-sec="allenamenti"]{--k-accent:#0a9cc2;--k-accent2:#3b63e0;--k-accent-rgb:10,156,194}
+html[data-theme="light"][data-sec="diario"]{--k-accent:#8a3fd6;--k-accent2:#d63fae;--k-accent-rgb:138,63,214}
+html[data-theme="light"][data-sec="dashboard"],html[data-theme="light"]:not([data-sec]){--k-accent:#6f9a00;--k-accent2:#a5c800;--k-accent-rgb:111,154,0}
+html[data-theme="light"] body{background:var(--k-bg)!important;color:var(--k-text)!important}
+html[data-theme="light"] .k-aurora{opacity:.55}
+html[data-theme="light"] .k-aurora i{mix-blend-mode:multiply}
+html[data-theme="light"] .k-aurora::after{display:none}
+
+/* superfici */
+html[data-theme="light"] body .top{background:rgba(255,255,255,.82)!important;border-color:var(--k-line)!important;box-shadow:0 10px 30px -20px rgba(30,40,10,.35)!important}
+html[data-theme="light"] body #pagetitle{background:linear-gradient(90deg,#13170f 0 55%,var(--k-accent) 100%);-webkit-background-clip:text;background-clip:text}
+html[data-theme="light"] body .section article,html[data-theme="light"] body .section .card,html[data-theme="light"] body .kore-ring-card,html[data-theme="light"] body .kore-graph,html[data-theme="light"] body .fk-mission,
+html[data-theme="light"] body .section article.k-coach,html[data-theme="light"] body .section article.fk-mission,html[data-theme="light"] body .section article.kore-graph,html[data-theme="light"] body .section article#fk-rescue-diary,
+html[data-theme="light"] body .section article.k-history,html[data-theme="light"] body .section article.k-gym,html[data-theme="light"] body .section article.k-weight,html[data-theme="light"] body .section article.k-exchart,
+html[data-theme="light"] body .section article.k-comm,html[data-theme="light"] body .section article.k-rem,html[data-theme="light"] body #diario .lower > article:first-child{
+  background:radial-gradient(120% 90% at 100% 0%,rgba(var(--k-accent-rgb),.09),transparent 55%),#ffffff!important;
+  border:1px solid var(--k-line)!important;box-shadow:0 1px 0 #fff inset,0 14px 34px -22px rgba(30,40,10,.35)!important;color:var(--k-text)!important}
+html[data-theme="light"] body .section article article,html[data-theme="light"] .k-ex,html[data-theme="light"] .k-day-meal,html[data-theme="light"] .k-macro,html[data-theme="light"] .k-cal-row div,
+html[data-theme="light"] .k-streak-stats div,html[data-theme="light"] .k-weight-stats div,html[data-theme="light"] .k-ex-stats div,html[data-theme="light"] .k-gym-last,html[data-theme="light"] .k-gym-prs,
+html[data-theme="light"] .k-chal,html[data-theme="light"] .k-plan-day,html[data-theme="light"] body #fk-rescue-meals .fk-rescue-meal,html[data-theme="light"] .k-comm-list li,html[data-theme="light"] .k-admin-row,
+html[data-theme="light"] .k-result-macros span,html[data-theme="light"] .k-est-list li{background:#f6f8f2!important;border-color:var(--k-line)!important;color:var(--k-text)}
+html[data-theme="light"] body .section article.k-install{background:linear-gradient(135deg,rgba(160,200,0,.16),#fff)!important;border-color:rgba(111,154,0,.4)!important}
+
+/* testo */
+html[data-theme="light"] body .section,html[data-theme="light"] body .section h2,html[data-theme="light"] body .section h3,html[data-theme="light"] body .section h4,
+html[data-theme="light"] body .section strong,html[data-theme="light"] body .section b,html[data-theme="light"] body .section label,html[data-theme="light"] body .section li{color:var(--k-text)}
+html[data-theme="light"] body .section h3{color:var(--k-text)!important}
+html[data-theme="light"] body .section p,html[data-theme="light"] body .section small,html[data-theme="light"] .muted{color:var(--k-muted)!important}
+html[data-theme="light"] .k-coach-hello,html[data-theme="light"] .k-gym-eyebrow,html[data-theme="light"] body .top .eyebrow,html[data-theme="light"] .k-comm-eyebrow,html[data-theme="light"] .k-result-main span,
+html[data-theme="light"] .k-history-status,html[data-theme="light"] .k-weight-msg,html[data-theme="light"] .k-admin-status,html[data-theme="light"] .k-account-ok,html[data-theme="light"] .k-goal-link::after,
+html[data-theme="light"] .k-est-list[data-title]::before,html[data-theme="light"] .k-day-meal-top span,html[data-theme="light"] .k-gym-prs em,html[data-theme="light"] .k-comm-list li b em,html[data-theme="light"] .k-admin-who em{color:var(--k-ink)!important}
+html[data-theme="light"] .k-gym-clock b,html[data-theme="light"] .k-streak-stats div:first-child b{color:var(--k-accent)!important;text-shadow:none!important}
+html[data-theme="light"] .k-ex-pr,html[data-theme="light"] .k-ex-stats div:first-child b,html[data-theme="light"] .k-streak-stats div:nth-child(2) b{color:#b58300!important}
+html[data-theme="light"] .k-streak-stats div:nth-child(3) b{color:#0a9cc2!important}
+html[data-theme="light"] .k-streak-stats div:nth-child(4) b{color:#8a3fd6!important}
+html[data-theme="light"] .k-chal-top span,html[data-theme="light"] .k-scan-item span{color:#c4501c!important}
+html[data-theme="light"] .k-food small .p{background:rgba(111,154,0,.14);color:#4f7300}
+html[data-theme="light"] .k-food small .c{background:rgba(10,156,194,.12);color:#07799a}
+html[data-theme="light"] .k-food small .f{background:rgba(230,140,30,.14);color:#a85a00}
+html[data-theme="light"] .k-ex-muscle[data-c],html[data-theme="light"] .k-pick span[data-c],html[data-theme="light"] .k-picker-muscles button[data-c]{color:color-mix(in srgb,var(--mc) 70%,#000)!important}
+html[data-theme="light"] .k-plan-day b,html[data-theme="light"] .k-gym-templates b{filter:brightness(.7) saturate(1.3)}
+html[data-theme="light"] body .section .k-gym-templates button b{color:color-mix(in srgb,var(--tc) 65%,#000)!important;filter:none}
+html[data-theme="light"] .k-plan-day b{color:color-mix(in srgb,var(--pc) 65%,#000);filter:none}
+html[data-theme="light"] .k-meal-head em small,html[data-theme="light"] .k-coach-stats li b small{color:var(--k-muted)}
+html[data-theme="light"] .k-cal-center b{color:var(--k-text)}
+html[data-theme="light"] .k-cal.is-over .k-cal-center b{color:#c4501c}
+
+/* campi e pulsanti */
+html[data-theme="light"] body .section input:not([type=checkbox]):not([type=radio]):not([type=range]),html[data-theme="light"] body .section select,html[data-theme="light"] body .section textarea,
+html[data-theme="light"] .k-sheet .k-sheet-panel input:not([type=radio]),html[data-theme="light"] .k-sheet .k-sheet-panel select,html[data-theme="light"] .k-sheet input[type=search]{
+  background:#f3f5ef!important;border-color:rgba(20,30,10,.14)!important;color:var(--k-text)!important}
+html[data-theme="light"] body .section input::placeholder,html[data-theme="light"] body .section textarea::placeholder{color:#9aa293!important}
+html[data-theme="light"] body .section .k-set input::placeholder{color:rgba(20,30,10,.3)!important}
+html[data-theme="light"] body .section button,html[data-theme="light"] body .section .fk-import-label{background:#eef1e9!important;color:var(--k-text)!important;border-color:rgba(20,30,10,.12)!important}
+html[data-theme="light"] body .section .action,html[data-theme="light"] body .section .fk-primary,html[data-theme="light"] body #fk-mission-go,html[data-theme="light"] body #fk-live-start,
+html[data-theme="light"] body .section form button:not([type=button]),html[data-theme="light"] body .section .k-gym-start,html[data-theme="light"] body .section .k-gym-finish,html[data-theme="light"] body .section .k-coach-cta,
+html[data-theme="light"] body .section .k-plan-save,html[data-theme="light"] body .section .k-comm-join button,html[data-theme="light"] body .section .k-look-seg button[aria-checked=true],html[data-theme="light"] body .section .k-install-go,
+html[data-theme="light"] body .section .k-history-days button[aria-selected=true],html[data-theme="light"] body .section .k-set.is-done .k-set-ok,html[data-theme="light"] body .section .k-goalcard button,html[data-theme="light"] body #diario .lower .action{
+  background:#d7f500!important;color:#1a2200!important;border-color:transparent!important;box-shadow:0 8px 22px -10px rgba(120,160,0,.7)!important}
+html[data-theme="light"] body .hx-start{background:#d7f500!important;color:#1a2200!important;box-shadow:0 14px 34px -16px rgba(120,160,0,.8)!important}
+html[data-theme="light"] body .section .k-coach-water{background:#e4e9ff!important}
+html[data-theme="light"] body .section .k-scan-btn{background:linear-gradient(135deg,rgba(232,98,42,.12),rgba(214,63,174,.06))!important;color:#a33f12!important}
+html[data-theme="light"] body .section .k-meal-add,html[data-theme="light"] body .section .k-gym-add{background:transparent!important}
+html[data-theme="light"] body #fk-rescue-meals .fk-rescue-meal.is-empty .k-meal-add,html[data-theme="light"] body .section .k-gym-add{color:var(--k-ink)!important;border-color:rgba(111,154,0,.45)!important}
+html[data-theme="light"] body .k-tabs{background:rgba(255,255,255,.85);border-color:var(--k-line)}
+html[data-theme="light"] body .k-tabs button{color:var(--k-muted)!important;background:transparent!important}
+html[data-theme="light"] body .k-tabs button[aria-selected=true]{color:#fff!important}
+
+/* navigazione */
+html[data-theme="light"] body .side{background:rgba(255,255,255,.88)!important;border-color:var(--k-line)!important;box-shadow:0 -12px 30px -20px rgba(30,40,10,.35)!important}
+html[data-theme="light"] body .nav button:not(.fk-k-center){color:#7a8274!important}
+html[data-theme="light"] body .nav button[data-page="dashboard"]{--nc:#5f8a00}
+html[data-theme="light"] body .nav button[data-page="alimentazione"]{--nc:#e0582a}
+html[data-theme="light"] body .nav button[data-page="allenamenti"]{--nc:#0a8fb2}
+html[data-theme="light"] body .nav button[data-page="diario"]{--nc:#8a3fd6}
+html[data-theme="light"] body .nav #fk-quick-open.fk-k-center{background:#d7f500!important;-webkit-text-fill-color:#1a2200!important;box-shadow:0 0 0 5px rgba(160,200,0,.18),0 8px 20px -8px rgba(120,160,0,.7)!important}
+html[data-theme="light"] .side,html[data-theme="light"] .side *{text-shadow:none!important}
+html[data-theme="light"] .side .brand,html[data-theme="light"] .side [class*="brand"]{color:var(--k-text)!important}
+
+/* fogli, toast, timer */
+html[data-theme="light"] .k-sheet.is-open{background:rgba(20,30,10,.35)}
+html[data-theme="light"] .k-sheet-panel{background:#fff!important;color:var(--k-text)!important;border-color:var(--k-line)!important}
+html[data-theme="light"] .k-sheet-close,html[data-theme="light"] .k-admin-filters button,html[data-theme="light"] .k-picker-muscles button,html[data-theme="light"] .k-pick,html[data-theme="light"] .k-scan-item,html[data-theme="light"] .k-admin-reload,html[data-theme="light"] .k-admin-acts button,html[data-theme="light"] .k-seg span{background:#f3f5ef!important;color:var(--k-text)!important;border-color:var(--k-line)!important}
+html[data-theme="light"] .k-seg input:checked + span,html[data-theme="light"] .k-admin-filters button[aria-selected=true],html[data-theme="light"] .k-picker-muscles button[aria-pressed=true]:not([data-c]),html[data-theme="light"] .k-scan-form button,html[data-theme="light"] .k-sheet .k-sheet-save,html[data-theme="light"] .k-admin-acts button.primary{background:#d7f500!important;color:#1a2200!important}
+html[data-theme="light"] .k-result{background:linear-gradient(135deg,rgba(160,200,0,.14),#fff)!important}
+html[data-theme="light"] .k-result-main b{color:var(--k-text)}
+html[data-theme="light"] .k-toast,html[data-theme="light"] .k-rest{background:rgba(255,255,255,.96)!important;color:var(--k-text)!important;box-shadow:0 18px 40px -14px rgba(30,40,10,.45)!important}
+html[data-theme="light"] .k-toast b{color:var(--k-ink)}
+html[data-theme="light"] .k-rest button{background:#f3f5ef;color:var(--k-text)}
+html[data-theme="light"] .k-rest .k-rest-skip{background:#d7f500;color:#1a2200}
+html[data-theme="light"] .k-rest-text b{color:var(--k-text)}
+html[data-theme="light"] .k-rest-bg{stroke:rgba(20,30,10,.1)}
+
+/* grafici e anelli */
+html[data-theme="light"] .k-ring-bg,html[data-theme="light"] .k-cal-track{stroke:rgba(20,30,10,.08)}
+html[data-theme="light"] .k-meal-bar,html[data-theme="light"] .k-macro-bar,html[data-theme="light"] .k-chal-bar,html[data-theme="light"] .fk-mission-track{background:rgba(20,30,10,.08)!important}
+html[data-theme="light"] .k-heat i{background:rgba(20,30,10,.07)}
+html[data-theme="light"] .k-heat i.is-today{outline-color:#13170f}
+html[data-theme="light"] .k-wdot,html[data-theme="light"] .k-exdot{fill:#fff}
+html[data-theme="light"] .k-wt{fill:#7a8274}
+html[data-theme="light"] .k-hbar b,html[data-theme="light"] body #chart .bar b{color:var(--k-text)}
+html[data-theme="light"] .k-goal-line{border-top-color:rgba(111,154,0,.7)}
+html[data-theme="light"] .k-goal-line span{background:#fff;color:var(--k-ink)}
+html[data-theme="light"] body #chart .bar.is-empty,html[data-theme="light"] .k-hbar.is-empty .k-hbar-fill{background:rgba(20,30,10,.07)!important}
+html[data-theme="light"] .k-ring,html[data-theme="light"] .k-cal-fill,html[data-theme="light"] .k-exline,html[data-theme="light"] .k-wline{filter:none!important}
+html[data-theme="light"] .k-ring-kcal{stroke:#b5d600}
+html[data-theme="light"] .k-led-strip{opacity:.7}
+html[data-theme="light"] body .notice,html[data-theme="light"] .k-coach-stats li i{box-shadow:none}
+html[data-theme="light"] body .notice{background:#fff!important;color:var(--k-muted)!important;border-color:var(--k-line)!important}
+html[data-theme="light"] .k-spot::before{background:radial-gradient(380px circle at var(--mx,50%) var(--my,50%),rgba(var(--k-accent-rgb),.08),transparent 45%)}
+html[data-theme="light"] #fk-sync-status{background:rgba(111,154,0,.1);color:#4f7300;border-color:rgba(111,154,0,.35)}
+/* finestra di accesso */
+html[data-theme="light"] .kore-access-panel{background:#fff!important;color:var(--k-text)!important}
+html[data-theme="light"] .kore-access-panel input{background:#f3f5ef!important;color:var(--k-text)!important;border-color:rgba(20,30,10,.14)!important}
+html[data-theme="light"] .kore-access-panel h2,html[data-theme="light"] .kore-access-panel label{color:var(--k-text)!important}
+html[data-theme="light"] .kore-access-google{border:1px solid rgba(20,30,10,.14)!important}
+html[data-theme="light"] #dashboard .fk-mission,html[data-theme="light"] #dashboard article.fk-mission{background:radial-gradient(100% 120% at 100% 0%,rgba(232,98,42,.10),transparent 60%),#fff!important;color:var(--k-text)!important}
+html[data-theme="light"] body .nav,html[data-theme="light"] body .side .nav{background:transparent!important;border-color:transparent!important;box-shadow:none!important}
+html[data-theme="light"] body .nav button:not(.fk-k-center){background:transparent!important}
+html[data-theme="light"] body .k-tabs button[aria-selected=true]{background:linear-gradient(135deg,var(--k-accent),var(--k-accent2))!important;color:#fff!important}
+html[data-theme="light"] body .section .fk-manage-list > *,html[data-theme="light"] body .section .fk-manage-list > * *{background-color:transparent}
+html[data-theme="light"] body .section .fk-manage-list > *{background:#f6f8f2!important;border-color:var(--k-line)!important;color:var(--k-text)!important}
+html[data-theme="light"] .k-lf-bg{background:#f4f6f0!important;background-image:none!important;border-color:rgba(20,30,10,.12)!important;box-shadow:none!important}
+html[data-theme="light"] .k-lf-tx{color:#13170f!important;-webkit-text-fill-color:#13170f!important;text-shadow:none!important}
+html[data-theme="light"] .k-lf-dim{filter:brightness(.55) saturate(1.5);text-shadow:none!important}
+html[data-theme="light"] .k-file span{color:var(--k-ink)}
+html[data-theme="light"] .k-file{background:rgba(160,200,0,.08);border-color:rgba(111,154,0,.45)}
+html[data-theme="light"] #dashboard .kore-graph,html[data-theme="light"] #dashboard article.kore-graph{background:radial-gradient(100% 120% at 0% 0%,rgba(10,156,194,.08),transparent 60%),#fff!important}
