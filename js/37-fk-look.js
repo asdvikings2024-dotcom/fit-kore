@@ -17,7 +17,7 @@
   const rgbOf = str => { const m = /rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?\)/.exec(str || ''); return m ? [+m[1], +m[2], +m[3], m[4] === undefined ? 1 : +m[4]] : null; };
   const lum = ([r, g, b]) => (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255;
   const sat = ([r, g, b]) => { const mx = Math.max(r, g, b), mn = Math.min(r, g, b); return mx ? (mx - mn) / mx : 0; };
-  const SKIP = '.k-led-strip, svg, svg *, canvas, video, .k-scan-cam, .k-scan-cam *, .k-aurora, .side, .side *, .top, .top *, .k-toast, .k-rest, .k-sheet, .k-sheet *, .k-hbar-fill, #chart .bar, .k-ring, .k-heat i, .k-macro-bar *, .k-meal-bar *, .k-chal-bar *, .fk-mission-track *, .k-food small i, .k-chip, .k-ex-muscle, .k-coach-stats li i, .k-meal-ico';
+  const SKIP = '.k-coach-msg, .k-gym-title, .k-cal-center b, #pagetitle, .k-led-strip, svg, svg *, canvas, video, .k-scan-cam, .k-scan-cam *, .k-aurora, .side, .side *, .top, .top *, .k-toast, .k-rest, .k-sheet, .k-sheet *, .k-hbar-fill, #chart .bar, .k-ring, .k-heat i, .k-macro-bar *, .k-meal-bar *, .k-chal-bar *, .fk-mission-track *, .k-food small i, .k-chip, .k-ex-muscle, .k-coach-stats li i, .k-meal-ico';
   let fixing = false;
   function fixLight() {
     if (fixing) return; fixing = true;
